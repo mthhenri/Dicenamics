@@ -1,1 +1,11 @@
 ### Criar um modificador
+POST https://localhost:7151/modificador/criar
+Content-Type: application/json
+
+{
+    "Nome" : "Corte",
+    "Valor" : 15
+}
+
+### Buscar por Id
+GET https://localhost:7151/modificador/buscar/1

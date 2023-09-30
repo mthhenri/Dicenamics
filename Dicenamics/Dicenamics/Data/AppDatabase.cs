@@ -4,7 +4,9 @@ using Microsoft.EntityFrameworkCore;
 namespace Dicenamics.Data;
 public class AppDatabase : DbContext
 {
-    public AppDatabase(DbContextOptions<AppDatabase> options) : base(options) { }
+    public AppDatabase(DbContextOptions<AppDatabase> options) : base(options)
+    {
+    }
     
     public DbSet<Modificador> Modificadores {get; set;}
 
