@@ -15,6 +15,8 @@ builder.Services.AddDbContext<AppDatabase>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 
+
+
 var app = builder.Build();
 
 app.UseCors(builder =>
@@ -37,5 +39,7 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.MapGet("/", () => "Bem vindo ao Dicenamics!");
 
 app.Run();

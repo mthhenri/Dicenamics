@@ -9,3 +9,18 @@ Content-Type: application/json
 
 ### Buscar por Id
 GET https://localhost:7151/modificador/buscar/1
+
+### Listar modificadores
+GET https://localhost:7151/dicenamics/modificador/listar
+
+### Atualizar modificador por id
+PUT https://localhost:7151/dicenamics/modificador/atualizar/1
+Content-Type: application/json
+
+{
+    "Nome" : "Fogo",
+    "Valor" : 3
+}
+
+### Remover modificador
+DELETE https://localhost:7151/dicenamics/modificador/deletar/2
