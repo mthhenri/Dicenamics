@@ -15,8 +15,7 @@ public class ModificadorController : ControllerBase
     }
 
     // Create
-    [HttpPost]
-    [Route("criar")]
+    [HttpPost("criar")]
     public IActionResult AdicionarModificador([FromBody] ModificadorDTO modificadorDTO)
     {
         try
@@ -39,13 +38,12 @@ public class ModificadorController : ControllerBase
     }
 
     // Read
-    [HttpGet]
-    [Route("buscar/{id}")]
+    [HttpGet("buscar/{id}")]
     public IActionResult ObterModificadorPorId([FromRoute] int id)
     {
         try
         {
-            Modificador? modificador = _ctx.Modificadores.Find(id);
+            Modificador? modificador = _ctx.Modificadores.FirstOrDefault(x => x.ModificadorId == id);
             if(modificador == null){
                 return NotFound();
             }
@@ -58,8 +56,7 @@ public class ModificadorController : ControllerBase
         }
     }
 
-    [HttpGet]
-    [Route("listar")]
+    [HttpGet("listar")]
     public IActionResult ListarModificadores()
     {
         try
@@ -79,13 +76,12 @@ public class ModificadorController : ControllerBase
     }
 
     // Update
-    [HttpPut]
-    [Route("atualizar/{id}")]
+    [HttpPut("atualizar/{id}")]
     public IActionResult AtualizarModificador([FromBody] ModificadorDTO modificadorDTO, [FromRoute] int id)
     {
         try
         {
-            Modificador? modificadorEncontrado = _ctx.Modificadores.Find(id);
+            Modificador? modificadorEncontrado = _ctx.Modificadores.FirstOrDefault(x => x.ModificadorId == id);
             if(modificadorEncontrado == null){
                 return NotFound();
             }
@@ -104,13 +100,12 @@ public class ModificadorController : ControllerBase
     }
 
     // Delete
-    [HttpDelete]
-    [Route("deletar/{id}")]
+    [HttpDelete("deletar/{id}")]
     public IActionResult ExcluirModificador([FromRoute] int id)
     {
         try
         {
-            var modificador = _ctx.Modificadores.Find(id);
+            Modificador? modificador = _ctx.Modificadores.FirstOrDefault(x => x.ModificadorId == id);
             if (modificador == null)
             {
                 return NotFound();
