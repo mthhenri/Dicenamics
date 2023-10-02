@@ -8,7 +8,7 @@ public class AppDatabase : DbContext
     {
     }
     
-    public DbSet<Modificador> Modificadores {get; set;}
+    public DbSet<ModificadorFixo> ModificadoresFixos {get; set;}
     public DbSet<DadoSimples> DadosSimples { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder options)

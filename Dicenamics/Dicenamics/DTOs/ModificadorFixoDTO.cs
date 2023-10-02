@@ -1,5 +1,5 @@
 namespace Dicenamics.DTOs;
-public class ModificadorDTO
+public class ModificadorFixoDTO
 {
     public string? Nome { get; set; }
     public int Valor { get; set; }

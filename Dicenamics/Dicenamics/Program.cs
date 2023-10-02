@@ -40,6 +40,4 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-app.MapGet("/", () => "Bem vindo ao Dicenamics!");
-
 app.Run();

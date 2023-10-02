@@ -5,30 +5,30 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Dicenamics.Controllers;
 [ApiController]
-[Route("dicenamics/modificador")]
-public class ModificadorController : ControllerBase
+[Route("dicenamics/modificador/fixo")]
+public class ModificadorFixoController : ControllerBase
 {
     private readonly AppDatabase _ctx;
-    public ModificadorController(AppDatabase ctx)
+    public ModificadorFixoController(AppDatabase ctx)
     {
         _ctx = ctx;
     }
 
     // Create
     [HttpPost("criar")]
-    public IActionResult AdicionarModificador([FromBody] ModificadorDTO modificadorDTO)
+    public IActionResult AdicionarModificador([FromBody] ModificadorFixoDTO modificadorFixoDTO)
     {
         try
         {
-            Modificador? modificador = new()
+            ModificadorFixo? modificadorFixo = new()
             {
-                Nome = modificadorDTO.Nome,
-                Valor = modificadorDTO.Valor
+                Nome = modificadorFixoDTO.Nome,
+                Valor = modificadorFixoDTO.Valor
             };
             
-            _ctx.Modificadores.Add(modificador);
+            _ctx.ModificadoresFixos.Add(modificadorFixo);
             _ctx.SaveChanges();
-            return Created("", modificador);
+            return Created("", modificadorFixo);
         }
         catch (System.Exception e)
         {
@@ -43,11 +43,11 @@ public class ModificadorController : ControllerBase
     {
         try
         {
-            Modificador? modificador = _ctx.Modificadores.FirstOrDefault(x => x.ModificadorId == id);
-            if(modificador == null){
+            ModificadorFixo? modificadorFixo = _ctx.ModificadoresFixos.FirstOrDefault(x => x.ModificadorFixoId == id);
+            if(modificadorFixo == null){
                 return NotFound();
             }
-            return Ok(modificador);
+            return Ok(modificadorFixo);
         }
         catch (System.Exception e)
         {
@@ -61,12 +61,12 @@ public class ModificadorController : ControllerBase
     {
         try
         {
-            List<Modificador> modificadores = _ctx.Modificadores.ToList();
-            if(modificadores == null)
+            List<ModificadorFixo> modificadoresFixos = _ctx.ModificadoresFixos.ToList();
+            if(modificadoresFixos == null)
             {
                 return NotFound();
             }
-            return Ok(modificadores);
+            return Ok(modificadoresFixos);
         }
         catch (System.Exception e)
         {
@@ -77,20 +77,20 @@ public class ModificadorController : ControllerBase
 
     // Update
     [HttpPut("atualizar/{id}")]
-    public IActionResult AtualizarModificador([FromBody] ModificadorDTO modificadorDTO, [FromRoute] int id)
+    public IActionResult AtualizarModificador([FromBody] ModificadorFixoDTO modificadorFixoDTO, [FromRoute] int id)
     {
         try
         {
-            Modificador? modificadorEncontrado = _ctx.Modificadores.FirstOrDefault(x => x.ModificadorId == id);
-            if(modificadorEncontrado == null){
+            ModificadorFixo? modificadorFixoEncontrado = _ctx.ModificadoresFixos.FirstOrDefault(x => x.ModificadorFixoId == id);
+            if(modificadorFixoEncontrado == null){
                 return NotFound();
             }
-            modificadorEncontrado.Nome = modificadorDTO.Nome;
-            modificadorEncontrado.Valor = modificadorDTO.Valor;
+            modificadorFixoEncontrado.Nome = modificadorFixoDTO.Nome;
+            modificadorFixoEncontrado.Valor = modificadorFixoDTO.Valor;
 
-            _ctx.Modificadores.Update(modificadorEncontrado);
+            _ctx.ModificadoresFixos.Update(modificadorFixoEncontrado);
             _ctx.SaveChanges();
-            return Ok(modificadorEncontrado);
+            return Ok(modificadorFixoEncontrado);
         }
         catch (System.Exception e)
         {
@@ -105,14 +105,14 @@ public class ModificadorController : ControllerBase
     {
         try
         {
-            Modificador? modificador = _ctx.Modificadores.FirstOrDefault(x => x.ModificadorId == id);
-            if (modificador == null)
+            ModificadorFixo? modificadorFixo = _ctx.ModificadoresFixos.FirstOrDefault(x => x.ModificadorFixoId == id);
+            if (modificadorFixo == null)
             {
                 return NotFound();
             }
-            _ctx.Modificadores.Remove(modificador);
+            _ctx.ModificadoresFixos.Remove(modificadorFixo);
             _ctx.SaveChanges();
-            return Ok(modificador);
+            return Ok(modificadorFixo);
         }
         catch (System.Exception e)
         {

@@ -1,12 +1,12 @@
 
 namespace Dicenamics.Models;
-public class Modificador
+public class ModificadorFixo
 {
-    public int ModificadorId { get; set; }
+    public int ModificadorFixoId { get; set; }
     public string? Nome { get; set; }
     public int Valor { get; set; }
 
-    public Modificador()
+    public ModificadorFixo()
     {
         // Construtor vazio
     }

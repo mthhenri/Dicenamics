@@ -18,15 +18,17 @@ public class DadoSimplesController : ControllerBase
     //Usado para a criação da base dos CRUDs: https://chat.openai.com/share/5884bcec-e7e1-4a65-82e2-651c1efac12b
 
     // CRUD - Create
-    [HttpPost("/criar")]
+    [HttpPost("criar")]
     public IActionResult CreateDadoSimples([FromBody] DadoSimplesDTO dadoDTO)
     {
         try
         {
             DadoSimples? dado = new()
             {
+                Nome = dadoDTO.Nome,
                 Faces = dadoDTO.Faces,
-                Quantidade = dadoDTO.Quantidade
+                Quantidade = dadoDTO.Quantidade,
+                Condicao = dadoDTO.Condicao
             };
             if (dado == null)
             {
@@ -45,7 +47,7 @@ public class DadoSimplesController : ControllerBase
     }
 
     // CRUD - Read
-    [HttpGet("/buscar/{id}")]
+    [HttpGet("buscar/{id}")]
     public IActionResult GetDadoSimples(int id)
     {
         try
@@ -66,7 +68,7 @@ public class DadoSimplesController : ControllerBase
         }
     }
 
-    [HttpGet("/listar")]
+    [HttpGet("listar")]
     public IActionResult ListarDadoSimples()
     {
         try
@@ -96,8 +98,10 @@ public class DadoSimplesController : ControllerBase
             {
                 return NotFound();
             }
+            dado.Nome = dadoDTO.Nome;
             dado.Faces = dadoDTO.Faces;
             dado.Quantidade = dadoDTO.Quantidade;
+            dado.Condicao = dadoDTO.Condicao;
             if (dado == null)
             {
                 return NotFound();
@@ -115,7 +119,7 @@ public class DadoSimplesController : ControllerBase
 
     // CRUD - Delete
     [HttpDelete("deletar/{id}")]
-    public IActionResult DeleteDadoSimples(int id)
+    public IActionResult DeleteDadoSimples([FromRoute] int id)
     {
         try
         {
@@ -127,6 +131,25 @@ public class DadoSimplesController : ControllerBase
             _ctx.DadosSimples.Remove(dado);
             _ctx.SaveChanges();
             return Ok(dado);
+        }
+        catch (System.Exception e)
+        {
+            Console.WriteLine(e);
+            return BadRequest(e.Message);
+        }
+    }
+
+    [HttpGet("rolar/{id}")]
+    public IActionResult RolarDados([FromRoute] int id)
+    {
+        try
+        {
+            DadoSimples? dado = _ctx.DadosSimples.FirstOrDefault(x => x.DadoSimplesId == id);
+            if (dado == null)
+            {
+                return NotFound();
+            }
+            return Ok(dado.RolarDado());
         }
         catch (System.Exception e)
         {
