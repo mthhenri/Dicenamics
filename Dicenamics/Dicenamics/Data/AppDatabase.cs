@@ -4,9 +4,13 @@ using Microsoft.EntityFrameworkCore;
 namespace Dicenamics.Data;
 public class AppDatabase : DbContext
 {
-    public AppDatabase(DbContextOptions<AppDatabase> options) : base(options) { }
+    public AppDatabase(DbContextOptions<AppDatabase> options) : base(options)
+    {
+    }
     
-    public DbSet<Modificador> Modificadores {get; set;}
+    public DbSet<ModificadorFixo> ModificadoresFixos {get; set;}
+    public DbSet<DadoSimples> DadosSimples { get; set; }
+    public DbSet<Sala> Salas { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder options)
         => options.UseSqlite("Data Source=database.db");
