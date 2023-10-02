@@ -11,9 +11,11 @@ public class DadoSimples : DadoBasico
         // Construtor vazio
     }
 
-    public override List<int> RolarDado()
+    public override List<List<int>> RolarDado()
     {
         List<int> resultados = new();
+        List<int> escolhidos = new();
+        List<List<int>> eResultados = new();
         Random random = new();
         //Usado para a criação da base desse método https://chat.openai.com/share/caa70bd7-58ee-4616-9768-a3330c09732d
 
@@ -24,8 +26,9 @@ public class DadoSimples : DadoBasico
                 int resultadoLancamento = random.Next(1, Faces + 1);
                 resultados.Add(resultadoLancamento);
             }
+            eResultados.Add(resultados);
 
-            return resultados;
+            return eResultados;
 
         } else if (string.Equals(Condicao, "std", StringComparison.OrdinalIgnoreCase))
         {
@@ -36,13 +39,14 @@ public class DadoSimples : DadoBasico
             resultados.Add(resultadoLancamento);
             }
             int total = 0;
-            resultados.Add(total);
             foreach (var valor in resultados)
             {
                 total += valor;
             }
-            resultados.Add(total);
-            return resultados;
+            escolhidos.Add(total);
+            eResultados.Add(resultados);
+            eResultados.Add(escolhidos);
+            return eResultados;
 
         } else if(string.Equals(Condicao, "mrv", StringComparison.OrdinalIgnoreCase))
         {
@@ -53,7 +57,6 @@ public class DadoSimples : DadoBasico
                 resultados.Add(resultadoLancamento);
             }
             int maiorV = 0;
-            resultados.Add(maiorV);
             foreach (var valor in resultados)
             {
                 if(valor > maiorV)
@@ -61,8 +64,10 @@ public class DadoSimples : DadoBasico
                     maiorV = valor;
                 }
             }
-            resultados.Add(maiorV);
-            return resultados;
+            escolhidos.Add(maiorV);
+            eResultados.Add(resultados);
+            eResultados.Add(escolhidos);
+            return eResultados;
 
         } else if(string.Equals(Condicao, "mnv", StringComparison.OrdinalIgnoreCase))
         {
@@ -80,9 +85,10 @@ public class DadoSimples : DadoBasico
                     menorV = valor;
                 }
             }
-            resultados.Add(0);
-            resultados.Add(menorV);
-            return resultados;
+            escolhidos.Add(menorV);
+            eResultados.Add(resultados);
+            eResultados.Add(escolhidos);
+            return eResultados;
 
         } else if(string.Equals(Condicao[..3], "acd", StringComparison.OrdinalIgnoreCase))
         {
@@ -95,16 +101,16 @@ public class DadoSimples : DadoBasico
                 int resultadoLancamento = random.Next(1, Faces + 1);
                 resultados.Add(resultadoLancamento);
             }
-            List<int> escolhidos = new();
             foreach (var valor in resultados)
             {
-                if(valor > valorDito)
+                if(valor >= valorDito)
                 {
                     escolhidos.Add(valor);
                 }
             }
-
-            return escolhidos;
+            eResultados.Add(resultados);
+            eResultados.Add(escolhidos);
+            return eResultados;
 
         } else if(string.Equals(Condicao[..3], "abd", StringComparison.OrdinalIgnoreCase))
         {
@@ -117,16 +123,16 @@ public class DadoSimples : DadoBasico
                 int resultadoLancamento = random.Next(1, Faces + 1);
                 resultados.Add(resultadoLancamento);
             }
-            List<int> escolhidos = new();
             foreach (var valor in resultados)
             {
-                if(valor < valorDito)
+                if(valor <= valorDito)
                 {
                     escolhidos.Add(valor);
                 }
             }
-
-            return escolhidos;
+            eResultados.Add(resultados);
+            eResultados.Add(escolhidos);
+            return eResultados;
 
         } else if(string.Equals(Condicao[..3], "ved", StringComparison.OrdinalIgnoreCase))
         {
@@ -139,7 +145,6 @@ public class DadoSimples : DadoBasico
                 int resultadoLancamento = random.Next(1, Faces + 1);
                 resultados.Add(resultadoLancamento);
             }
-            List<int> escolhidos = new();
             foreach (var valor in resultados)
             {
                 if(valor == valorDito)
@@ -147,11 +152,12 @@ public class DadoSimples : DadoBasico
                     escolhidos.Add(valor);
                 }
             }
-
-            return escolhidos;
+            eResultados.Add(resultados);
+            eResultados.Add(escolhidos);
+            return eResultados;
 
         } else {
-            return resultados;
+            return eResultados;
         }
     }
 

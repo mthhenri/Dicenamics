@@ -3,5 +3,5 @@ public abstract class DadoBasico
 {
     public int Faces { get; set; }
     
-    abstract public List<int> RolarDado();
+    abstract public List<List<int>> RolarDado();
 }

@@ -23,7 +23,7 @@ Content-Type: application/json
     "Nome" : "10D6 Padrão",
     "Faces" : 6,
     "Quantidade" : 10,
-    "Condicao" : "ved3"
+    "Condicao" : "acd3"
 }
 
 ### Remover dado simples
