@@ -28,7 +28,6 @@ public class SalaController : ControllerBase
             {
                 Nome = salaDTO.Nome,
                 Descricao = salaDTO.Descricao,
-                IdLink = salaDTO.IdLink,
                 UsuarioMestreId = salaDTO.UsuarioMestreId,
                 UsuarioMestre = UsuarioEncontrado,
                 Convidados = salaDTO.Convidados,
@@ -99,7 +98,6 @@ public class SalaController : ControllerBase
             }
                 salaEncontrada.Nome = salaDTO.Nome;
                 salaEncontrada.Descricao = salaDTO.Descricao;
-                salaEncontrada.IdLink = salaDTO.IdLink;
                 salaEncontrada.Convidados = salaDTO.Convidados;
                 salaEncontrada.DadosCriados = salaDTO.DadosCriados;
 
