@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Dicenamics.Controllers;
 
 [ApiController]
-[Route("dicenamics/salas")]
+[Route("dicenamics/sala")]
 public class SalaController : ControllerBase
 {
 
@@ -23,12 +23,14 @@ public class SalaController : ControllerBase
     {
         try
         {
+            Usuario? UsuarioEncontrado = _ctx.Usuarios.FirstOrDefault(x => x.UsuarioId == salaDTO.UsuarioMestreId);
             Sala sala = new()
             {
                 Nome = salaDTO.Nome,
                 Descricao = salaDTO.Descricao,
                 IdLink = salaDTO.IdLink,
                 UsuarioMestreId = salaDTO.UsuarioMestreId,
+                UsuarioMestre = UsuarioEncontrado,
                 Convidados = salaDTO.Convidados,
                 DadosCriados = salaDTO.DadosCriados
             };
@@ -63,6 +65,8 @@ public class SalaController : ControllerBase
         }
     }
 
+    // Adicionar busca por IdLink e por IdSimples
+
     [HttpGet("listar")]
     public IActionResult ListarSalas()
     {
@@ -96,7 +100,6 @@ public class SalaController : ControllerBase
                 salaEncontrada.Nome = salaDTO.Nome;
                 salaEncontrada.Descricao = salaDTO.Descricao;
                 salaEncontrada.IdLink = salaDTO.IdLink;
-                salaEncontrada.UsuarioMestreId = salaDTO.UsuarioMestreId;
                 salaEncontrada.Convidados = salaDTO.Convidados;
                 salaEncontrada.DadosCriados = salaDTO.DadosCriados;
 

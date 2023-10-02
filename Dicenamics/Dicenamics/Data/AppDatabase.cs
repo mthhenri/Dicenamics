@@ -8,6 +8,7 @@ public class AppDatabase : DbContext
     {
     }
     
+    public DbSet<Usuario> Usuarios { get; set; }
     public DbSet<ModificadorFixo> ModificadoresFixos {get; set;}
     public DbSet<DadoSimples> DadosSimples { get; set; }
     public DbSet<Sala> Salas { get; set; }
