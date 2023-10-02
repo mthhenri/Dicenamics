@@ -10,6 +10,7 @@ public class AppDatabase : DbContext
     
     public DbSet<ModificadorFixo> ModificadoresFixos {get; set;}
     public DbSet<DadoSimples> DadosSimples { get; set; }
+    public DbSet<Sala> Salas { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder options)
         => options.UseSqlite("Data Source=database.db");
