@@ -1,0 +1,39 @@
+### Criar modificador variavel
+POST https://localhost:7151/dicenamics/modificadores/variavel/criar
+Content-Type: application/json
+
+{
+  "nome": "Teste",
+  "dado": {
+    "nome": "",
+    "faces": 20,
+    "quantidade": 3,
+    "condicao": "mrv"
+  }
+}
+
+### Buscar por id
+GET https://localhost:7151/dicenamics/modificadores/variavel/buscar/2
+
+### Listar modificadores
+GET https://localhost:7151/dicenamics/modificadores/variavel/listar
+
+### Atualizar modificador por id
+PUT https://localhost:7151/dicenamics/modificadores/variavel/atualizar/2
+Content-Type: application/json
+
+{
+  "nome": "Teste",
+  "dado": {
+    "nome": "",
+    "faces": 20,
+    "quantidade": 3,
+    "condicao": "mrv"
+  }
+}
+
+### Remover modificador
+DELETE https://localhost:7151/dicenamics/modificadores/variavel/deletar/1
+
+### Rolar dado de medificador
+GET https://localhost:7151/dicenamics/modificadores/variavel/rolar/2

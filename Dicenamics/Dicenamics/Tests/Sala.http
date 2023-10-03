@@ -1,25 +1,41 @@
 ### Criar sala
+POST https://localhost:7151/dicenamics/sala/criar
+Content-Type: application/json
 
-
+{
+  "nome": "string",
+  "descricao": "string",
+  "usuarioMestreId": 0,
+  "convidados": [
+    {
+      "usuarioId": 0
+    }
+  ],
+  "dadosCriados": [
+    {
+      "dadoSimplesId": 0,
+      "faces": 0,
+      "nome": "string",
+      "quantidade": 0,
+      "condicao": "string"
+    }
+  ]
+}
 
 ### Buscar sala por Id
-
-
+GET https://localhost:7151/dicenamics/sala/buscar/1
 
 ### Buscar sala por IdLink
-
-
+GET https://localhost:7151/dicenamics/sala/buscar/x
 
 ### Buscar sala por IdSimples
-
-
+GET https://localhost:7151/dicenamics/sala/buscar/111111
 
 ### Listar salas
-
-
+GET https://localhost:7151/dicenamics/sala/listar
 
 ### Atualizar sala por Id
-
-
+PUT https://localhost:7151/dicenamics/sala/atualizar/1
 
 ### Deletar sala por Id
+DELETE https://localhost:7151/dicenamics/sala/deletar/1

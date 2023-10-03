@@ -1,7 +1,9 @@
 using Dicenamics.Data;
+using Dicenamics.DTO;
 using Dicenamics.DTOs;
 using Dicenamics.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Dicenamics.Controllers;
 
@@ -22,10 +24,20 @@ public class ModificadorVariavelController : ControllerBase
     {
         try
         {
+            DadoSimples? dadoMod = new()
+            {
+                Nome = modificadorVariavelDTO.Dado.Nome,
+                Faces = modificadorVariavelDTO.Dado.Faces,
+                Quantidade = modificadorVariavelDTO.Dado.Quantidade,
+                Condicao = modificadorVariavelDTO.Dado.Condicao
+            };
+            _ctx.DadosSimples.Add(dadoMod);
+            _ctx.SaveChanges();
             ModificadorVariavel? modificadorVariavel = new()
             {
                 Nome = modificadorVariavelDTO.Nome,
-                Dado = modificadorVariavelDTO.Dado
+                Dado = dadoMod,
+                DadoSimplesId = dadoMod.DadoSimplesId
             };
 
             _ctx.ModificadoresVariaveis.Add(modificadorVariavel);
@@ -88,9 +100,17 @@ public class ModificadorVariavelController : ControllerBase
             {
                 return NotFound();
             }
+            DadoSimples? dadoMod = new()
+            {
+                Nome = modificadorVariavelDTO.Dado.Nome,
+                Faces = modificadorVariavelDTO.Dado.Faces,
+                Quantidade = modificadorVariavelDTO.Dado.Quantidade,
+                Condicao = modificadorVariavelDTO.Dado.Condicao
+            };
             modificadorVariavelEncontrado.Nome = modificadorVariavelDTO.Nome;
-            modificadorVariavelEncontrado.Dado = modificadorVariavelDTO.Dado;
+            modificadorVariavelEncontrado.Dado = dadoMod;
 
+            _ctx.DadosSimples.Update(modificadorVariavelEncontrado.Dado);
             _ctx.ModificadoresVariaveis.Update(modificadorVariavelEncontrado);
             _ctx.SaveChanges();
             return Ok(modificadorVariavelEncontrado);
@@ -118,11 +138,33 @@ public class ModificadorVariavelController : ControllerBase
             _ctx.ModificadoresVariaveis.Remove(modificadorVariavel);
             _ctx.SaveChanges();
             return Ok(modificadorVariavel);
-    } 
-    catch(System.Exception e)
-    {
-        Console.WriteLine(e);
-        return BadRequest(e.Message);
+        } 
+        catch(System.Exception e)
+        {
+            Console.WriteLine(e);
+            return BadRequest(e.Message);
+        }
     }
-  }
+    
+    //Rolar dado de modificador
+    [HttpGet("rolar/{id}")]
+    public IActionResult RolarDadoModificadorVar([FromRoute] int id)
+    {
+        try
+        {
+            ModificadorVariavel? modificadorVariavel = _ctx.ModificadoresVariaveis.FirstOrDefault(x => x.ModificadorVariavelId == id);
+            if(modificadorVariavel == null)
+            {
+                return NotFound();
+            }
+            DadoSimples? dadoMod = _ctx.DadosSimples.FirstOrDefault(x => x.DadoSimplesId == modificadorVariavel.DadoSimplesId);
+            List<List<int>> resultado = dadoMod.RolarDado();
+            return Ok(resultado);
+        }
+        catch(System.Exception e)
+        {
+            Console.WriteLine(e);
+            return BadRequest(e.Message);
+        }
+    }
 }

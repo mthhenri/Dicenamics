@@ -23,7 +23,7 @@ Content-Type: application/json
     "Nome" : "5D20 Padrão",
     "Faces" : 20,
     "Quantidade" : 5,
-    "Condicao" : "de5a10"
+    "Condicao" : ""
 }
 
 ### Remover dado simples
