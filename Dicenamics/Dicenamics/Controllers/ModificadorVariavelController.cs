@@ -76,4 +76,53 @@ public class ModificadorVariavelController : ControllerBase
             return BadRequest(e.Message);
         }
     }
+
+    // Update 
+    [HttpPut("atualizar/{id}")]
+    public IActionResult AtualizarModificadorVar([FromBody] ModificadorVariavelDTO modificadorVariavelDTO, [FromRoute] int id)
+    {
+        try
+        {
+            ModificadorVariavel? modificadorVariavelEncontrado = _ctx.ModificadoresVariaveis.FirstOrDefault(x => x.ModificadorVariavelId == id);
+            if(modificadorVariavelEncontrado == null)
+            {
+                return NotFound();
+            }
+            modificadorVariavelEncontrado.Nome = modificadorVariavelDTO.Nome;
+            modificadorVariavelEncontrado.Dado = modificadorVariavelDTO.Dado;
+
+            _ctx.ModificadoresVariaveis.Update(modificadorVariavelEncontrado);
+            _ctx.SaveChanges();
+            return Ok(modificadorVariavelEncontrado);
+
+        } 
+        catch(System.Exception e)
+        {
+            Console.WriteLine(e);
+            return BadRequest(e.Message);
+        }
+    }
+
+    // Delete
+    [HttpDelete("deletar/{id}")]
+    public IActionResult ExcluirModificadorVar([FromRoute] int id)
+    {
+        try
+        {
+            ModificadorVariavel? modificadorVariavel = _ctx.ModificadoresVariaveis.FirstOrDefault(x => x.ModificadorVariavelId == id);
+            if(modificadorVariavel == null)
+            {
+                return NotFound();
+            }
+
+            _ctx.ModificadoresVariaveis.Remove(modificadorVariavel);
+            _ctx.SaveChanges();
+            return Ok(modificadorVariavel);
+    } 
+    catch(System.Exception e)
+    {
+        Console.WriteLine(e);
+        return BadRequest(e.Message);
+    }
+  }
 }
