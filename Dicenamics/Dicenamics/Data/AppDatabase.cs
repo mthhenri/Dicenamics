@@ -20,6 +20,7 @@ public class AppDatabase : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<DadoBasico>().HasKey(db => db.Faces);
         base.OnModelCreating(modelBuilder);
     }
 
