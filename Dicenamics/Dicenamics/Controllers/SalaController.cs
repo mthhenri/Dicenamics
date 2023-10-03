@@ -2,6 +2,7 @@ using Dicenamics.Data;
 using Dicenamics.DTOs;
 using Dicenamics.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Query.Internal;
 
 namespace Dicenamics.Controllers;
 
@@ -64,7 +65,51 @@ public class SalaController : ControllerBase
         }
     }
 
-    // Adicionar busca por IdLink e por IdSimples
+    // Busca por IdLink
+
+    [HttpGet("buscarLink/{id}")]
+
+    public IActionResult BuscarSalaPorIdLink([FromRoute] string id)
+    {
+        try
+        {
+            Sala? idLinkSala = _ctx.Salas.FirstOrDefault(x => x.IdLink == id);
+            if(idLinkSala == null)
+            {
+                return NotFound();
+            }
+            return Ok(idLinkSala);
+        }
+        catch(System.Exception e)
+        {
+            Console.WriteLine(e);
+            return BadRequest(e.Message);
+        }
+    }
+
+    // Busca por IdSimples
+
+    [HttpGet("buscarSimples/{id}")]
+
+    public IActionResult BuscarSalaPorIdSimples([FromRoute] int id)
+    {
+        try
+        {
+            Sala? idSimplesSala = _ctx.Salas.FirstOrDefault(x => x.IdSimples == id);
+            if(idSimplesSala == null)
+            {
+                return NotFound();
+            }
+            return Ok(idSimplesSala);
+        } 
+        catch(System.Exception e)
+        {
+            Console.WriteLine(e);
+            return BadRequest(e.Message);
+        }
+    }
+
+    // List
 
     [HttpGet("listar")]
     public IActionResult ListarSalas()
