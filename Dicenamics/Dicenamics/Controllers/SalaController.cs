@@ -66,14 +66,13 @@ public class SalaController : ControllerBase
     }
 
     // Busca por IdLink
+    [HttpGet("buscar/{idLink}")]
 
-    [HttpGet("buscarLink/{id}")]
-
-    public IActionResult BuscarSalaPorIdLink([FromRoute] string id)
+    public IActionResult BuscarSalaPorIdLink([FromRoute] string idLink)
     {
         try
         {
-            Sala? idLinkSala = _ctx.Salas.FirstOrDefault(x => x.IdLink == id);
+            Sala? idLinkSala = _ctx.Salas.FirstOrDefault(x => x.IdLink == idLink);
             if(idLinkSala == null)
             {
                 return NotFound();
@@ -88,14 +87,13 @@ public class SalaController : ControllerBase
     }
 
     // Busca por IdSimples
+    [HttpGet("buscar/{idSimples}")]
 
-    [HttpGet("buscarSimples/{id}")]
-
-    public IActionResult BuscarSalaPorIdSimples([FromRoute] int id)
+    public IActionResult BuscarSalaPorIdSimples([FromRoute] int idSimples)
     {
         try
         {
-            Sala? idSimplesSala = _ctx.Salas.FirstOrDefault(x => x.IdSimples == id);
+            Sala? idSimplesSala = _ctx.Salas.FirstOrDefault(x => x.IdSimples == idSimples);
             if(idSimplesSala == null)
             {
                 return NotFound();
