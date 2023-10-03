@@ -20,10 +20,10 @@ PUT https://localhost:7151/dicenamics/dados/base/atualizar/1
 Content-Type: application/json
 
 {
-    "Nome" : "10D6 Padrão",
-    "Faces" : 6,
-    "Quantidade" : 10,
-    "Condicao" : "ved3"
+    "Nome" : "5D20 Padrão",
+    "Faces" : 20,
+    "Quantidade" : 5,
+    "Condicao" : "de5a10"
 }
 
 ### Remover dado simples

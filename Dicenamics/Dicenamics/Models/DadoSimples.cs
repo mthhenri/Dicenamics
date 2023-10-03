@@ -1,3 +1,5 @@
+using System.Text.RegularExpressions;
+
 namespace Dicenamics.Models;
 public class DadoSimples
 {
@@ -157,6 +159,32 @@ public class DadoSimples
             eResultados.Add(escolhidos);
             return eResultados;
 
+        } else if(string.Equals(Condicao[..2], "de", StringComparison.OrdinalIgnoreCase))
+        {
+
+            Match match = Regex.Match(Condicao, @"de(\d+)a(\d+)", RegexOptions.IgnoreCase);
+
+            if (match.Success)
+            {
+                int valorMinimo = int.Parse(match.Groups[1].Value);
+                int valorMaximo = int.Parse(match.Groups[2].Value);
+
+                for (int i = 0; i < Quantidade; i++)
+                {
+                    int resultadoLancamento = random.Next(1, Faces + 1);
+                    resultados.Add(resultadoLancamento);
+                }
+                foreach (var valor in resultados)
+                {
+                    if(valor <= valorMaximo && valor >= valorMinimo)
+                    {
+                        escolhidos.Add(valor);
+                    }
+                }
+                eResultados.Add(resultados);
+                eResultados.Add(escolhidos);
+            }
+            return eResultados;
         } else {
             return eResultados;
         }
