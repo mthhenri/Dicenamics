@@ -72,12 +72,12 @@ public class SalaController : ControllerBase
     {
         try
         {
-            Sala? idLinkSala = _ctx.Salas.FirstOrDefault(x => x.IdLink == idLink);
-            if(idLinkSala == null)
+            Sala? SalaEncontrada = _ctx.Salas.FirstOrDefault(x => x.IdLink == idLink);
+            if(SalaEncontrada == null)
             {
                 return NotFound();
             }
-            return Ok(idLinkSala);
+            return Ok(SalaEncontrada);
         }
         catch(System.Exception e)
         {
@@ -93,12 +93,12 @@ public class SalaController : ControllerBase
     {
         try
         {
-            Sala? idSimplesSala = _ctx.Salas.FirstOrDefault(x => x.IdSimples == idSimples);
-            if(idSimplesSala == null)
+            Sala? SalaEncontrada = _ctx.Salas.FirstOrDefault(x => x.IdSimples == idSimples);
+            if(SalaEncontrada == null)
             {
                 return NotFound();
             }
-            return Ok(idSimplesSala);
+            return Ok(SalaEncontrada);
         } 
         catch(System.Exception e)
         {
@@ -108,7 +108,6 @@ public class SalaController : ControllerBase
     }
 
     // List
-
     [HttpGet("listar")]
     public IActionResult ListarSalas()
     {

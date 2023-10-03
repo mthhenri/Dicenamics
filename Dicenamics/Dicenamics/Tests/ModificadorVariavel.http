@@ -13,22 +13,22 @@ Content-Type: application/json
 }
 
 ### Buscar por id
-GET https://localhost:7151/dicenamics/modificadores/variavel/buscar/2
+GET https://localhost:7151/dicenamics/modificadores/variavel/buscar/3
 
 ### Listar modificadores
 GET https://localhost:7151/dicenamics/modificadores/variavel/listar
 
 ### Atualizar modificador por id
-PUT https://localhost:7151/dicenamics/modificadores/variavel/atualizar/2
+PUT https://localhost:7151/dicenamics/modificadores/variavel/atualizar/3
 Content-Type: application/json
 
 {
   "nome": "Teste",
   "dado": {
     "nome": "",
-    "faces": 20,
+    "faces": 100,
     "quantidade": 3,
-    "condicao": "mrv"
+    "condicao": ""
   }
 }
 
@@ -36,4 +36,4 @@ Content-Type: application/json
 DELETE https://localhost:7151/dicenamics/modificadores/variavel/deletar/1
 
 ### Rolar dado de medificador
-GET https://localhost:7151/dicenamics/modificadores/variavel/rolar/2
+GET https://localhost:7151/dicenamics/modificadores/variavel/rolar/3

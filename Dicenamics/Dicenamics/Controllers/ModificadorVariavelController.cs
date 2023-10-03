@@ -109,8 +109,16 @@ public class ModificadorVariavelController : ControllerBase
             };
             modificadorVariavelEncontrado.Nome = modificadorVariavelDTO.Nome;
             modificadorVariavelEncontrado.Dado = dadoMod;
-
-            _ctx.DadosSimples.Update(modificadorVariavelEncontrado.Dado);
+            var dado = _ctx.DadosSimples.FirstOrDefault(x => x.DadoSimplesId == modificadorVariavelEncontrado.DadoSimplesId);
+            if(dado == null)
+            {
+                return NotFound();
+            }
+            dado.Nome = dadoMod.Nome;
+            dado.Faces = dadoMod.Faces;
+            dado.Quantidade = dadoMod.Quantidade;
+            dado.Condicao = dadoMod.Condicao;
+            _ctx.DadosSimples.Update(dado);
             _ctx.ModificadoresVariaveis.Update(modificadorVariavelEncontrado);
             _ctx.SaveChanges();
             return Ok(modificadorVariavelEncontrado);

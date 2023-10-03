@@ -11,12 +11,31 @@ public class Sala
     public List<Usuario>? Convidados{ get; set; }
     public List<DadoSimples>? DadosCriados { get; set; }
 
-    
-public Sala()
-{
-    Random random = new();
-    Guid guid = new();
-    IdSimples = random.Next(111111, 999999);
-    IdLink = guid.ToString();
-}
+        
+    public Sala()
+    {
+        
+    }
+
+    public void GerarIdLink()
+    {
+        Guid guid = new();
+        IdLink = guid.ToString();
+    }
+
+    public Boolean CompararIdLink(Guid linkEnviado)
+    {
+        return string.Equals(IdLink, linkEnviado.ToString(), StringComparison.OrdinalIgnoreCase);
+    }
+
+    public void GerarIdSimples()
+    {
+        Random random = new();
+        IdSimples = random.Next(100000, 1000000);
+    }
+
+    public Boolean CompararIdSimples(int sixEnviado)
+    {
+        return IdSimples == sixEnviado;
+    }
 }

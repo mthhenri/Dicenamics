@@ -7,7 +7,7 @@ namespace Dicenamics.Models;
         public string? Nickname { get; set; }
         public string Senha { get; set; }
         public List<DadoSimples> DadosPessoais { get; set; }
-
+        
         public bool CompararUsername(string outroUsername)
         {
             return string.Equals(Username, outroUsername, StringComparison.OrdinalIgnoreCase);
