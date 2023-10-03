@@ -3,24 +3,16 @@ POST https://localhost:7151/dicenamics/sala/criar
 Content-Type: application/json
 
 {
-  "nome": "string",
-  "descricao": "string",
+  "nome": "",
+  "descricao": "",
   "usuarioMestreId": 0,
-  "convidados": [
-    {
-      "usuarioId": 0
-    }
+  "convidadosId": [
+    0
   ],
-  "dadosCriados": [
-    {
-      "dadoSimplesId": 0,
-      "faces": 0,
-      "nome": "string",
-      "quantidade": 0,
-      "condicao": "string"
-    }
+  "dadosCriadosIds": [
+    0
   ]
-}
+
 
 ### Buscar sala por Id
 GET https://localhost:7151/dicenamics/sala/buscar/1
@@ -29,7 +21,7 @@ GET https://localhost:7151/dicenamics/sala/buscar/1
 GET https://localhost:7151/dicenamics/sala/buscar/x
 
 ### Buscar sala por IdSimples
-GET https://localhost:7151/dicenamics/sala/buscar/111111
+GET https://localhost:7151/dicenamics/sala/buscar/999999
 
 ### Listar salas
 GET https://localhost:7151/dicenamics/sala/listar
