@@ -1,7 +1,8 @@
 namespace Dicenamics.Models;
-public class DadoSimples : DadoBasico
+public class DadoSimples
 {
     public int DadoSimplesId { get; set; }
+    public int Faces { get; set; }
     public string? Nome { get; set; }
     public int Quantidade { get; set; }
     public string? Condicao { get; set; }
@@ -11,7 +12,7 @@ public class DadoSimples : DadoBasico
         // Construtor vazio
     }
 
-    public override List<List<int>> RolarDado()
+    public List<List<int>> RolarDado()
     {
         List<int> resultados = new();
         List<int> escolhidos = new();

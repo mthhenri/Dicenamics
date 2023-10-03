@@ -10,24 +10,24 @@ Content-Type: application/json
 }
 
 ### Buscar por Id
-GET https://localhost:7151/dicenamics/dados/base/buscar/4
+GET https://localhost:7151/dicenamics/dados/base/buscar/1
 
 ### Listar dados simples
 GET https://localhost:7151/dicenamics/dados/base/listar
 
 ### Atualizar dado simples por id
-PUT https://localhost:7151/dicenamics/dados/base/atualizar/4
+PUT https://localhost:7151/dicenamics/dados/base/atualizar/1
 Content-Type: application/json
 
 {
     "Nome" : "10D6 Padrão",
     "Faces" : 6,
     "Quantidade" : 10,
-    "Condicao" : "acd3"
+    "Condicao" : "ved3"
 }
 
 ### Remover dado simples
-DELETE https://localhost:7151/dicenamics/dados/base/deletar/4
+DELETE https://localhost:7151/dicenamics/dados/base/deletar/1
 
 ### Rolar um dado simples
-https://localhost:7151/dicenamics/dados/base/rolar/4
+https://localhost:7151/dicenamics/dados/base/rolar/1

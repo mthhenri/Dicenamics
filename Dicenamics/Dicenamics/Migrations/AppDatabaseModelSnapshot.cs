@@ -17,21 +17,32 @@ namespace Dicenamics.Migrations
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "6.0.21");
 
-            modelBuilder.Entity("Dicenamics.Models.DadoBasico", b =>
+            modelBuilder.Entity("Dicenamics.Models.DadoSimples", b =>
                 {
-                    b.Property<int>("Faces")
+                    b.Property<int>("DadoSimplesId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("Discriminator")
-                        .IsRequired()
+                    b.Property<string>("Condicao")
                         .HasColumnType("TEXT");
 
-                    b.HasKey("Faces");
+                    b.Property<int>("Faces")
+                        .HasColumnType("INTEGER");
 
-                    b.ToTable("DadosBasicos");
+                    b.Property<string>("Nome")
+                        .HasColumnType("TEXT");
 
-                    b.HasDiscriminator<string>("Discriminator").HasValue("DadoBasico");
+                    b.Property<int>("Quantidade")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("SalaId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("DadoSimplesId");
+
+                    b.HasIndex("SalaId");
+
+                    b.ToTable("DadosSimples");
                 });
 
             modelBuilder.Entity("Dicenamics.Models.ModificadorFixo", b =>
@@ -57,7 +68,7 @@ namespace Dicenamics.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("DadoFaces")
+                    b.Property<int>("DadoSimplesId")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Nome")
@@ -65,7 +76,7 @@ namespace Dicenamics.Migrations
 
                     b.HasKey("ModificadorVariavelId");
 
-                    b.HasIndex("DadoFaces");
+                    b.HasIndex("DadoSimplesId");
 
                     b.ToTable("ModificadoresVariaveis");
                 });
@@ -117,33 +128,18 @@ namespace Dicenamics.Migrations
 
             modelBuilder.Entity("Dicenamics.Models.DadoSimples", b =>
                 {
-                    b.HasBaseType("Dicenamics.Models.DadoBasico");
-
-                    b.Property<string>("Condicao")
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("DadoSimplesId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Nome")
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("Quantidade")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int?>("SalaId")
-                        .HasColumnType("INTEGER");
-
-                    b.HasIndex("SalaId");
-
-                    b.HasDiscriminator().HasValue("DadoSimples");
+                    b.HasOne("Dicenamics.Models.Sala", null)
+                        .WithMany("DadosCriados")
+                        .HasForeignKey("SalaId");
                 });
 
             modelBuilder.Entity("Dicenamics.Models.ModificadorVariavel", b =>
                 {
                     b.HasOne("Dicenamics.Models.DadoSimples", "Dado")
                         .WithMany()
-                        .HasForeignKey("DadoFaces");
+                        .HasForeignKey("DadoSimplesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Dado");
                 });
@@ -163,13 +159,6 @@ namespace Dicenamics.Migrations
                 {
                     b.HasOne("Dicenamics.Models.Sala", null)
                         .WithMany("Convidados")
-                        .HasForeignKey("SalaId");
-                });
-
-            modelBuilder.Entity("Dicenamics.Models.DadoSimples", b =>
-                {
-                    b.HasOne("Dicenamics.Models.Sala", null)
-                        .WithMany("DadosCriados")
                         .HasForeignKey("SalaId");
                 });
 

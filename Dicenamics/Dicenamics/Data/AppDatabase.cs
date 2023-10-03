@@ -9,18 +9,16 @@ public class AppDatabase : DbContext
     }
     
     public DbSet<Usuario> Usuarios { get; set; }
+    public DbSet<Sala> Salas { get; set; }
+    public DbSet<DadoSimples> DadosSimples { get; set; }
     public DbSet<ModificadorFixo> ModificadoresFixos {get; set;}
     public DbSet<ModificadorVariavel> ModificadoresVariaveis { get; set; }
-    public DbSet<DadoSimples> DadosSimples { get; set; }
-    public DbSet<DadoBasico> DadosBasicos { get; set; }
-    public DbSet<Sala> Salas { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder options)
         => options.UseSqlite("Data Source=database.db");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<DadoBasico>().HasKey(db => db.Faces);
         base.OnModelCreating(modelBuilder);
     }
 
