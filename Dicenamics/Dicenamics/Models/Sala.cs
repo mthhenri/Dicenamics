@@ -9,7 +9,7 @@ public class Sala
     public int UsuarioMestreId { get; set; }
     public Usuario UsuarioMestre { get; set; }
     public List<Usuario>? Convidados{ get; set; }
-    public List<DadoSimples>? DadosCriados { get; set; }
+    public List<AcessoSalaDados>? DadosCriados { get; set; }
 
         
     public Sala()

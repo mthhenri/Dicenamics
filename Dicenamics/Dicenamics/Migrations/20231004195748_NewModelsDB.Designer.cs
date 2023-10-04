@@ -11,13 +11,67 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Dicenamics.Migrations
 {
     [DbContext(typeof(AppDatabase))]
-    [Migration("20231003204703_UsuarioTableAdd")]
-    partial class UsuarioTableAdd
+    [Migration("20231004195748_NewModelsDB")]
+    partial class NewModelsDB
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "6.0.21");
+
+            modelBuilder.Entity("Dicenamics.Models.AcessoSalaDados", b =>
+                {
+                    b.Property<int>("AcessoSalaId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("SalaId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("AcessoSalaId");
+
+                    b.HasIndex("SalaId");
+
+                    b.ToTable("AcessosSalasDados");
+                });
+
+            modelBuilder.Entity("Dicenamics.Models.AcessoUsuarioDados", b =>
+                {
+                    b.Property<int>("AcessoUsuarioId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("UsuarioId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("AcessoUsuarioId");
+
+                    b.HasIndex("UsuarioId");
+
+                    b.ToTable("AcessosUsuariosDados");
+                });
+
+            modelBuilder.Entity("Dicenamics.Models.DadoComposto", b =>
+                {
+                    b.Property<int>("DadoCompostoId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("AcessoUsuarioDadosAcessoUsuarioId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Discriminator")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("DadoCompostoId");
+
+                    b.HasIndex("AcessoUsuarioDadosAcessoUsuarioId");
+
+                    b.ToTable("DadosCompostos");
+
+                    b.HasDiscriminator<string>("Discriminator").HasValue("DadoComposto");
+                });
 
             modelBuilder.Entity("Dicenamics.Models.DadoSimples", b =>
                 {
@@ -25,7 +79,14 @@ namespace Dicenamics.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
+                    b.Property<int?>("AcessoUsuarioDadosAcessoUsuarioId")
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("Condicao")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Discriminator")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<int>("Faces")
@@ -45,11 +106,15 @@ namespace Dicenamics.Migrations
 
                     b.HasKey("DadoSimplesId");
 
+                    b.HasIndex("AcessoUsuarioDadosAcessoUsuarioId");
+
                     b.HasIndex("SalaId");
 
                     b.HasIndex("UsuarioId");
 
                     b.ToTable("DadosSimples");
+
+                    b.HasDiscriminator<string>("Discriminator").HasValue("DadoSimples");
                 });
 
             modelBuilder.Entity("Dicenamics.Models.ModificadorFixo", b =>
@@ -144,8 +209,71 @@ namespace Dicenamics.Migrations
                     b.ToTable("Usuarios");
                 });
 
+            modelBuilder.Entity("Dicenamics.Models.DadoCompostoSala", b =>
+                {
+                    b.HasBaseType("Dicenamics.Models.DadoComposto");
+
+                    b.Property<int?>("AcessoSalaDadosAcessoSalaId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("DadoCompostoSalaId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasIndex("AcessoSalaDadosAcessoSalaId");
+
+                    b.HasDiscriminator().HasValue("DadoCompostoSala");
+                });
+
+            modelBuilder.Entity("Dicenamics.Models.DadoSimplesSala", b =>
+                {
+                    b.HasBaseType("Dicenamics.Models.DadoSimples");
+
+                    b.Property<int?>("AcessoSalaDadosAcessoSalaId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("DadoSimplesSalaId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasIndex("AcessoSalaDadosAcessoSalaId");
+
+                    b.HasDiscriminator().HasValue("DadoSimplesSala");
+                });
+
+            modelBuilder.Entity("Dicenamics.Models.AcessoSalaDados", b =>
+                {
+                    b.HasOne("Dicenamics.Models.Sala", "Sala")
+                        .WithMany()
+                        .HasForeignKey("SalaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Sala");
+                });
+
+            modelBuilder.Entity("Dicenamics.Models.AcessoUsuarioDados", b =>
+                {
+                    b.HasOne("Dicenamics.Models.Usuario", "Usuario")
+                        .WithMany()
+                        .HasForeignKey("UsuarioId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Usuario");
+                });
+
+            modelBuilder.Entity("Dicenamics.Models.DadoComposto", b =>
+                {
+                    b.HasOne("Dicenamics.Models.AcessoUsuarioDados", null)
+                        .WithMany("DadosCompostos")
+                        .HasForeignKey("AcessoUsuarioDadosAcessoUsuarioId");
+                });
+
             modelBuilder.Entity("Dicenamics.Models.DadoSimples", b =>
                 {
+                    b.HasOne("Dicenamics.Models.AcessoUsuarioDados", null)
+                        .WithMany("DadosSimples")
+                        .HasForeignKey("AcessoUsuarioDadosAcessoUsuarioId");
+
                     b.HasOne("Dicenamics.Models.Sala", null)
                         .WithMany("DadosCriados")
                         .HasForeignKey("SalaId");
@@ -182,6 +310,34 @@ namespace Dicenamics.Migrations
                     b.HasOne("Dicenamics.Models.Sala", null)
                         .WithMany("Convidados")
                         .HasForeignKey("SalaId");
+                });
+
+            modelBuilder.Entity("Dicenamics.Models.DadoCompostoSala", b =>
+                {
+                    b.HasOne("Dicenamics.Models.AcessoSalaDados", null)
+                        .WithMany("DadosCompostosSala")
+                        .HasForeignKey("AcessoSalaDadosAcessoSalaId");
+                });
+
+            modelBuilder.Entity("Dicenamics.Models.DadoSimplesSala", b =>
+                {
+                    b.HasOne("Dicenamics.Models.AcessoSalaDados", null)
+                        .WithMany("DadosSimplesSala")
+                        .HasForeignKey("AcessoSalaDadosAcessoSalaId");
+                });
+
+            modelBuilder.Entity("Dicenamics.Models.AcessoSalaDados", b =>
+                {
+                    b.Navigation("DadosCompostosSala");
+
+                    b.Navigation("DadosSimplesSala");
+                });
+
+            modelBuilder.Entity("Dicenamics.Models.AcessoUsuarioDados", b =>
+                {
+                    b.Navigation("DadosCompostos");
+
+                    b.Navigation("DadosSimples");
                 });
 
             modelBuilder.Entity("Dicenamics.Models.Sala", b =>

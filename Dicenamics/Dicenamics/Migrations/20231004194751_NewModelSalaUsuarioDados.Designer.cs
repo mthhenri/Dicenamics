@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Dicenamics.Migrations
 {
     [DbContext(typeof(AppDatabase))]
-    [Migration("20231003135918_Reconfiguring")]
-    partial class Reconfiguring
+    [Migration("20231004194751_NewModelSalaUsuarioDados")]
+    partial class NewModelSalaUsuarioDados
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -40,9 +40,14 @@ namespace Dicenamics.Migrations
                     b.Property<int?>("SalaId")
                         .HasColumnType("INTEGER");
 
+                    b.Property<int?>("UsuarioId")
+                        .HasColumnType("INTEGER");
+
                     b.HasKey("DadoSimplesId");
 
                     b.HasIndex("SalaId");
+
+                    b.HasIndex("UsuarioId");
 
                     b.ToTable("DadosSimples");
                 });
@@ -118,8 +123,19 @@ namespace Dicenamics.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
+                    b.Property<string>("Nickname")
+                        .HasColumnType("TEXT");
+
                     b.Property<int?>("SalaId")
                         .HasColumnType("INTEGER");
+
+                    b.Property<string>("Senha")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Username")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
 
                     b.HasKey("UsuarioId");
 
@@ -133,6 +149,10 @@ namespace Dicenamics.Migrations
                     b.HasOne("Dicenamics.Models.Sala", null)
                         .WithMany("DadosCriados")
                         .HasForeignKey("SalaId");
+
+                    b.HasOne("Dicenamics.Models.Usuario", null)
+                        .WithMany("DadosPessoais")
+                        .HasForeignKey("UsuarioId");
                 });
 
             modelBuilder.Entity("Dicenamics.Models.ModificadorVariavel", b =>
@@ -169,6 +189,11 @@ namespace Dicenamics.Migrations
                     b.Navigation("Convidados");
 
                     b.Navigation("DadosCriados");
+                });
+
+            modelBuilder.Entity("Dicenamics.Models.Usuario", b =>
+                {
+                    b.Navigation("DadosPessoais");
                 });
 #pragma warning restore 612, 618
         }

@@ -4,7 +4,7 @@
 
 namespace Dicenamics.Migrations
 {
-    public partial class Reconfiguring : Migration
+    public partial class NewModelSalaUsuarioDados : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -32,7 +32,8 @@ namespace Dicenamics.Migrations
                     Nome = table.Column<string>(type: "TEXT", nullable: true),
                     Quantidade = table.Column<int>(type: "INTEGER", nullable: false),
                     Condicao = table.Column<string>(type: "TEXT", nullable: true),
-                    SalaId = table.Column<int>(type: "INTEGER", nullable: true)
+                    SalaId = table.Column<int>(type: "INTEGER", nullable: true),
+                    UsuarioId = table.Column<int>(type: "INTEGER", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -82,6 +83,9 @@ namespace Dicenamics.Migrations
                 {
                     UsuarioId = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
+                    Username = table.Column<string>(type: "TEXT", nullable: false),
+                    Nickname = table.Column<string>(type: "TEXT", nullable: true),
+                    Senha = table.Column<string>(type: "TEXT", nullable: false),
                     SalaId = table.Column<int>(type: "INTEGER", nullable: true)
                 },
                 constraints: table =>
@@ -98,6 +102,11 @@ namespace Dicenamics.Migrations
                 name: "IX_DadosSimples_SalaId",
                 table: "DadosSimples",
                 column: "SalaId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_DadosSimples_UsuarioId",
+                table: "DadosSimples",
+                column: "UsuarioId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ModificadoresVariaveis_DadoSimplesId",
@@ -120,6 +129,13 @@ namespace Dicenamics.Migrations
                 column: "SalaId",
                 principalTable: "Salas",
                 principalColumn: "SalaId");
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_DadosSimples_Usuarios_UsuarioId",
+                table: "DadosSimples",
+                column: "UsuarioId",
+                principalTable: "Usuarios",
+                principalColumn: "UsuarioId");
 
             migrationBuilder.AddForeignKey(
                 name: "FK_Salas_Usuarios_UsuarioMestreId",
