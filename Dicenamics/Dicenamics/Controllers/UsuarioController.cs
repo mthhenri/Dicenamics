@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Dicenamics.Data;
+using Dicenamics.Models;
 
 
 namespace Dicenamics.Controllers
@@ -27,7 +28,7 @@ namespace Dicenamics.Controllers
             _ctx.Usuarios.Add(usuario);
             await _ctx.SaveChangesAsync();
 
-            return CreatedAtRoute("GetUsuario", new { id = usuario.Id }, usuario);
+            return CreatedAtRoute("GetUsuario", new { id = usuario.UsuarioId }, usuario);
         }
 
         [HttpGet]
@@ -50,10 +51,10 @@ namespace Dicenamics.Controllers
             return Ok(usuario);
         }
 
-        [HttpGet("Usuario/{username}")]
-        public async Task<IActionResult> BuscarUsuarioPorUsername(string username)
+        [HttpGet("buscar")]
+        public async Task<IActionResult> BuscarUsuarioPorUsername([FromBody] string username)
         {
-            var usuario = await _ctx.Usuarios.FirstOrDefaultAsync(u => u.Username == username);
+            var usuario = _ctx.Usuarios.FirstOrDefault(u => u.Username == username);
 
             if (usuario == null)
             {
@@ -66,7 +67,7 @@ namespace Dicenamics.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> AtualizarUsuario(int id, Usuario usuarioAtualizado)
 {
-            if (id != (int)usuarioAtualizado.Id)
+            if (id != (int)usuarioAtualizado.UsuarioId)
             {
                 return BadRequest();
             }  
@@ -110,7 +111,7 @@ namespace Dicenamics.Controllers
 
         private bool UsuarioExists(int id)
         {
-            return _ctx.Usuarios.Any(u => (int)u.Id == id);
+            return _ctx.Usuarios.Any(u => (int)u.UsuarioId == id);
         }
     }
 }
