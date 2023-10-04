@@ -1,0 +1,10 @@
+﻿namespace Dicenamics;
+
+public class Usuario
+{
+    public object Id { get; internal set; }
+}
+.http
+{
+
+}
