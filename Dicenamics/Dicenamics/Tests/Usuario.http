@@ -1,5 +1,7 @@
 ﻿namespace Dicenamics;
 
+// Implementar requisições
+
 public class Usuario
 {
     public object Id { get; internal set; }

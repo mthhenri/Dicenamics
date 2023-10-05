@@ -5,8 +5,8 @@ using Dicenamics.Data;
 
 namespace Dicenamics.Controllers
 {
-    [Route("Controllers/UsuarioController")]
     [ApiController]
+    [Route("dicenamics/usuario")]
     public class UsuarioController : ControllerBase
     {
         private readonly AppDatabase _ctx;
@@ -16,28 +16,30 @@ namespace Dicenamics.Controllers
             _ctx = context;
         }
 
-        [HttpPost]
+        [HttpPost("criarUsuario")]
         public async Task<IActionResult> CriarUsuario(Usuario usuario)
         {
-            if (usuario == null)
+            try
             {
-                return BadRequest();
+                _ctx.Usuarios.Add(usuario);
+                _ctx.SaveChanges(); 
+
+                return CreatedAtRoute("", new { id = usuario.Id }, usuario);
             }
-
-            _ctx.Usuarios.Add(usuario);
-            await _ctx.SaveChangesAsync();
-
-            return CreatedAtRoute("GetUsuario", new { id = usuario.Id }, usuario);
+                catch (Exception ex)
+            {
+                return BadRequest(new { mensagem = "Ocorreu um erro ao criar o usuário." });
+            }
         }
 
-        [HttpGet]
+        [HttpGet("buscarUsuario")]
         public async Task<IActionResult> BuscarTodosUsuarios()
         {
             var usuarios = await _ctx.Usuarios.ToListAsync();
             return Ok(usuarios);
         }
 
-        [HttpGet("{id}", Name = "GetUsuario")]
+        [HttpGet("buscarUsuario/{id}")]
         public async Task<IActionResult> BuscarUsuarioPorId(int id)
         {
             var usuario = await _ctx.Usuarios.FindAsync(id);
@@ -50,22 +52,24 @@ namespace Dicenamics.Controllers
             return Ok(usuario);
         }
 
-        [HttpGet("Usuario/{username}")]
+        [HttpGet("buscarUsuario/{username}")]
         public async Task<IActionResult> BuscarUsuarioPorUsername(string username)
+        {       
+        var usuario = await _ctx.Usuarios.FirstOrDefaultAsync(u => u.Username == username);
+
+        if (usuario == null)
         {
-            var usuario = await _ctx.Usuarios.FirstOrDefaultAsync(u => u.Username == username);
-
-            if (usuario == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(usuario);
+        return NotFound("Usuario não encontrado.");
         }
 
-        [HttpPut("{id}")]
+    return Ok(usuario);
+}
+
+
+
+        [HttpPut("atualizarUsuario/{id}")]
         public async Task<IActionResult> AtualizarUsuario(int id, Usuario usuarioAtualizado)
-{
+        {
             if (id != (int)usuarioAtualizado.Id)
             {
                 return BadRequest();
@@ -79,20 +83,20 @@ namespace Dicenamics.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!UsuarioExists(id))
+            if (!UsuarioExiste(id))
                 {
-                    return NotFound();
+                    return NotFound(new { mensagem = "Usuário não encontrado." });
                 }
-                else
+                    else
                 {
-                    throw;
+                    return BadRequest(new { mensagem = "Ocorreu um erro ao atualizar o usuário." });
                 }
             }
 
             return NoContent();
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("excluirUsuario")]
         public async Task<IActionResult> ExcluirUsuario(int id)
         {
             var usuario = await _ctx.Usuarios.FindAsync(id);
@@ -108,7 +112,7 @@ namespace Dicenamics.Controllers
             return NoContent();
         }
 
-        private bool UsuarioExists(int id)
+        private bool UsuarioExiste(int id)
         {
             return _ctx.Usuarios.Any(u => (int)u.Id == id);
         }
