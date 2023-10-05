@@ -25,7 +25,7 @@ namespace Dicenamics.Controllers
                 _ctx.Usuarios.Add(usuario);
                 _ctx.SaveChanges(); 
 
-                return CreatedAtRoute("", new { id = usuario.UsuarioId }, usuario);
+                return Created("", new { id = usuario.UsuarioId }, usuario);
             }
                 catch (Exception ex)
             {
