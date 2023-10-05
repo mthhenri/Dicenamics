@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Dicenamics.Controllers;
 [ApiController]
-[Route("dicenamics/modificador/fixo")]
+[Route("dicenamics/modificadores/fixo")]
 public class ModificadorFixoController : ControllerBase
 {
     private readonly AppDatabase _ctx;

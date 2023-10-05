@@ -4,7 +4,7 @@
 
 namespace Dicenamics.Migrations
 {
-    public partial class Reconfiguring : Migration
+    public partial class NewConfigsDadosSalas : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -23,6 +23,24 @@ namespace Dicenamics.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "DadosCompostos",
+                columns: table => new
+                {
+                    DadoCompostoId = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Discriminator = table.Column<string>(type: "TEXT", nullable: false),
+                    UsuarioId = table.Column<int>(type: "INTEGER", nullable: true),
+                    DadoCompostoSalaId = table.Column<int>(type: "INTEGER", nullable: true),
+                    AcessoPrivado = table.Column<bool>(type: "INTEGER", nullable: true),
+                    CriadorId = table.Column<int>(type: "INTEGER", nullable: true),
+                    SalaId = table.Column<int>(type: "INTEGER", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_DadosCompostos", x => x.DadoCompostoId);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "DadosSimples",
                 columns: table => new
                 {
@@ -32,6 +50,11 @@ namespace Dicenamics.Migrations
                     Nome = table.Column<string>(type: "TEXT", nullable: true),
                     Quantidade = table.Column<int>(type: "INTEGER", nullable: false),
                     Condicao = table.Column<string>(type: "TEXT", nullable: true),
+                    Discriminator = table.Column<string>(type: "TEXT", nullable: false),
+                    UsuarioId = table.Column<int>(type: "INTEGER", nullable: true),
+                    DadoSimplesSalaId = table.Column<int>(type: "INTEGER", nullable: true),
+                    AcessoPrivado = table.Column<bool>(type: "INTEGER", nullable: true),
+                    CriadorId = table.Column<int>(type: "INTEGER", nullable: true),
                     SalaId = table.Column<int>(type: "INTEGER", nullable: true)
                 },
                 constraints: table =>
@@ -82,6 +105,9 @@ namespace Dicenamics.Migrations
                 {
                     UsuarioId = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
+                    Username = table.Column<string>(type: "TEXT", nullable: false),
+                    Nickname = table.Column<string>(type: "TEXT", nullable: true),
+                    Senha = table.Column<string>(type: "TEXT", nullable: false),
                     SalaId = table.Column<int>(type: "INTEGER", nullable: true)
                 },
                 constraints: table =>
@@ -95,9 +121,34 @@ namespace Dicenamics.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_DadosCompostos_CriadorId",
+                table: "DadosCompostos",
+                column: "CriadorId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_DadosCompostos_SalaId",
+                table: "DadosCompostos",
+                column: "SalaId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_DadosCompostos_UsuarioId",
+                table: "DadosCompostos",
+                column: "UsuarioId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_DadosSimples_CriadorId",
+                table: "DadosSimples",
+                column: "CriadorId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_DadosSimples_SalaId",
                 table: "DadosSimples",
                 column: "SalaId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_DadosSimples_UsuarioId",
+                table: "DadosSimples",
+                column: "UsuarioId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ModificadoresVariaveis_DadoSimplesId",
@@ -115,11 +166,48 @@ namespace Dicenamics.Migrations
                 column: "SalaId");
 
             migrationBuilder.AddForeignKey(
+                name: "FK_DadosCompostos_Salas_SalaId",
+                table: "DadosCompostos",
+                column: "SalaId",
+                principalTable: "Salas",
+                principalColumn: "SalaId");
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_DadosCompostos_Usuarios_CriadorId",
+                table: "DadosCompostos",
+                column: "CriadorId",
+                principalTable: "Usuarios",
+                principalColumn: "UsuarioId",
+                onDelete: ReferentialAction.Cascade);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_DadosCompostos_Usuarios_UsuarioId",
+                table: "DadosCompostos",
+                column: "UsuarioId",
+                principalTable: "Usuarios",
+                principalColumn: "UsuarioId");
+
+            migrationBuilder.AddForeignKey(
                 name: "FK_DadosSimples_Salas_SalaId",
                 table: "DadosSimples",
                 column: "SalaId",
                 principalTable: "Salas",
                 principalColumn: "SalaId");
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_DadosSimples_Usuarios_CriadorId",
+                table: "DadosSimples",
+                column: "CriadorId",
+                principalTable: "Usuarios",
+                principalColumn: "UsuarioId",
+                onDelete: ReferentialAction.Cascade);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_DadosSimples_Usuarios_UsuarioId",
+                table: "DadosSimples",
+                column: "UsuarioId",
+                principalTable: "Usuarios",
+                principalColumn: "UsuarioId");
 
             migrationBuilder.AddForeignKey(
                 name: "FK_Salas_Usuarios_UsuarioMestreId",
@@ -135,6 +223,9 @@ namespace Dicenamics.Migrations
             migrationBuilder.DropForeignKey(
                 name: "FK_Usuarios_Salas_SalaId",
                 table: "Usuarios");
+
+            migrationBuilder.DropTable(
+                name: "DadosCompostos");
 
             migrationBuilder.DropTable(
                 name: "ModificadoresFixos");

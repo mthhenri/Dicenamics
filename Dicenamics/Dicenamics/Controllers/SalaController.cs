@@ -26,15 +26,13 @@ public class SalaController : ControllerBase
         {
             Usuario? UsuarioEncontrado = _ctx.Usuarios.FirstOrDefault(x => x.UsuarioId == salaDTO.UsuarioMestreId);
             List<Usuario>? convidados = _ctx.Usuarios.Where(u => salaDTO.ConvidadosId.Contains(u.UsuarioId)).ToList();
-            List<DadoSimples>? dadosCriados = _ctx.DadosSimples.Where(d => salaDTO.DadosCriadosIds.Contains(d.DadoSimplesId)).ToList();
             Sala sala = new()
             {
                 Nome = salaDTO.Nome,
                 Descricao = salaDTO.Descricao,
                 UsuarioMestreId = salaDTO.UsuarioMestreId,
                 UsuarioMestre = UsuarioEncontrado,
-                Convidados = convidados,
-                DadosCriados = dadosCriados
+                Convidados = convidados
             };
             _ctx.Salas.Add(sala);
             _ctx.SaveChanges();
@@ -142,12 +140,16 @@ public class SalaController : ControllerBase
             }
 
             List<Usuario>? convidados = _ctx.Usuarios.Where(u => salaDTO.ConvidadosId.Contains(u.UsuarioId)).ToList();
-            List<DadoSimples>? dadosCriados = _ctx.DadosSimples.Where(d => salaDTO.DadosCriadosIds.Contains(d.DadoSimplesId)).ToList();
+            // Arrumar DTOs
+            List<DadoSimplesSala>? dadosSimples = _ctx.DadosSimplesSalas.Where(d => salaDTO.DadosSimplesSalaId.Contains(salaEncontrada.SalaId)).ToList();
+            List<DadoCompostoSala>? dadosCompostos = _ctx.DadosCompostosSalas.Where(d => salaDTO.DadosCompostosSalaId.Contains(salaEncontrada.SalaId)).ToList();
 
             salaEncontrada.Nome = salaDTO.Nome;
             salaEncontrada.Descricao = salaDTO.Descricao;
             salaEncontrada.Convidados = convidados;
-            salaEncontrada.DadosCriados = dadosCriados;
+            salaEncontrada.DadosSimplesSala = dadosSimples;
+            salaEncontrada.DadosCompostosSala = dadosCompostos;
+
 
             _ctx.Salas.Update(salaEncontrada);
             _ctx.SaveChanges();
