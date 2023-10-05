@@ -7,5 +7,5 @@ public class SalaDTO
     public string? Descricao { get; set; }
     public int UsuarioMestreId { get; set; }
     public List<int>? ConvidadosId { get; set; }
-    public List<int>? DadosCriadosIds { get; set; }
+    public List<AcessoSalaDadosDTO>? DadosCriadosIds { get; set; }
 }
