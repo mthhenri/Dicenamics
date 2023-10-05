@@ -12,7 +12,7 @@ Content-Type: application/json
   "dadosCriadosIds": [
     0
   ]
-
+}
 
 ### Buscar sala por Id
 GET https://localhost:7151/dicenamics/sala/buscar/1

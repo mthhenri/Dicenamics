@@ -1,15 +1,1 @@
-<<<<<<< HEAD
-﻿namespace Dicenamics;
-
-// Implementar requisições
-
-public class Usuario
-{
-    public object Id { get; internal set; }
-}
-.http
-{
-
-}
-=======
->>>>>>> d84c3b6f6f0fccdcf9cd6baf5d8e0dbf2ad7d504
+### Criar usuario

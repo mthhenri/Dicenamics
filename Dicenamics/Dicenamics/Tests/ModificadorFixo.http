@@ -1,5 +1,5 @@
 ### Criar um modificador
-POST https://localhost:7151/dicenamics/modificador/fixo/criar
+POST https://localhost:7151/dicenamics/modificadores/fixo/criar
 Content-Type: application/json
 
 {
@@ -8,13 +8,13 @@ Content-Type: application/json
 }
 
 ### Buscar por Id
-GET https://localhost:7151/dicenamics/modificador/fixo/buscar/1
+GET https://localhost:7151/dicenamics/modificadores/fixo/buscar/1
 
 ### Listar modificadores
-GET https://localhost:7151/dicenamics/modificador/fixo/listar
+GET https://localhost:7151/dicenamics/modificadores/fixo/listar
 
 ### Atualizar modificador por id
-PUT https://localhost:7151/dicenamics/modificador/fixo/atualizar/1
+PUT https://localhost:7151/dicenamics/modificadores/fixo/atualizar/1
 Content-Type: application/json
 
 {
@@ -23,4 +23,4 @@ Content-Type: application/json
 }
 
 ### Remover modificador
-DELETE https://localhost:7151/dicenamics/modificador/fixo/deletar/1
+DELETE https://localhost:7151/dicenamics/modificadores/fixo/deletar/1

@@ -6,6 +6,7 @@ using Dicenamics.Models;
 
 namespace Dicenamics.Controllers
 {
+    //https://chat.openai.com/share/e420026c-4fb4-4ed2-9355-97b2dd429214 usado para criar as bases do controller
     [ApiController]
     [Route("dicenamics/usuario")]
     public class UsuarioController : ControllerBase
@@ -17,8 +18,8 @@ namespace Dicenamics.Controllers
             _ctx = context;
         }
 
-        [HttpPost("criarUsuario")]
-        public async Task<IActionResult> CriarUsuario(Usuario usuario)
+        [HttpPost("criar")]
+        public IActionResult CriarUsuario([FromBody] Usuario usuario)
         {
             try
             {
@@ -27,88 +28,132 @@ namespace Dicenamics.Controllers
 
                 return Created("", new { id = usuario.UsuarioId }, usuario);
             }
-                catch (Exception ex)
+            catch (System.Exception e)
             {
-                return BadRequest(new { mensagem = "Ocorreu um erro ao criar o usuário." });
+                Console.WriteLine(e);
+                return BadRequest(e.Message);
             }
         }
 
-        [HttpGet("buscarUsuario")]
-        public async Task<IActionResult> BuscarTodosUsuarios()
+        [HttpGet("listar")]
+        public IActionResult BuscarTodosUsuarios()
         {
-            var usuarios = await _ctx.Usuarios.ToListAsync();
-            return Ok(usuarios);
+        try
+            {
+            List<Usuario> usuarios = _ctx.Usuarios.ToList();
+                return Ok(usuarios);
+            }
+                catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return BadRequest(e.Message);
+            }
         }
 
-        [HttpGet("buscarUsuario/{id}")]
-        public async Task<IActionResult> BuscarUsuarioPorId(int id)
-        {
-            var usuario = await _ctx.Usuarios.FindAsync(id);
+
+        [HttpGet("buscar/{id}")]
+        public IActionResult BuscarUsuarioPorId([FromRoute] int id)
+        {       
+        try
+            {
+        Usuario usuario = _ctx.Usuarios.Find(id);
 
             if (usuario == null)
             {
                 return NotFound();
             }
 
-            return Ok(usuario);
+                return Ok(usuario);
+            }       
+            catch (Exception e)
+            {
+
+            Console.WriteLine(e);
+            return BadRequest(e.Message);
+
+            }
         }
 
-        [HttpGet("buscarUsuario/{username}")]
-        public async Task<IActionResult> BuscarUsuarioPorUsername(string username)
-        {       
-        var usuario = await _ctx.Usuarios.FirstOrDefaultAsync(u => u.Username == username);
+
+        [HttpGet("buscar/{username}")]
+        public IActionResult BuscarUsuarioPorUsername([FromRoute] string username)
+        {
+        try
+            {
+                Usuario usuario = _ctx.Usuarios.FirstOrDefault(u => u.Username == username);
 
         if (usuario == null)
         {
-        return NotFound("Usuario não encontrado.");
+            return NotFound("Usuário não encontrado.");
         }
 
         return Ok(usuario);
         }
-
-        [HttpPut("atualizarUsuario/{id}")]
-        public async Task<IActionResult> AtualizarUsuario(int id, Usuario usuarioAtualizado)
+        catch (Exception e)
         {
-            if (id != (int)usuarioAtualizado.UsuarioId)
+            Console.WriteLine(e);
+            return BadRequest(e.Message);
+            }
+        }
+
+
+        [HttpPut("atualizar/{id}")]
+        public IActionResult AtualizarUsuario([FromRoute] int id, [FromBody] Usuario usuarioAtualizado)
+        {
+            try
             {
-                return BadRequest();
-            }  
+                if (id != usuarioAtualizado.UsuarioId)
+            {
+            return BadRequest();
+            }
 
             _ctx.Entry(usuarioAtualizado).State = EntityState.Modified;
 
-            try
-            {
-                await _ctx.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-            if (!UsuarioExiste(id))
-                {
-                    return NotFound(new { mensagem = "Usuário não encontrado." });
-                }
-                    else
-                {
-                    return BadRequest(new { mensagem = "Ocorreu um erro ao atualizar o usuário." });
-                }
-            }
+            _ctx.SaveChanges();
 
-            return NoContent();
+            return Ok(usuarioAtualizado);
+        }
+            catch (DbUpdateConcurrencyException)
+        {
+        if (!UsuarioExiste(id))
+        {
+            return NotFound(new { mensagem = "Usuário não encontrado." });
+        }
+        else
+        {
+            return BadRequest(new { mensagem = "Ocorreu um erro ao atualizar o usuário." });
+        }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return BadRequest(e.Message);
+            }
         }
 
-        [HttpDelete("excluirUsuario")]
-        public async Task<IActionResult> ExcluirUsuario(int id)
+
+        [HttpDelete("excluir/{id}")]
+        public async Task<IActionResult> ExcluirUsuario([FromRoute] int id)
         {
-            var usuario = await _ctx.Usuarios.FindAsync(id);
+        try
+        {
+        var usuario = await _ctx.Usuarios.FindAsync(id);
 
-            if (usuario == null)
+        if (usuario == null)
+        {
+            return NotFound();
+        }
+
+        _ctx.Usuarios.Remove(usuario);
+        await _ctx.SaveChangesAsync();
+
+        return Ok(usuario);
+        }
+        catch (Exception e)
             {
-                return NotFound();
+                Console.WriteLine(e);
+                return BadRequest(e.Message);
             }
-
-            _ctx.Usuarios.Remove(usuario);
-            await _ctx.SaveChangesAsync();
-
-            return NoContent();
         }
 
         private bool UsuarioExiste(int id)
