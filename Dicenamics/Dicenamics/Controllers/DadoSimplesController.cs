@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Dicenamics.Controllers;
 
 [ApiController]
-[Route("dicenamics/dados/base")]
+[Route("dicenamics/dados/simples")]
 public class DadoSimplesController : ControllerBase
 {
     private readonly AppDatabase _ctx;

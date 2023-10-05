@@ -6,8 +6,8 @@ using Dicenamics.Models;
 
 namespace Dicenamics.Controllers
 {
-    [Route("Controllers/UsuarioController")]
     [ApiController]
+    [Route("dicanamics/usuario")]
     public class UsuarioController : ControllerBase
     {
         private readonly AppDatabase _ctx;
