@@ -141,12 +141,15 @@ public class SalaController : ControllerBase
 
             List<Usuario>? convidados = _ctx.Usuarios.Where(u => salaDTO.ConvidadosId.Contains(u.UsuarioId)).ToList();
             // Arrumar DTOs
-            List<AcessoSalaDados>? dadosCriados = _ctx.AcessosSalasDados.Where(u => salaEncontrada.DadosCriados.Contains(u.SalaId)).ToList();
+            List<DadoSimplesSala> dadosSimples = _ctx.DadosSimplesSalas.Where(d => salaDTO.DadosSimplesSalaId.Contains(salaEncontrada.SalaId)).ToList();
+            List<DadoCompostoSala> dadosCompostos = _ctx.DadosCompostosSalas.Where(d => salaDTO.DadosCompostosSalaId.Contains(salaEncontrada.SalaId)).ToList();
 
             salaEncontrada.Nome = salaDTO.Nome;
             salaEncontrada.Descricao = salaDTO.Descricao;
             salaEncontrada.Convidados = convidados;
-            salaEncontrada.DadosCriados = dadosCriados;
+            salaEncontrada.DadosSimplesSala = dadosSimples;
+            salaEncontrada.DadosCompostosSala = dadosCompostos;
+
 
             _ctx.Salas.Update(salaEncontrada);
             _ctx.SaveChanges();
