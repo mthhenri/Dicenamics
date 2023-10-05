@@ -7,11 +7,7 @@ using Dicenamics.Models;
 namespace Dicenamics.Controllers
 {
     [ApiController]
-<<<<<<< HEAD
     [Route("dicenamics/usuario")]
-=======
-    [Route("dicanamics/usuario")]
->>>>>>> d84c3b6f6f0fccdcf9cd6baf5d8e0dbf2ad7d504
     public class UsuarioController : ControllerBase
     {
         private readonly AppDatabase _ctx;
@@ -29,20 +25,12 @@ namespace Dicenamics.Controllers
                 _ctx.Usuarios.Add(usuario);
                 _ctx.SaveChanges(); 
 
-                return CreatedAtRoute("", new { id = usuario.Id }, usuario);
+                return CreatedAtRoute("", new { id = usuario.UsuarioId }, usuario);
             }
                 catch (Exception ex)
             {
                 return BadRequest(new { mensagem = "Ocorreu um erro ao criar o usuário." });
             }
-<<<<<<< HEAD
-=======
-
-            _ctx.Usuarios.Add(usuario);
-            await _ctx.SaveChangesAsync();
-
-            return CreatedAtRoute("GetUsuario", new { id = usuario.UsuarioId }, usuario);
->>>>>>> d84c3b6f6f0fccdcf9cd6baf5d8e0dbf2ad7d504
         }
 
         [HttpGet("buscarUsuario")]
@@ -65,7 +53,6 @@ namespace Dicenamics.Controllers
             return Ok(usuario);
         }
 
-<<<<<<< HEAD
         [HttpGet("buscarUsuario/{username}")]
         public async Task<IActionResult> BuscarUsuarioPorUsername(string username)
         {       
@@ -74,35 +61,15 @@ namespace Dicenamics.Controllers
         if (usuario == null)
         {
         return NotFound("Usuario não encontrado.");
-=======
-        [HttpGet("buscar")]
-        public async Task<IActionResult> BuscarUsuarioPorUsername([FromBody] string username)
-        {
-            var usuario = _ctx.Usuarios.FirstOrDefault(u => u.Username == username);
-
-            if (usuario == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(usuario);
->>>>>>> d84c3b6f6f0fccdcf9cd6baf5d8e0dbf2ad7d504
         }
 
-    return Ok(usuario);
-}
-
-
+        return Ok(usuario);
+        }
 
         [HttpPut("atualizarUsuario/{id}")]
         public async Task<IActionResult> AtualizarUsuario(int id, Usuario usuarioAtualizado)
-<<<<<<< HEAD
         {
-            if (id != (int)usuarioAtualizado.Id)
-=======
-{
             if (id != (int)usuarioAtualizado.UsuarioId)
->>>>>>> d84c3b6f6f0fccdcf9cd6baf5d8e0dbf2ad7d504
             {
                 return BadRequest();
             }  
