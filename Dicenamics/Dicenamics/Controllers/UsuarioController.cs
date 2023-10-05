@@ -6,6 +6,7 @@ using Dicenamics.Models;
 
 namespace Dicenamics.Controllers
 {
+    //https://chat.openai.com/share/e420026c-4fb4-4ed2-9355-97b2dd429214 usado para criar as bases do controller
     [ApiController]
     [Route("dicenamics/usuario")]
     public class UsuarioController : ControllerBase
@@ -17,33 +18,37 @@ namespace Dicenamics.Controllers
             _ctx = context;
         }
 
-        [HttpPost("criarUsuario")]
-        public async Task<IActionResult> CriarUsuario(Usuario usuario)
+        [HttpPost("criar")]
+        public IActionResult CriarUsuario([FromBody] Usuario usuario)
         {
             try
             {
                 _ctx.Usuarios.Add(usuario);
-                _ctx.SaveChanges(); 
-
-                return CreatedAtRoute("", new { id = usuario.UsuarioId }, usuario);
+                _ctx.SaveChanges();
+                return Created("", usuario);
+                //return CreatedAtRoute("", new { id = usuario.UsuarioId }, usuario);
             }
-                catch (Exception ex)
+            catch (System.Exception e)
             {
-                return BadRequest(new { mensagem = "Ocorreu um erro ao criar o usuário." });
+                Console.WriteLine(e);
+                return BadRequest(e.Message);
             }
         }
 
-        [HttpGet("buscarUsuario")]
-        public async Task<IActionResult> BuscarTodosUsuarios()
+        [HttpGet("listar")]
+        public IActionResult BuscarTodosUsuarios()
         {
-            var usuarios = await _ctx.Usuarios.ToListAsync();
+            //Faltou o trycatch
+            List<Usuario>? usuarios = _ctx.Usuarios.ToList();
             return Ok(usuarios);
         }
 
-        [HttpGet("buscarUsuario/{id}")]
-        public async Task<IActionResult> BuscarUsuarioPorId(int id)
+        [HttpGet("buscar/{id}")]
+        public IActionResult BuscarUsuarioPorId([FromRoute] int id)
         {
-            var usuario = await _ctx.Usuarios.FindAsync(id);
+            //Faltou o trycatch
+            //Usuario? usuario = _ctx.Usuarios.Find(id);
+            Usuario? usuario = _ctx.Usuarios.FirstOrDefault(u => u.UsuarioId == id);
 
             if (usuario == null)
             {
@@ -53,52 +58,57 @@ namespace Dicenamics.Controllers
             return Ok(usuario);
         }
 
-        [HttpGet("buscarUsuario/{username}")]
-        public async Task<IActionResult> BuscarUsuarioPorUsername(string username)
-        {       
-        var usuario = await _ctx.Usuarios.FirstOrDefaultAsync(u => u.Username == username);
+        [HttpGet("buscar/{username}")]
+        public IActionResult BuscarUsuarioPorUsername([FromRoute] string username)
+        {   
+            //Faltou o trycatch    
+            Usuario? usuario = _ctx.Usuarios.FirstOrDefault(u => u.Username == username);
 
-        if (usuario == null)
-        {
-        return NotFound("Usuario não encontrado.");
+            if (usuario == null)
+            {
+                return NotFound("Usuario não encontrado.");
+            }
+
+            return Ok(usuario);
         }
 
-        return Ok(usuario);
-        }
-
-        [HttpPut("atualizarUsuario/{id}")]
-        public async Task<IActionResult> AtualizarUsuario(int id, Usuario usuarioAtualizado)
+        [HttpPut("atualizar/{id}")]
+        public IActionResult AtualizarUsuario([FromRoute] int id, [FromBody] Usuario usuarioAtualizado)
         {
-            if (id != (int)usuarioAtualizado.UsuarioId)
+            //Faltou o trycatch
+            /*
+            if (id != usuarioAtualizado.UsuarioId)
             {
                 return BadRequest();
-            }  
+            }
+            */
 
             _ctx.Entry(usuarioAtualizado).State = EntityState.Modified;
 
             try
             {
-                await _ctx.SaveChangesAsync();
+                _ctx.SaveChanges();
             }
             catch (DbUpdateConcurrencyException)
             {
             if (!UsuarioExiste(id))
                 {
                     return NotFound(new { mensagem = "Usuário não encontrado." });
-                }
-                    else
+                } else
                 {
                     return BadRequest(new { mensagem = "Ocorreu um erro ao atualizar o usuário." });
                 }
             }
 
-            return NoContent();
+            return Ok(usuarioAtualizado);
         }
 
-        [HttpDelete("excluirUsuario")]
-        public async Task<IActionResult> ExcluirUsuario(int id)
+        [HttpDelete("excluir/{id}")]
+        public IActionResult ExcluirUsuario([FromRoute] int id)
         {
-            var usuario = await _ctx.Usuarios.FindAsync(id);
+            //Faltou o try catch
+            //var usuario = await _ctx.Usuarios.FindAsync(id);
+            Usuario? usuario = _ctx.Usuarios.FirstOrDefault(u => u.UsuarioId == id);
 
             if (usuario == null)
             {
@@ -106,9 +116,9 @@ namespace Dicenamics.Controllers
             }
 
             _ctx.Usuarios.Remove(usuario);
-            await _ctx.SaveChangesAsync();
+            _ctx.SaveChanges();
 
-            return NoContent();
+            return Ok(usuario);
         }
 
         private bool UsuarioExiste(int id)
