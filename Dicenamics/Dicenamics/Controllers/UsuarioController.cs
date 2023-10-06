@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Dicenamics.Data;
 using Dicenamics.Models;
+using Dicenamics.DTOs;
 
 
 namespace Dicenamics.Controllers
@@ -19,16 +20,22 @@ namespace Dicenamics.Controllers
         }
 
         [HttpPost("criar")]
-        public IActionResult CriarUsuario([FromBody] Usuario usuario)
+        public IActionResult CriarUsuario([FromBody] UsuarioDTO usuarioDTO)
         {
             try
             {
+                Usuario? usuario = new()
+                {
+                    Nickname = usuarioDTO.Nickname,
+                    Username = usuarioDTO.Username,
+                    Senha = usuarioDTO.Senha             
+                };
                 _ctx.Usuarios.Add(usuario);
                 _ctx.SaveChanges(); 
 
-                return Created("", new { id = usuario.UsuarioId }, usuario);
+                return Created("", usuario);
             }
-            catch (System.Exception e)
+            catch (Exception e)
             {
                 Console.WriteLine(e);
                 return BadRequest(e.Message);
@@ -38,12 +45,16 @@ namespace Dicenamics.Controllers
         [HttpGet("listar")]
         public IActionResult BuscarTodosUsuarios()
         {
-        try
+            try
             {
-            List<Usuario> usuarios = _ctx.Usuarios.ToList();
+                List<Usuario>? usuarios = _ctx.Usuarios.ToList();
+                if(usuarios == null)
+                {
+                    return NotFound();
+                }
                 return Ok(usuarios);
             }
-                catch (Exception e)
+            catch (Exception e)
             {
                 Console.WriteLine(e);
                 return BadRequest(e.Message);
@@ -51,79 +62,81 @@ namespace Dicenamics.Controllers
         }
 
 
-        [HttpGet("buscar/{id}")]
+        [HttpGet("buscar/i/{id}")]
         public IActionResult BuscarUsuarioPorId([FromRoute] int id)
         {       
-        try
+            try
             {
-        Usuario usuario = _ctx.Usuarios.Find(id);
+                Usuario? usuario = _ctx.Usuarios.FirstOrDefault(u => u.UsuarioId == id);
 
-            if (usuario == null)
-            {
-                return NotFound();
-            }
+                if (usuario == null)
+                {
+                    return NotFound();
+                }
 
                 return Ok(usuario);
             }       
             catch (Exception e)
             {
-
-            Console.WriteLine(e);
-            return BadRequest(e.Message);
-
+                Console.WriteLine(e);
+                return BadRequest(e.Message);
             }
         }
 
 
-        [HttpGet("buscar/{username}")]
+        [HttpGet("buscar/u/{username}")]
         public IActionResult BuscarUsuarioPorUsername([FromRoute] string username)
         {
-        try
+            try
             {
-                Usuario usuario = _ctx.Usuarios.FirstOrDefault(u => u.Username == username);
+                Usuario? usuario = _ctx.Usuarios.FirstOrDefault(u => u.Username == username);
 
-        if (usuario == null)
-        {
-            return NotFound("Usuário não encontrado.");
-        }
+                if (usuario == null)
+                {
+                    return NotFound("Usuário não encontrado.");
+                }
 
-        return Ok(usuario);
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine(e);
-            return BadRequest(e.Message);
+                return Ok(usuario);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return BadRequest(e.Message);
             }
         }
 
 
         [HttpPut("atualizar/{id}")]
-        public IActionResult AtualizarUsuario([FromRoute] int id, [FromBody] Usuario usuarioAtualizado)
+        public IActionResult AtualizarUsuario([FromRoute] int id, [FromBody] UsuarioDTO usuarioAtualizadoDTO)
         {
             try
             {
-                if (id != usuarioAtualizado.UsuarioId)
+                Usuario? usuario = _ctx.Usuarios.FirstOrDefault(u => u.UsuarioId == id);
+                List<DadoSimples> dadosSimples = _ctx.DadosSimples.Where(d => usuarioAtualizadoDTO.DadosCompostosPessoaisIds.Contains(d.DadoSimplesId)).ToList();
+                List<DadoComposto> dadosCompostos = _ctx.DadosCompostos.Where(d => usuarioAtualizadoDTO.DadosCompostosPessoaisIds.Contains(d.DadoCompostoId)).ToList();
+                //_ctx.Entry(usuarioAtualizadoDTO).State = EntityState.Modified;
+
+                usuario.Username = usuarioAtualizadoDTO.Username;
+                usuario.Nickname = usuarioAtualizadoDTO.Nickname;
+                usuario.Senha = usuarioAtualizadoDTO.Senha;
+                usuario.DadosSimplesPessoais = dadosSimples;
+                usuario.DadosCompostosPessoais = dadosCompostos;
+
+                _ctx.Usuarios.Update(usuario);
+                _ctx.SaveChanges();
+                return Ok(usuario);
+            }/*
+                catch (DbUpdateConcurrencyException)
             {
-            return BadRequest();
-            }
-
-            _ctx.Entry(usuarioAtualizado).State = EntityState.Modified;
-
-            _ctx.SaveChanges();
-
-            return Ok(usuarioAtualizado);
-        }
-            catch (DbUpdateConcurrencyException)
-        {
-        if (!UsuarioExiste(id))
-        {
-            return NotFound(new { mensagem = "Usuário não encontrado." });
-        }
-        else
-        {
-            return BadRequest(new { mensagem = "Ocorreu um erro ao atualizar o usuário." });
-        }
-            }
+                if (!UsuarioExiste(id))
+                {
+                    return NotFound(new { mensagem = "Usuário não encontrado." });
+                }
+                else
+                {
+                    return BadRequest(new { mensagem = "Ocorreu um erro ao atualizar o usuário." });
+                }
+            }*/
             catch (Exception e)
             {
                 Console.WriteLine(e);
@@ -133,23 +146,23 @@ namespace Dicenamics.Controllers
 
 
         [HttpDelete("excluir/{id}")]
-        public async Task<IActionResult> ExcluirUsuario([FromRoute] int id)
+        public IActionResult ExcluirUsuario([FromRoute] int id)
         {
-        try
-        {
-        var usuario = await _ctx.Usuarios.FindAsync(id);
+            try
+            {
+                Usuario? usuario = _ctx.Usuarios.FirstOrDefault(u => u.UsuarioId == id);
 
-        if (usuario == null)
-        {
-            return NotFound();
-        }
+                if (usuario == null)
+                {
+                    return NotFound();
+                }
 
-        _ctx.Usuarios.Remove(usuario);
-        await _ctx.SaveChangesAsync();
+                _ctx.Usuarios.Remove(usuario);
+                _ctx.SaveChanges();
 
-        return Ok(usuario);
-        }
-        catch (Exception e)
+                return Ok(usuario);
+            }
+            catch (Exception e)
             {
                 Console.WriteLine(e);
                 return BadRequest(e.Message);
