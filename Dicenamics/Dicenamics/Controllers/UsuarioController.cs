@@ -112,8 +112,8 @@ namespace Dicenamics.Controllers
             try
             {
                 Usuario? usuario = _ctx.Usuarios.FirstOrDefault(u => u.UsuarioId == id);
-                List<DadoSimples> dadosSimples = _ctx.DadosSimples.Where(d => usuarioAtualizadoDTO.DadosCompostosPessoaisIds.Contains(d.DadoSimplesId)).ToList();
-                List<DadoComposto> dadosCompostos = _ctx.DadosCompostos.Where(d => usuarioAtualizadoDTO.DadosCompostosPessoaisIds.Contains(d.DadoCompostoId)).ToList();
+                List<DadoSimples> dadosSimples = _ctx.DadosSimples.Where(d => usuarioAtualizadoDTO.DadosCompostosPessoaisIds.Contains(d.DadoId)).ToList();
+                List<DadoComposto> dadosCompostos = _ctx.DadosCompostos.Where(d => usuarioAtualizadoDTO.DadosCompostosPessoaisIds.Contains(d.DadoId)).ToList();
                 //_ctx.Entry(usuarioAtualizadoDTO).State = EntityState.Modified;
 
                 usuario.Username = usuarioAtualizadoDTO.Username;

@@ -27,8 +27,7 @@ public class DadoSimplesController : ControllerBase
             {
                 Nome = dadoDTO.Nome,
                 Faces = dadoDTO.Faces,
-                Quantidade = dadoDTO.Quantidade,
-                Condicao = dadoDTO.Condicao
+                Quantidade = dadoDTO.Quantidade
             };
             if (dado == null)
             {
@@ -52,7 +51,7 @@ public class DadoSimplesController : ControllerBase
     {
         try
         {
-            DadoSimples? dado = _ctx.DadosSimples.FirstOrDefault(x => x.DadoSimplesId == id);
+            DadoSimples? dado = _ctx.DadosSimples.FirstOrDefault(x => x.DadoId == id);
 
             if (dado == null)
             {
@@ -93,7 +92,7 @@ public class DadoSimplesController : ControllerBase
     {
         try
         {
-            DadoSimples? dado = _ctx.DadosSimples.FirstOrDefault(x => x.DadoSimplesId == id);
+            DadoSimples? dado = _ctx.DadosSimples.FirstOrDefault(x => x.DadoId == id);
             if (dado == null)
             {
                 return NotFound();
@@ -101,7 +100,6 @@ public class DadoSimplesController : ControllerBase
             dado.Nome = dadoDTO.Nome;
             dado.Faces = dadoDTO.Faces;
             dado.Quantidade = dadoDTO.Quantidade;
-            dado.Condicao = dadoDTO.Condicao;
             if (dado == null)
             {
                 return NotFound();
@@ -123,7 +121,7 @@ public class DadoSimplesController : ControllerBase
     {
         try
         {
-            DadoSimples? dado = _ctx.DadosSimples.FirstOrDefault(x => x.DadoSimplesId == id);
+            DadoSimples? dado = _ctx.DadosSimples.FirstOrDefault(x => x.DadoId == id);
             if (dado == null)
             {
                 return NotFound();
@@ -144,7 +142,7 @@ public class DadoSimplesController : ControllerBase
     {
         try
         {
-            DadoSimples? dado = _ctx.DadosSimples.FirstOrDefault(x => x.DadoSimplesId == id);
+            DadoSimples? dado = _ctx.DadosSimples.FirstOrDefault(x => x.DadoId == id);
             if (dado == null)
             {
                 return NotFound();

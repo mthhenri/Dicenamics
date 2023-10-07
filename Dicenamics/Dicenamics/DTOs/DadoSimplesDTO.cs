@@ -4,5 +4,4 @@ public class DadoSimplesDTO
     public string? Nome { get; set; }
     public int Faces { get; set; }
     public int Quantidade { get; set; }
-    public string? Condicao { get; set; }
 }
