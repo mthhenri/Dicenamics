@@ -11,6 +11,7 @@ public class DadoSimples
     public int Faces { get; set; }
     public string? Nome { get; set; }
     public int Quantidade { get; set; }
+    [JsonIgnore]
     public int ModificadorVariavelId { get; set; }
     [JsonIgnore]
     public ModificadorVariavel ModificadorVariavel { get; set; }

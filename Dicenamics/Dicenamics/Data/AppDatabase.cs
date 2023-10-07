@@ -59,6 +59,20 @@ public class AppDatabase : DbContext
             .HasOne(df => df.ModificadorVariavel)
             .WithMany(mv => mv.Variaveis) 
             .HasForeignKey(df => df.ModificadorId);
+        
+        modelBuilder.Entity<SalaUsuario>()
+            .HasKey(us => us.SalaUsuarioId);
+
+        modelBuilder.Entity<SalaUsuario>()
+            .HasOne(us => us.Usuario)
+            .WithMany(u => u.Salas)
+            .HasForeignKey(us => us.UsuarioId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        modelBuilder.Entity<SalaUsuario>()
+            .HasOne(us => us.Sala)
+            .WithMany(s => s.Convidados)
+            .HasForeignKey(us => us.SalaId);
 
         base.OnModelCreating(modelBuilder);
     }

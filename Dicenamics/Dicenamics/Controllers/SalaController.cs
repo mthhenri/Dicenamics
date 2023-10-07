@@ -1,7 +1,9 @@
+using System.Linq;
 using Dicenamics.Data;
 using Dicenamics.DTOs;
 using Dicenamics.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query.Internal;
 
 namespace Dicenamics.Controllers;
@@ -24,8 +26,17 @@ public class SalaController : ControllerBase
     {
         try
         {
-            Usuario? UsuarioEncontrado = _ctx.Usuarios.FirstOrDefault(x => x.UsuarioId == salaDTO.UsuarioMestreId);
-            List<Usuario>? convidados = _ctx.Usuarios.Where(u => salaDTO.ConvidadosId.Contains(u.UsuarioId)).ToList();
+            Usuario? UsuarioEncontrado = _ctx.Usuarios.Include(u => u.DadosCompostosPessoais).Include(u => u.DadosSimplesPessoais).FirstOrDefault(x => x.UsuarioId == salaDTO.UsuarioMestreId);
+            List<Usuario> convidado = _ctx.Usuarios.Where(s => salaDTO.ConvidadosId.Contains(s.UsuarioId)).Include(u => u.DadosCompostosPessoais).Include(u => u.DadosSimplesPessoais).ToList();
+            List<SalaUsuario> convidados = new();
+            foreach (var item in convidado)
+            {
+                SalaUsuario salaU = new()
+                {
+                    Usuario = item
+                };
+                convidados.Add(salaU);
+            }
             Sala sala = new()
             {
                 Nome = salaDTO.Nome,
@@ -34,6 +45,8 @@ public class SalaController : ControllerBase
                 UsuarioMestre = UsuarioEncontrado,
                 Convidados = convidados
             };
+            _ctx.Usuarios.UpdateRange(sala.UsuarioMestre);
+            _ctx.Usuarios.UpdateRange(convidado);
             _ctx.Salas.Add(sala);
             _ctx.SaveChanges();
             return Created("", sala);
@@ -46,16 +59,19 @@ public class SalaController : ControllerBase
     }
 
     // Read
-    [HttpGet("buscar/{id}")]
+    [HttpGet("buscar/id/{id}")]
     public IActionResult ObterSalaPorId([FromRoute] int id)
     {
         try
         {
-            Sala? sala = _ctx.Salas.FirstOrDefault(x => x.SalaId == id);
+            //Precisa buscar os DadosSimplesPessoais e DadosCompostosPessoais do UsuárioMestre e Convidados
+            Sala? sala = _ctx.Salas.Include(s => s.DadosCompostosSala).Include(s => s.DadosSimplesSala).Include(s => s.UsuarioMestre).Include(s => s.Convidados).FirstOrDefault(x => x.SalaId == id);
+
             if(sala == null)
             {
                 return NotFound();
             } 
+
             return Ok(sala);
         } 
         catch(System.Exception e)
@@ -66,13 +82,14 @@ public class SalaController : ControllerBase
     }
 
     // Busca por IdLink
-    [HttpGet("buscar/{idLink}")]
+    [HttpGet("buscar/link/{idLink}")]
 
     public IActionResult BuscarSalaPorIdLink([FromRoute] string idLink)
     {
         try
         {
-            Sala? SalaEncontrada = _ctx.Salas.FirstOrDefault(x => x.IdLink == idLink);
+            //Precisa buscar os DadosSimplesPessoais e DadosCompostosPessoais do UsuárioMestre e Convidados
+            Sala? SalaEncontrada = _ctx.Salas.Include(s => s.DadosCompostosSala).Include(s => s.DadosSimplesSala).Include(s => s.UsuarioMestre).Include(s => s.Convidados).FirstOrDefault(x => x.IdLink == idLink);
             if(SalaEncontrada == null)
             {
                 return NotFound();
@@ -87,13 +104,14 @@ public class SalaController : ControllerBase
     }
 
     // Busca por IdSimples
-    [HttpGet("buscar/{idSimples}")]
+    [HttpGet("buscar/six/{idSimples}")]
 
     public IActionResult BuscarSalaPorIdSimples([FromRoute] int idSimples)
     {
         try
         {
-            Sala? SalaEncontrada = _ctx.Salas.FirstOrDefault(x => x.IdSimples == idSimples);
+            //Precisa buscar os DadosSimplesPessoais e DadosCompostosPessoais do UsuárioMestre e Convidados
+            Sala? SalaEncontrada = _ctx.Salas.Include(s => s.DadosCompostosSala).Include(s => s.DadosSimplesSala).Include(s => s.UsuarioMestre).Include(s => s.Convidados).FirstOrDefault(x => x.IdSimples == idSimples);
             if(SalaEncontrada == null)
             {
                 return NotFound();
@@ -113,7 +131,8 @@ public class SalaController : ControllerBase
     {
         try
         {
-            List<Sala> salas = _ctx.Salas.ToList();
+            //Precisa buscar os DadosSimplesPessoais e DadosCompostosPessoais do UsuárioMestre e Convidados
+            List<Sala> salas = _ctx.Salas.Include(s => s.DadosCompostosSala).Include(s => s.DadosSimplesSala).Include(s => s.UsuarioMestre).Include(s => s.Convidados).ToList();
             if(salas == null)
             {
                 return NotFound();
@@ -139,8 +158,17 @@ public class SalaController : ControllerBase
                 return NotFound();
             }
 
-            List<Usuario>? convidados = _ctx.Usuarios.Where(u => salaDTO.ConvidadosId.Contains(u.UsuarioId)).ToList();
-            // Arrumar DTOs
+            List<Usuario> convidado = _ctx.Usuarios.Where(s => salaDTO.ConvidadosId.Contains(s.UsuarioId)).ToList();
+            List<SalaUsuario> convidados = new();
+            foreach (var item in convidado)
+            {
+                SalaUsuario salaU = new()
+                {
+                    Usuario = item
+                };
+                convidados.Add(salaU);
+            }
+
             List<DadoSimplesSala>? dadosSimples = _ctx.DadosSimplesSalas.Where(d => salaDTO.DadosSimplesSalaId.Contains(salaEncontrada.SalaId)).ToList();
             List<DadoCompostoSala>? dadosCompostos = _ctx.DadosCompostosSalas.Where(d => salaDTO.DadosCompostosSalaId.Contains(salaEncontrada.SalaId)).ToList();
 
@@ -168,11 +196,14 @@ public class SalaController : ControllerBase
     {
         try
         {
+            //Arrumar
             Sala? sala = _ctx.Salas.FirstOrDefault(x => x.SalaId == id);
             if(sala == null)
             {
                 return NotFound();
             }
+
+            _ctx.Usuarios.UpdateRange(sala.UsuarioMestre);
             _ctx.Salas.Remove(sala);
             _ctx.SaveChanges();
             return Ok(sala);

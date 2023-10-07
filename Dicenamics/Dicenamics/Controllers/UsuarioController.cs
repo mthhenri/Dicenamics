@@ -47,7 +47,7 @@ namespace Dicenamics.Controllers
         {
             try
             {
-                List<Usuario>? usuarios = _ctx.Usuarios.ToList();
+                List<Usuario>? usuarios = _ctx.Usuarios.Include(d => d.DadosCompostosPessoais).Include(d => d.DadosSimplesPessoais).ToList();
                 if(usuarios == null)
                 {
                     return NotFound();
@@ -67,7 +67,7 @@ namespace Dicenamics.Controllers
         {       
             try
             {
-                Usuario? usuario = _ctx.Usuarios.FirstOrDefault(u => u.UsuarioId == id);
+                Usuario? usuario = _ctx.Usuarios.Include(d => d.DadosCompostosPessoais).Include(d => d.DadosSimplesPessoais).FirstOrDefault(u => u.UsuarioId == id);
 
                 if (usuario == null)
                 {
@@ -89,7 +89,7 @@ namespace Dicenamics.Controllers
         {
             try
             {
-                Usuario? usuario = _ctx.Usuarios.FirstOrDefault(u => u.Username == username);
+                Usuario? usuario = _ctx.Usuarios.Include(d => d.DadosCompostosPessoais).Include(d => d.DadosSimplesPessoais).FirstOrDefault(u => u.Username == username);
 
                 if (usuario == null)
                 {
@@ -150,13 +150,15 @@ namespace Dicenamics.Controllers
         {
             try
             {
-                Usuario? usuario = _ctx.Usuarios.FirstOrDefault(u => u.UsuarioId == id);
+                Usuario? usuario = _ctx.Usuarios.Include(d => d.DadosCompostosPessoais).Include(d => d.DadosSimplesPessoais).FirstOrDefault(u => u.UsuarioId == id);
 
                 if (usuario == null)
                 {
                     return NotFound();
                 }
 
+                _ctx.DadosSimples.RemoveRange(usuario.DadosSimplesPessoais);
+                _ctx.DadosCompostos.RemoveRange(usuario.DadosCompostosPessoais);
                 _ctx.Usuarios.Remove(usuario);
                 _ctx.SaveChanges();
 

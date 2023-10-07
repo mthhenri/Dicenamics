@@ -56,7 +56,7 @@ public class ModificadorVariavelController : ControllerBase
     {
         try
         {
-            ModificadorVariavel? modificadorVariavel = _ctx.ModificadoresVariaveis.FirstOrDefault(x => x.ModificadorVariavelId == id);
+            ModificadorVariavel? modificadorVariavel = _ctx.ModificadoresVariaveis.Include(d => d.Dado).FirstOrDefault(x => x.ModificadorVariavelId == id);
             if(modificadorVariavel == null)
             {
                 return NotFound();
@@ -74,7 +74,7 @@ public class ModificadorVariavelController : ControllerBase
     {
         try
         {
-            List<ModificadorVariavel> modificadoresVariaveis = _ctx.ModificadoresVariaveis.ToList();
+            List<ModificadorVariavel> modificadoresVariaveis = _ctx.ModificadoresVariaveis.Include(d => d.Dado).ToList();
             if(modificadoresVariaveis == null)
             {
                 return  NotFound();
@@ -94,32 +94,20 @@ public class ModificadorVariavelController : ControllerBase
     {
         try
         {
-            ModificadorVariavel? modificadorVariavelEncontrado = _ctx.ModificadoresVariaveis.FirstOrDefault(x => x.ModificadorVariavelId == id);
+            ModificadorVariavel? modificadorVariavelEncontrado = _ctx.ModificadoresVariaveis.Include(d => d.Dado).FirstOrDefault(x => x.ModificadorVariavelId == id);
             if(modificadorVariavelEncontrado == null)
             {
                 return NotFound();
             }
-            DadoSimples? dadoMod = new()
-            {
-                Nome = modificadorVariavelDTO.Dado.Nome,
-                Faces = modificadorVariavelDTO.Dado.Faces,
-                Quantidade = modificadorVariavelDTO.Dado.Quantidade
-            };
+
             modificadorVariavelEncontrado.Nome = modificadorVariavelDTO.Nome;
-            modificadorVariavelEncontrado.Dado = dadoMod;
-            var dado = _ctx.DadosSimples.FirstOrDefault(x => x.DadoId == modificadorVariavelEncontrado.DadoSimplesId);
-            if(dado == null)
-            {
-                return NotFound();
-            }
-            dado.Nome = dadoMod.Nome;
-            dado.Faces = dadoMod.Faces;
-            dado.Quantidade = dadoMod.Quantidade;
-            _ctx.DadosSimples.Update(dado);
+            modificadorVariavelEncontrado.Dado.Nome = modificadorVariavelDTO.Dado.Nome;
+            modificadorVariavelEncontrado.Dado.Faces = modificadorVariavelDTO.Dado.Faces;
+            modificadorVariavelEncontrado.Dado.Quantidade = modificadorVariavelDTO.Dado.Quantidade;
+            
             _ctx.ModificadoresVariaveis.Update(modificadorVariavelEncontrado);
             _ctx.SaveChanges();
             return Ok(modificadorVariavelEncontrado);
-
         } 
         catch(System.Exception e)
         {
@@ -134,12 +122,13 @@ public class ModificadorVariavelController : ControllerBase
     {
         try
         {
-            ModificadorVariavel? modificadorVariavel = _ctx.ModificadoresVariaveis.FirstOrDefault(x => x.ModificadorVariavelId == id);
+            ModificadorVariavel? modificadorVariavel = _ctx.ModificadoresVariaveis.Include(d => d.Dado).FirstOrDefault(x => x.ModificadorVariavelId == id);
             if(modificadorVariavel == null)
             {
                 return NotFound();
             }
 
+            _ctx.DadosSimples.RemoveRange(modificadorVariavel.Dado);
             _ctx.ModificadoresVariaveis.Remove(modificadorVariavel);
             _ctx.SaveChanges();
             return Ok(modificadorVariavel);
@@ -157,7 +146,7 @@ public class ModificadorVariavelController : ControllerBase
     {
         try
         {
-            ModificadorVariavel? modificadorVariavel = _ctx.ModificadoresVariaveis.FirstOrDefault(x => x.ModificadorVariavelId == id);
+            ModificadorVariavel? modificadorVariavel = _ctx.ModificadoresVariaveis.Include(d => d.Dado).FirstOrDefault(x => x.ModificadorVariavelId == id);
             if(modificadorVariavel == null)
             {
                 return NotFound();

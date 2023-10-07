@@ -140,7 +140,7 @@ public class DadoCompostoController : ControllerBase
             dado.Fixos = fixos;
             dado.Variaveis = variaveis;
 
-            _ctx.Update(dado);
+            _ctx.DadosCompostos.Update(dado);
             _ctx.SaveChanges();
 
             return Ok(dado);
@@ -162,7 +162,7 @@ public class DadoCompostoController : ControllerBase
             {
                 return NotFound();
             }
-            _ctx.Remove(dado);
+            _ctx.DadosCompostos.Remove(dado);
             _ctx.SaveChanges();
             return Ok(dado);
         }

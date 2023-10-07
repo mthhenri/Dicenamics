@@ -1,3 +1,5 @@
+using System.Text.Json.Serialization;
+
 namespace Dicenamics.Models;
 
     public class Usuario
@@ -8,6 +10,8 @@ namespace Dicenamics.Models;
         public string? Senha { get; set; }
         public List<DadoSimples>? DadosSimplesPessoais { get; set; }
         public List<DadoComposto>? DadosCompostosPessoais { get; set; }
+        [JsonIgnore]
+        public List<SalaUsuario>? Salas { get; set; }
         
         public bool CompararUsername(string outroUsername)
         {
