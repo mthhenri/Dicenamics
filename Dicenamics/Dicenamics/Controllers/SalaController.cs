@@ -197,7 +197,7 @@ public class SalaController : ControllerBase
         try
         {
             //Arrumar
-            Sala? sala = _ctx.Salas.FirstOrDefault(x => x.SalaId == id);
+            Sala? sala = _ctx.Salas.Include(s => s.UsuarioMestre).FirstOrDefault(b => b.SalaId == id);
             if(sala == null)
             {
                 return NotFound();
