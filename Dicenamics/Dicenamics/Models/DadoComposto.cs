@@ -65,9 +65,6 @@ public class DadoComposto
                 escolhidos = tempVar;
             }
 
-           
-
-
             eResultados.Add(resultados);
             eResultados.Add(escolhidos);
             return eResultados;
@@ -86,7 +83,7 @@ public class DadoComposto
             {
                 total += valor;
             }
-            escolhidos.Add(total);
+            
             eResultados.Add(resultados);
             eResultados.Add(escolhidos);
             return eResultados;

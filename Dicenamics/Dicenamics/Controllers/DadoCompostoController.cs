@@ -71,7 +71,14 @@ public class DadoCompostoController : ControllerBase
     {
         try
         {
-            List<DadoComposto>? dados = _ctx.DadosCompostos.Include(d => d.Fixos).ThenInclude(f => f.ModificadorFixo).Include(d => d.Variaveis).ThenInclude(f => f.ModificadorVariavel).ToList();
+            List<DadoComposto>? dados = 
+                _ctx.DadosCompostos
+                    .Include(d => d.Fixos)
+                        .ThenInclude(f => f.ModificadorFixo)
+                    .Include(d => d.Variaveis)
+                        .ThenInclude(f => f.ModificadorVariavel)
+                            .ThenInclude(f => f.Dado)
+                    .ToList();
             if (dados == null)
             {
                 return NotFound();

@@ -3,7 +3,7 @@ namespace Dicenamics.Models;
 public class DadoCompostoSala
 {
     public int DadoCompostoSalaId { get; set; }  
-    public Boolean AcessoPrivado { get; set; } 
+    public bool AcessoPrivado { get; set; } 
     public Usuario Criador { get; set; }
     public int CriadorId { get; set; }
     public int Faces { get; set; }

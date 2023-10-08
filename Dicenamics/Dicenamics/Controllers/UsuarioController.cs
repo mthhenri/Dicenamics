@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Dicenamics.Data;
 using Dicenamics.Models;
 using Dicenamics.DTOs;
+using Dicenamics.DTO;
 
 
 namespace Dicenamics.Controllers
@@ -24,12 +25,26 @@ namespace Dicenamics.Controllers
         {
             try
             {
+                List<DadoComposto> vazioC = new();
+                List<DadoSimples> vazioS = new();
                 Usuario? usuario = new()
                 {
                     Nickname = usuarioDTO.Nickname,
                     Username = usuarioDTO.Username,
-                    Senha = usuarioDTO.Senha             
+                    Senha = usuarioDTO.Senha,
+                    DadosSimplesPessoais = vazioS,
+                    DadosCompostosPessoais = vazioC
                 };
+
+                if(usuario == null)
+                {
+                    return NotFound();
+                }
+
+                if(_ctx.Usuarios.FirstOrDefault(u => u.Username == usuario.Username) != null)
+                {
+                    return BadRequest("Usuario já existente");
+                }
                 _ctx.Usuarios.Add(usuario);
                 _ctx.SaveChanges(); 
 
@@ -47,7 +62,17 @@ namespace Dicenamics.Controllers
         {
             try
             {
-                List<Usuario>? usuarios = _ctx.Usuarios.Include(d => d.DadosCompostosPessoais).Include(d => d.DadosSimplesPessoais).ToList();
+                List<Usuario>? usuarios = 
+                    _ctx.Usuarios
+                        .Include(d => d.DadosSimplesPessoais)
+                        .Include(d => d.DadosCompostosPessoais)
+                            .ThenInclude(d => d.Fixos)
+                                .ThenInclude(d => d.ModificadorFixo)
+                        .Include(d => d.DadosCompostosPessoais)
+                            .ThenInclude(d => d.Variaveis)
+                                .ThenInclude(d => d.ModificadorVariavel)
+                                    .ThenInclude(d => d.Dado)
+                        .ToList();
                 if(usuarios == null)
                 {
                     return NotFound();
@@ -68,11 +93,27 @@ namespace Dicenamics.Controllers
             try
             {
                 Usuario? usuario = _ctx.Usuarios.Include(d => d.DadosCompostosPessoais).Include(d => d.DadosSimplesPessoais).FirstOrDefault(u => u.UsuarioId == id);
-
+                
                 if (usuario == null)
                 {
                     return NotFound();
                 }
+                
+                List<DadoSimples> ds = new();
+                foreach (var dadoS in usuario.DadosSimplesPessoais)
+                {
+                    DadoSimples dado = _ctx.DadosSimples.FirstOrDefault(d => d.DadoId == dadoS.DadoId);
+                    ds.Add(dado);
+                }
+                usuario.DadosSimplesPessoais = ds;
+
+                List<DadoComposto> dc = new();
+                foreach (var dadoS in usuario.DadosCompostosPessoais)
+                {
+                    DadoComposto dado = _ctx.DadosCompostos.Include(d => d.Variaveis).ThenInclude(v => v.ModificadorVariavel).ThenInclude(d => d.Dado).Include(d => d.Fixos).ThenInclude(f => f.ModificadorFixo).FirstOrDefault(d => d.DadoId == dadoS.DadoId);
+                    dc.Add(dado);
+                }
+                usuario.DadosCompostosPessoais = dc;          
 
                 return Ok(usuario);
             }       
@@ -96,6 +137,22 @@ namespace Dicenamics.Controllers
                     return NotFound("Usuário não encontrado.");
                 }
 
+                List<DadoSimples> ds = new();
+                foreach (var dadoS in usuario.DadosSimplesPessoais)
+                {
+                    DadoSimples dado = _ctx.DadosSimples.FirstOrDefault(d => d.DadoId == dadoS.DadoId);
+                    ds.Add(dado);
+                }
+                usuario.DadosSimplesPessoais = ds;
+
+                List<DadoComposto> dc = new();
+                foreach (var dadoS in usuario.DadosCompostosPessoais)
+                {
+                    DadoComposto dado = _ctx.DadosCompostos.Include(d => d.Variaveis).ThenInclude(v => v.ModificadorVariavel).ThenInclude(d => d.Dado).Include(d => d.Fixos).ThenInclude(f => f.ModificadorFixo).FirstOrDefault(d => d.DadoId == dadoS.DadoId);
+                    dc.Add(dado);
+                }
+                usuario.DadosCompostosPessoais = dc;    
+
                 return Ok(usuario);
             }
             catch (Exception e)
@@ -114,7 +171,6 @@ namespace Dicenamics.Controllers
                 Usuario? usuario = _ctx.Usuarios.FirstOrDefault(u => u.UsuarioId == id);
                 List<DadoSimples> dadosSimples = _ctx.DadosSimples.Where(d => usuarioAtualizadoDTO.DadosCompostosPessoaisIds.Contains(d.DadoId)).ToList();
                 List<DadoComposto> dadosCompostos = _ctx.DadosCompostos.Where(d => usuarioAtualizadoDTO.DadosCompostosPessoaisIds.Contains(d.DadoId)).ToList();
-                //_ctx.Entry(usuarioAtualizadoDTO).State = EntityState.Modified;
 
                 usuario.Username = usuarioAtualizadoDTO.Username;
                 usuario.Nickname = usuarioAtualizadoDTO.Nickname;
@@ -125,18 +181,96 @@ namespace Dicenamics.Controllers
                 _ctx.Usuarios.Update(usuario);
                 _ctx.SaveChanges();
                 return Ok(usuario);
-            }/*
-                catch (DbUpdateConcurrencyException)
+            }
+            catch (Exception e)
             {
-                if (!UsuarioExiste(id))
+                Console.WriteLine(e);
+                return BadRequest(e.Message);
+            }
+        }
+
+        [HttpPut("adicionarDado/simples/{id}")]
+        public IActionResult AdicionarDadoS([FromRoute] int id, [FromBody] DadoSimplesDTO dadoAdd)
+        {
+            try
+            {
+                Usuario? usuario = _ctx.Usuarios.Include(d => d.DadosCompostosPessoais).Include(d => d.DadosSimplesPessoais).FirstOrDefault(u => u.UsuarioId == id);
+
+                if (usuario == null)
                 {
-                    return NotFound(new { mensagem = "Usuário não encontrado." });
+                    return NotFound();
                 }
-                else
+
+                DadoSimples? dadoNovo = new()
                 {
-                    return BadRequest(new { mensagem = "Ocorreu um erro ao atualizar o usuário." });
+                    Nome = dadoAdd.Nome,
+                    Faces = dadoAdd.Faces,
+                    Quantidade = dadoAdd.Quantidade
+                };
+                _ctx.DadosSimples.Add(dadoNovo);
+                usuario.DadosSimplesPessoais.Add(dadoNovo);
+                _ctx.Usuarios.Update(usuario);
+                _ctx.SaveChanges();
+                
+                return Ok(usuario);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return BadRequest(e.Message);
+            }
+        }
+
+        [HttpPut("adicionarDado/composto/{id}")]
+        public IActionResult AdicionarDadoC([FromRoute] int id, [FromBody] DadoCompostoDTO dadoAdd)
+        {
+            try
+            {
+                Usuario? usuario = _ctx.Usuarios.Include(d => d.DadosCompostosPessoais).Include(d => d.DadosSimplesPessoais).FirstOrDefault(u => u.UsuarioId == id);
+
+                if (usuario == null)
+                {
+                    return NotFound();
                 }
-            }*/
+
+                List<DadoCompostoModFixo> fixos = new();
+                List<DadoCompostoModVar> variaveis = new();
+                List<ModificadorFixo> fixo = _ctx.ModificadoresFixos.Where(mf => dadoAdd.Fixos.Contains(mf.ModificadorFixoId)).ToList();
+                List<ModificadorVariavel> variavel = _ctx.ModificadoresVariaveis.Where(mf => dadoAdd.Variaveis.Contains(mf.ModificadorVariavelId)).Include(d => d.Dado).ToList();
+                
+                foreach (var item in fixo)
+                {
+                    DadoCompostoModFixo mods = new()
+                    {
+                        ModificadorFixo = item
+                    };
+                    fixos.Add(mods);
+                }
+                foreach (var item in variavel)
+                {
+                    DadoCompostoModVar mods = new()
+                    {
+                        ModificadorVariavel = item
+                    };
+                    variaveis.Add(mods);
+                }
+
+                DadoComposto? dadoNovo = new()
+                {
+                    Nome = dadoAdd.Nome,
+                    Faces = dadoAdd.Faces,
+                    Quantidade = dadoAdd.Quantidade,
+                    Condicao = dadoAdd.Condicao,
+                    Fixos = fixos,
+                    Variaveis = variaveis
+                };
+                _ctx.DadosCompostos.Add(dadoNovo);
+                usuario.DadosCompostosPessoais.Add(dadoNovo);
+                _ctx.Usuarios.Update(usuario);
+                _ctx.SaveChanges();
+                
+                return Ok(usuario);
+            }
             catch (Exception e)
             {
                 Console.WriteLine(e);
@@ -169,11 +303,6 @@ namespace Dicenamics.Controllers
                 Console.WriteLine(e);
                 return BadRequest(e.Message);
             }
-        }
-
-        private bool UsuarioExiste(int id)
-        {
-            return _ctx.Usuarios.Any(u => (int)u.UsuarioId == id);
         }
     }
 }
