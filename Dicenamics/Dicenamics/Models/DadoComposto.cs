@@ -69,7 +69,7 @@ public class DadoComposto
             eResultados.Add(escolhidos);
             return eResultados;
 
-        //fazer tudo daqui pra baixo
+        
         }else if (string.Equals(Condicao, "std", StringComparison.OrdinalIgnoreCase))
         {
 
@@ -83,7 +83,28 @@ public class DadoComposto
             {
                 total += valor;
             }
+
+            if(Fixos != null)
+            {
+                foreach (var val in Fixos)
+                {
+                    total += val.ModificadorFixo.Valor;
+                }
+            }
             
+            if(Variaveis != null)
+            {
+                for (int i = 0; i < Variaveis.Count; i++)
+                {
+                    List<int> dados = Variaveis[i].ModificadorVariavel.Dado.RolarDado();
+                    foreach (var valorDado in dados)
+                    {
+                        total += valorDado;       
+                    }
+                }
+            }
+
+            escolhidos.Add(total);
             eResultados.Add(resultados);
             eResultados.Add(escolhidos);
             return eResultados;
@@ -104,6 +125,27 @@ public class DadoComposto
                     maiorV = valor;
                 }
             }
+
+            if(Fixos != null)
+            {
+                foreach (var val in Fixos)
+                {
+                    maiorV += val.ModificadorFixo.Valor;
+                }
+            }
+            
+            if(Variaveis != null)
+            {
+                for (int i = 0; i < Variaveis.Count; i++)
+                {
+                    List<int> dados = Variaveis[i].ModificadorVariavel.Dado.RolarDado();
+                    foreach (var valorDado in dados)
+                    {
+                        maiorV += valorDado;       
+                    }
+                }
+            }
+
             escolhidos.Add(maiorV);
             eResultados.Add(resultados);
             eResultados.Add(escolhidos);
@@ -125,6 +167,27 @@ public class DadoComposto
                     menorV = valor;
                 }
             }
+
+            if(Fixos != null)
+            {
+                foreach (var val in Fixos)
+                {
+                    menorV += val.ModificadorFixo.Valor;
+                }
+            }
+            
+            if(Variaveis != null)
+            {
+                for (int i = 0; i < Variaveis.Count; i++)
+                {
+                    List<int> dados = Variaveis[i].ModificadorVariavel.Dado.RolarDado();
+                    foreach (var valorDado in dados)
+                    {
+                        menorV += valorDado;       
+                    }
+                }
+            }
+            
             escolhidos.Add(menorV);
             eResultados.Add(resultados);
             eResultados.Add(escolhidos);
@@ -132,7 +195,7 @@ public class DadoComposto
 
         } else if(string.Equals(Condicao[..3], "acd", StringComparison.OrdinalIgnoreCase))
         {
-
+            List<int> temp = new();
             var vDito = Condicao[3..];
             int valorDito = int.Parse(vDito);
             
@@ -145,16 +208,44 @@ public class DadoComposto
             {
                 if(valor >= valorDito)
                 {
-                    escolhidos.Add(valor);
+                    temp.Add(valor);
                 }
             }
+
+            if(Fixos != null)
+            {
+                for (int i = 0; i < temp.Count; i++)
+                {
+                    for (int j = 0; j < Fixos.Count; j++)
+                    {
+                        temp[i] += Fixos[j].ModificadorFixo.Valor;
+                    }
+                }
+            }
+            
+            if(Variaveis != null)
+            {
+                for (int i = 0; i < temp.Count; i++)
+                {
+                    for (int j = 0; j < Variaveis.Count; j++)
+                    {
+                        List<int> dados = Variaveis[j].ModificadorVariavel.Dado.RolarDado();
+                        for (int k = 0; k < dados.Count; k++)
+                        {
+                            temp[i] += dados[k];
+                        }
+                    }
+                }
+            }
+
+            escolhidos = temp;
             eResultados.Add(resultados);
             eResultados.Add(escolhidos);
             return eResultados;
 
         } else if(string.Equals(Condicao[..3], "abd", StringComparison.OrdinalIgnoreCase))
         {
-
+            List<int> temp = new();
             var vDito = Condicao[3..];
             int valorDito = int.Parse(vDito);
             
@@ -163,20 +254,50 @@ public class DadoComposto
                 int resultadoLancamento = random.Next(1, Faces + 1);
                 resultados.Add(resultadoLancamento);
             }
+
             foreach (var valor in resultados)
             {
                 if(valor <= valorDito)
                 {
-                    escolhidos.Add(valor);
+                    temp.Add(valor);
                 }
             }
+            
+
+            if(Fixos != null)
+            {
+                for (int i = 0; i < temp.Count; i++)
+                {
+                    for (int j = 0; j < Fixos.Count; j++)
+                    {
+                        temp[i] += Fixos[j].ModificadorFixo.Valor;
+                    }
+                }
+            }
+            
+            if(Variaveis != null)
+            {
+                for (int i = 0; i < temp.Count; i++)
+                {
+                    for (int j = 0; j < Variaveis.Count; j++)
+                    {
+                        List<int> dados = Variaveis[j].ModificadorVariavel.Dado.RolarDado();
+                        for (int k = 0; k < dados.Count; k++)
+                        {
+                            temp[i] += dados[k];
+                        }
+                    }
+                }
+            }
+
+            escolhidos = temp;
             eResultados.Add(resultados);
             eResultados.Add(escolhidos);
             return eResultados;
 
         } else if(string.Equals(Condicao[..3], "ved", StringComparison.OrdinalIgnoreCase))
         {
-
+            List<int> temp = new();
             var vDito = Condicao[3..];
             int valorDito = int.Parse(vDito);
             
@@ -189,9 +310,37 @@ public class DadoComposto
             {
                 if(valor == valorDito)
                 {
-                    escolhidos.Add(valor);
+                    temp.Add(valor);
+                }
+            }            
+
+            if(Fixos != null)
+            {
+                for (int i = 0; i < temp.Count; i++)
+                {
+                    for (int j = 0; j < Fixos.Count; j++)
+                    {
+                        temp[i] += Fixos[j].ModificadorFixo.Valor;
+                    }
                 }
             }
+            
+            if(Variaveis != null)
+            {
+                for (int i = 0; i < temp.Count; i++)
+                {
+                    for (int j = 0; j < Variaveis.Count; j++)
+                    {
+                        List<int> dados = Variaveis[j].ModificadorVariavel.Dado.RolarDado();
+                        for (int k = 0; k < dados.Count; k++)
+                        {
+                            temp[i] += dados[k];
+                        }
+                    }
+                }
+            }
+
+            escolhidos = temp;
             eResultados.Add(resultados);
             eResultados.Add(escolhidos);
             return eResultados;
@@ -203,6 +352,7 @@ public class DadoComposto
 
             if (match.Success)
             {
+                List<int> temp = new();
                 int valorMinimo = int.Parse(match.Groups[1].Value);
                 int valorMaximo = int.Parse(match.Groups[2].Value);
 
@@ -215,9 +365,37 @@ public class DadoComposto
                 {
                     if(valor <= valorMaximo && valor >= valorMinimo)
                     {
-                        escolhidos.Add(valor);
+                            temp.Add(valor);
+                    }
+                }            
+
+                if(Fixos != null)
+                {
+                    for (int i = 0; i < temp.Count; i++)
+                    {
+                        for (int j = 0; j < Fixos.Count; j++)
+                        {
+                            temp[i] += Fixos[j].ModificadorFixo.Valor;
+                        }
                     }
                 }
+                
+                if(Variaveis != null)
+                {
+                    for (int i = 0; i < temp.Count; i++)
+                    {
+                        for (int j = 0; j < Variaveis.Count; j++)
+                        {
+                            List<int> dados = Variaveis[j].ModificadorVariavel.Dado.RolarDado();
+                            for (int k = 0; k < dados.Count; k++)
+                            {
+                                temp[i] += dados[k];
+                            }
+                        }
+                    }
+                }
+
+                escolhidos = temp;
                 eResultados.Add(resultados);
                 eResultados.Add(escolhidos);
             }
