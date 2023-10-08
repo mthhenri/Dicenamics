@@ -74,6 +74,12 @@ public class AppDatabase : DbContext
             .WithMany(s => s.Convidados)
             .HasForeignKey(us => us.SalaId);
 
+        modelBuilder.Entity<SalaUsuario>()
+            .HasOne(us => us.Sala)
+            .WithMany(s => s.Convidados)
+            .OnDelete(DeleteBehavior.Cascade);
+
+            
         base.OnModelCreating(modelBuilder);
     }
 
