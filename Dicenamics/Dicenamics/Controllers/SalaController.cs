@@ -1,5 +1,6 @@
 using System.Linq;
 using Dicenamics.Data;
+using Dicenamics.DTO;
 using Dicenamics.DTOs;
 using Dicenamics.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -354,6 +355,34 @@ public class SalaController : ControllerBase
             _ctx.SaveChanges();
             return Ok(sala);
         } 
+        catch(System.Exception e)
+        {
+            Console.WriteLine(e);
+            return BadRequest(e.Message);
+        }
+    }
+
+    [HttpPut("adicionar/dado/composto/{id}")]
+    public IActionResult AdicionarDadoComposto([FromRoute] int id, [FromBody] DadoCompostoSalaDTO dadoCompostoSalaDTO)
+    {
+        try
+        {
+            return Ok();
+        }
+        catch(System.Exception e)
+        {
+            Console.WriteLine(e);
+            return BadRequest(e.Message);
+        }
+    }
+
+    [HttpPut("adicionar/dado/simples/{id}")]
+    public IActionResult AdicionarDadoSimples([FromRoute] int id, [FromBody] DadoSimplesSalaDTO dadoSimplesSalaDTO)
+    {
+        try
+        {
+            return Ok();
+        }
         catch(System.Exception e)
         {
             Console.WriteLine(e);
