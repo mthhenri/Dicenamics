@@ -9,6 +9,8 @@ public class ModificadorFixo
     public int Valor { get; set; }
     [JsonIgnore]
     public List<DadoCompostoModFixo> Fixos { get; set; }
+    [JsonIgnore]
+    public List<DadoCompostoSalaModFixo> FixosSala { get; set; }
 
     public ModificadorFixo()
     {

@@ -2,6 +2,7 @@ using Dicenamics.Data;
 using Dicenamics.DTO;
 using Dicenamics.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Dicenamics.Controllers;
 
@@ -23,8 +24,17 @@ public class DadoSimplesSalaController : ControllerBase
     {
         try
         {
-            Usuario? Criador = new();
-            Usuario? criador = _ctx.Usuarios.FirstOrDefault(x => x.Username == Criador.Username);
+            Usuario? criador = 
+                _ctx.Usuarios
+                .Include(c => c.DadosSimplesPessoais)
+                .Include(c => c.DadosCompostosPessoais)
+                    .ThenInclude(c => c.Fixos)
+                        .ThenInclude(x => x.ModificadorFixo)
+                .Include(c => c.DadosCompostosPessoais)
+                    .ThenInclude(c => c.Variaveis)
+                        .ThenInclude(c => c.ModificadorVariavel)
+                            .ThenInclude(c => c.Dado)
+                .FirstOrDefault(x => x.Username == dadoSalaDTO.CriadorUsername);
             DadoSimplesSala? dadoSala = new()
             {
                 AcessoPrivado = dadoSalaDTO.AcessoPrivado,
@@ -33,6 +43,7 @@ public class DadoSimplesSalaController : ControllerBase
                 Nome = dadoSalaDTO.Nome,
                 Quantidade = dadoSalaDTO.Quantidade
             };
+            
             if (dadoSala == null)
             {
                 return NotFound();
@@ -137,6 +148,27 @@ public class DadoSimplesSalaController : ControllerBase
             _ctx.DadosSimplesSalas.Remove(dadoSala);
             _ctx.SaveChanges();
             return Ok(dadoSala);
+        }
+        catch (System.Exception e)
+        {
+            Console.WriteLine(e);
+            return BadRequest(e.Message);
+        }
+    }
+
+    [HttpGet("rolar/{id}")]
+    public IActionResult RolarDado([FromRoute] int id)
+    {
+        try
+        {  
+            DadoSimplesSala dado = _ctx.DadosSimplesSalas.FirstOrDefault(c => c.DadoSimplesSalaId == id);
+
+            if(dado == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(dado.RolarDado());
         }
         catch (System.Exception e)
         {

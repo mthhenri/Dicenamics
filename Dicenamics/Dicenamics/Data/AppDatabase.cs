@@ -79,6 +79,31 @@ public class AppDatabase : DbContext
             .WithMany(s => s.Convidados)
             .OnDelete(DeleteBehavior.Cascade);
 
+        modelBuilder.Entity<DadoCompostoSalaModFixo>()
+            .HasKey(d => d.ConectDadoVarId);
+
+        modelBuilder.Entity<DadoCompostoSalaModVar>()
+            .HasKey(d => d.ConectDadoVarId);
+
+        modelBuilder.Entity<DadoCompostoSalaModFixo>()
+            .HasOne(df => df.DadoCompostoSala)
+            .WithMany(df => df.Fixos)
+            .HasForeignKey(df => df.ModificadorId);
+
+        modelBuilder.Entity<DadoCompostoSalaModFixo>()
+            .HasOne(df => df.ModificadorFixo)
+            .WithMany(df => df.FixosSala)
+            .HasForeignKey(df => df.DadoId);
+
+        modelBuilder.Entity<DadoCompostoSalaModVar>()
+            .HasOne(df => df.DadoCompostoSala)
+            .WithMany(dc => dc.Variaveis)
+            .HasForeignKey(df => df.DadoId);
+        
+        modelBuilder.Entity<DadoCompostoSalaModVar>()
+            .HasOne(df => df.ModificadorVariavel)
+            .WithMany(df => df.VariaveisSala)
+            .HasForeignKey(df => df.DadoId);
             
         base.OnModelCreating(modelBuilder);
     }

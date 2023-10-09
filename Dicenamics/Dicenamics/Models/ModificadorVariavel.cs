@@ -10,6 +10,8 @@ public class ModificadorVariavel
     public DadoSimples Dado { get; set; }
     [JsonIgnore]
     public List<DadoCompostoModVar>? Variaveis { get; set; }
+    [JsonIgnore]
+    public List<DadoCompostoSalaModVar>? VariaveisSala { get; set; }
 
     public ModificadorVariavel()
     {
