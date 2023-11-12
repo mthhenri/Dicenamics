@@ -13,6 +13,53 @@
     flex: 1 1 auto
 }
 
-.btn-login{
-    background-color: rgba(26, 194, 26, 0.5);
+.sideNav {
+    height: calc(100% - 64px);
+}
+
+.listItem {
+    display: flex;
+    align-items: center;
+    padding-right: 15px;
+    padding-bottom: 10px;
+}
+
+.listItem > span {
+    padding-top: 2px;
+    font-size: medium;
+}
+
+.chegadaDiv {
+    padding-top: 25px;
+}
+
+.chegadaDiv > span, #logo {
+    display: flex;
+    justify-content: space-around;
+}
+
+#logo {
+    margin: auto;
+}
+
+#title {
+    padding-top: 50px;
+    font-size: 45px;
+    color: black;
+    font-weight: bold;
+}
+
+.divSpace{
+    padding-top: 100px;
+}
+
+.loreDiv {
+    display: flex;
+    justify-content: space-around;
+    font-style: italic;
+    text-align: center;
+}
+
+#titleLore {
+    font-weight: bold;
 }
