@@ -3,6 +3,8 @@ import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './user/pages/login/login/login.component';
 import { CadastroComponent } from './user/pages/cadastro/cadastro/cadastro.component';
 import { InicialComponent } from './pages/inicial/inicial.component';
+import { DadosPessoaisComponent } from './user/pages/dados-pessoais/dados-pessoais.component';
+import { DadosPessoaisCadastroComponent } from './user/pages/dados-pessoais/cadastro/dados-pessoais-cadastro/dados-pessoais-cadastro.component';
 
 const routes: Routes = [
   // inserir as rotas aqui
@@ -17,6 +19,14 @@ const routes: Routes = [
   {
     path: "cadastrar",
     component: CadastroComponent
+  },
+  {
+    path: "dadosPessoais",
+    component: DadosPessoaisComponent
+  },
+  {
+    path: "dadosPessoais/criar",
+    component: DadosPessoaisCadastroComponent
   }
 ];
 

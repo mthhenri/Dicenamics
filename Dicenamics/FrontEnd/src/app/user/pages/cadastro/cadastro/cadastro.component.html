@@ -4,24 +4,24 @@
     <mat-form-field>
         <mat-label>Apelido</mat-label>
         <div>
-            <input matInput required>
+            <input matInput [formControl]="nickname" required>
         </div>
     </mat-form-field>
     <mat-form-field>
         <mat-label>Username</mat-label>
         <div>
-            <input matInput required>
+            <input matInput [formControl]="username" required>
         </div>
     </mat-form-field>
     <mat-form-field>
         <mat-label>Senha</mat-label>
-        <input matInput [type]="hide ? 'password' : 'text'" required>
+        <input matInput [formControl]="senha" [type]="hide ? 'password' : 'text'" required>
         <button mat-icon-button matSuffix (click)="hideTurn()">
             <mat-icon> {{hide ? 'visibility_off' : 'visibility'}} </mat-icon>
         </button>
     </mat-form-field>    
     <div class="buttonsDiv">
-        <button id="logarBtn" (click)="realizarLogin()" mat-button>
+        <button id="logarBtn" (click)="realizarCadastro()" mat-button>
             <mat-icon> done </mat-icon>
             <span> Entrar </span>
         </button>

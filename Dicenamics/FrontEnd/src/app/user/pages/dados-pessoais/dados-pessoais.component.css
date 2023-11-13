@@ -1,0 +1,35 @@
+.container {
+    height: calc(100% - 64px);
+}
+
+.spacer { 
+    margin: 50px;
+}
+
+#title {
+    display: flex;
+    justify-content: center;
+    padding-top: 70px;
+    font-size: 45px;
+    color: black;
+    font-weight: bold;
+}
+
+.itemDado {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-style: italic;
+    margin: 10px;
+}
+
+#nome {
+    font-weight: bold;
+}
+
+.addDice {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    margin: 15px;
+}

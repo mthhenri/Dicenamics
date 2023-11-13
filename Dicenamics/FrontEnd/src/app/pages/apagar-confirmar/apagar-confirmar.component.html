@@ -1,0 +1,13 @@
+<div class="container">
+    <h1>Deseja realmente apagar?</h1>
+    <div class="botoes">
+        <button mat-button id="yes" mat-dialog-close (click)="this.dadosPessoais.apagarDado(this.data.id, this.data.nome)">
+            <mat-icon> done </mat-icon>
+            <span>Sim, tenho certeza</span>
+        </button>
+        <button mat-button id="no" mat-dialog-close>
+            <mat-icon> do_not_disturb </mat-icon>
+            <span>Não, foi um erro</span>
+        </button>
+    </div>
+</div>

@@ -1,3 +1,4 @@
+import { Usuario } from 'src/app/models/usuario.models';
 import { Component, Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
@@ -21,6 +22,22 @@ export class AppComponent {
   title = 'FrontEnd';
   chegada: boolean = true;
   logando: boolean = false;
+  usuario!: Usuario;
+
+  gravarUser(usuario : Usuario){
+    this.usuario = usuario;
+    localStorage.setItem('usuario', JSON.stringify(this.usuario));
+  }
+
+  pegarUser() : Usuario | null {
+    const user = localStorage.getItem('usuario')
+    console.log(user)
+    if(user != undefined){
+      this.usuario = JSON.parse(user);
+      return this.usuario
+    }
+    return null
+  }
 
   checkLogando() {
     return this.logando
@@ -46,6 +63,9 @@ export class AppComponent {
 
   sair() {
     localStorage.setItem("login", true ? '1' : '0');
+    this.router.navigate([""])
+    let newUser! : Usuario
+    this.usuario = newUser;
   }
 
   voltarHome() {
@@ -61,7 +81,7 @@ export class AppComponent {
   }
 
   navDadosPessoais() {
-    this.router.navigate([""])
+    this.router.navigate(["dadosPessoais"])
   }
 
   navSintaxe() {

@@ -21,31 +21,31 @@
     <mat-sidenav #sidenav [opened]="false" mode="side" position="end">
         <mat-nav-list>
             <div class="listItem">
-                <button mat-icon-button (click)="voltarHome()">
+                <button mat-icon-button (click)="voltarHome(); sidenav.toggle()">
                     <mat-icon> home </mat-icon>
                 </button>
                 <span class="text"> Home </span>
             </div>
             <div class="listItem">
-                <button mat-icon-button (click)="navUsuario()">
+                <button mat-icon-button (click)="navUsuario(); sidenav.toggle()">
                     <mat-icon> person </mat-icon>
                 </button>
                 <span class="text"> Usuário </span>
             </div>
             <div class="listItem">
-                <button mat-icon-button (click)="navSalas()">
+                <button mat-icon-button (click)="navSalas(); sidenav.toggle()">
                     <mat-icon> door_front </mat-icon>
                 </button>
                 <span class="text"> Salas </span>
             </div>
             <div class="listItem">
-                <button mat-icon-button (click)="navDadosPessoais">
+                <button mat-icon-button (click)="navDadosPessoais(); sidenav.toggle()">
                     <mat-icon> check_box_outline_blank </mat-icon>
                 </button>
                 <span class="text"> Dados Pessoais </span>
             </div>
             <div class="listItem">
-                <button mat-icon-button (click)="navSintaxe()">
+                <button mat-icon-button (click)="navSintaxe(); sidenav.toggle()">
                     <mat-icon> code </mat-icon>
                 </button>
                 <span> Sintaxe </span>
@@ -55,6 +55,13 @@
                     <mat-icon> arrow_back </mat-icon>
                 </button>
                 <span class="text"> Sair </span>
+            </div>
+            <div class="listItem">
+                <span class="username">
+                    <span id="nick"> {{pegarUser()?.nickname}} </span> <br>
+                    <span>  -=X=- </span> <br>
+                    <span id="username"> {{pegarUser()?.username}} </span>
+                </span>
             </div>
         </mat-nav-list>
     </mat-sidenav>

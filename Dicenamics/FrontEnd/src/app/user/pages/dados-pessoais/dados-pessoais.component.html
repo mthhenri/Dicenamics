@@ -1,0 +1,60 @@
+<div class="container">
+    <div id="title">
+        <span>Dados Pessoais</span>
+    </div>
+    <div class="spacer"></div>
+    <div>
+        <mat-list>
+            <mat-list-item>
+                <div class="itemDado">
+                    <span id="nome"> Nome do Dado </span>
+                    <span> Resumo do Dado </span>
+                    <span> Ações dos Dados </span>
+                </div>
+            </mat-list-item>
+            <mat-divider></mat-divider>
+            <!-- Fazer um for que pega todos os dados de um usuário e exibe aqui -->
+            <div *ngFor="let dado of dados">                
+                <mat-list-item>                    
+                    <div class="itemDado">
+                        <span id="nome"> {{dado.nome}} </span>
+                        <span> {{dadoBonito(dado)}} </span>
+                        <span>
+                            <button mat-button (click)="gerarResultados(dado.dadoId); "> 
+                                <mat-icon> play_arrow </mat-icon> 
+                                <span> Rolar Dado </span> 
+                            </button>
+                            <button mat-button (click)="realmenteApagar(dado.dadoId,dado.nome)">
+                                <mat-icon> delete </mat-icon>
+                                <span> Deletar </span>
+                            </button>
+                        </span>
+                    </div>
+                </mat-list-item>
+                <mat-divider></mat-divider>
+            </div>
+        </mat-list>
+    </div>
+    <div class="addDice">
+        <button mat-fab color="primary" (click)="criarDado()">
+            <mat-icon> add </mat-icon>
+        </button>
+    </div>
+</div>
+
+<!-- <mat-accordion>
+    //// Fazer um for que pega todos os dados de um usuário e exibe aqui
+    <mat-expansion-panel>
+        <mat-expansion-panel-header>
+            <mat-panel-title> {{"nomeDoDado"}} </mat-panel-title>
+            <mat-panel-description> {{"resumoDoDado"}} </mat-panel-description>
+        </mat-expansion-panel-header>
+        <span class="descDados">
+            <p> {{ "resultado" }} </p>
+            <button mat-button>
+                <mat-icon> play_arrow </mat-icon>
+                Rolar Dado
+            </button>
+        </span>
+    </mat-expansion-panel>
+</mat-accordion> -->

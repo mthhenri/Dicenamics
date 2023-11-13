@@ -1,0 +1,21 @@
+.container {
+    margin: 25px;
+    justify-content: center;
+}
+
+.botoes {
+    display: flex;
+    justify-content: space-between;
+}
+
+#yes {
+    margin-right: 10px;
+    padding: 5px;
+    background-color: rgba(26, 194, 26, 0.25);
+}
+
+#no {
+    margin-left: 10px;
+    padding: 5px;
+    background-color: rgba(194, 26, 26, 0.25);
+}

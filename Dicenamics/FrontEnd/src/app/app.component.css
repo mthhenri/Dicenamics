@@ -13,6 +13,19 @@
     flex: 1 1 auto
 }
 
+.username {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: auto;
+    margin-top: 100%;
+    font-style: italic;
+}
+
+#nick {
+    font-weight: bold;
+}
+
 .sideNav {
     height: calc(100% - 64px);
 }

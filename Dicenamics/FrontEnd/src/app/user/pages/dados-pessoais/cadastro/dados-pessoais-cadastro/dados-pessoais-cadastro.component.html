@@ -1,0 +1,32 @@
+<div class="container">
+    <mat-form-field>
+        <mat-label> Nome </mat-label>
+        <div>
+            <input matInput [formControl]="nome" type="text" required>
+        </div>
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label> Faces </mat-label>
+        <div>
+            <input matInput [formControl]="faces" type="number" required>
+        </div>
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label> Quantidade </mat-label>
+        <div>
+            <input matInput [formControl]="quantidade" type="number" required>
+        </div>
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label> Condição </mat-label>
+        <div>
+            <input matInput [formControl]="condicao" type="text" required>
+        </div>
+    </mat-form-field>
+    <div class="buttonsDiv">
+        <button id="criarBtn" (click)="criarDado()" mat-button>
+            <mat-icon> done </mat-icon>
+            <span> Criar Dado </span>
+        </button>
+    </div>
+</div>
