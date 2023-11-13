@@ -185,13 +185,18 @@ public class DadoCompostoController : ControllerBase
     {
         try
         {
-            DadoComposto? dado = _ctx.DadosCompostos.Include(d => d.Fixos).ThenInclude(f => f.ModificadorFixo).Include(d => d.Variaveis).ThenInclude(f => f.ModificadorVariavel).ThenInclude(d => d.Dado).FirstOrDefault(x => x.DadoId == id);
+            DadoComposto? dado = _ctx.DadosCompostos
+                .Include(d => d.Fixos)
+                    .ThenInclude(f => f.ModificadorFixo)
+                .Include(d => d.Variaveis)
+                    .ThenInclude(f => f.ModificadorVariavel)
+                        .ThenInclude(d => d.Dado)
+                .FirstOrDefault(x => x.DadoId == id);
             if (dado == null)
             {
                 return NotFound();
             }
-
-            /*
+            
             List<ModificadorFixo> fixo = new();
             List<ModificadorVariavel> variavel = new();
             List<DadoCompostoModFixo> fixos = new();
@@ -232,7 +237,6 @@ public class DadoCompostoController : ControllerBase
                 }
                 dado.Variaveis = variaveis;
             }
-            */
             
             return Ok(dado.RolarDado());
         }

@@ -190,7 +190,7 @@ namespace Dicenamics.Controllers
         }
 
         [HttpPut("adicionarDado/simples/{id}")]
-        public IActionResult AdicionarDadoS([FromRoute] int id, [FromBody] DadoSimplesDTO dadoAdd)
+        public IActionResult AdicionarDadoS([FromRoute] int id)
         {
             try
             {
@@ -201,12 +201,13 @@ namespace Dicenamics.Controllers
                     return NotFound();
                 }
 
-                DadoSimples? dadoNovo = new()
-                {
-                    Nome = dadoAdd.Nome,
-                    Faces = dadoAdd.Faces,
-                    Quantidade = dadoAdd.Quantidade
-                };
+                // DadoSimples? dadoNovo = new()
+                // {
+                //     Nome = dadoAdd.Nome,
+                //     Faces = dadoAdd.Faces,
+                //     Quantidade = dadoAdd.Quantidade
+                // };
+                DadoSimples? dadoNovo = _ctx.DadosSimples.FirstOrDefault(d => d.DadoId == id);
                 _ctx.DadosSimples.Add(dadoNovo);
                 usuario.DadosSimplesPessoais.Add(dadoNovo);
                 _ctx.Usuarios.Update(usuario);
@@ -264,12 +265,62 @@ namespace Dicenamics.Controllers
                     Fixos = fixos,
                     Variaveis = variaveis
                 };
+
+                // DadoComposto? dadoNovo = _ctx.DadosCompostos
+                //     .Include(d => d.Fixos)
+                //     .ThenInclude(f => f.ModificadorFixo)
+                // .Include(d => d.Variaveis)
+                //     .ThenInclude(f => f.ModificadorVariavel)
+                //         .ThenInclude(d => d.Dado)
+                //     .FirstOrDefault(d => d.DadoId == id);
+
                 _ctx.DadosCompostos.Add(dadoNovo);
                 usuario.DadosCompostosPessoais.Add(dadoNovo);
                 _ctx.Usuarios.Update(usuario);
                 _ctx.SaveChanges();
                 
                 return Ok(usuario);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return BadRequest(e.Message);
+            }
+        }
+
+        [HttpGet("buscar/dados/compostos/{id}")]
+        public IActionResult BuscarDadosCompostos([FromRoute] int id)
+        {
+            try
+            {
+                Usuario? usuario = _ctx.Usuarios.Include(d => d.DadosCompostosPessoais).Include(d => d.DadosSimplesPessoais).FirstOrDefault(u => u.UsuarioId == id);
+                List<int> dadosIds = new();
+
+                foreach (var item in usuario.DadosCompostosPessoais)
+                {
+                    dadosIds.Add(item.DadoId);
+                }
+
+                List<DadoComposto> dadosAchados = 
+                    _ctx.DadosCompostos
+                        .Include(d => d.Fixos)
+                            .ThenInclude(f => f.ModificadorFixo)
+                        .Include(d => d.Variaveis)
+                            .ThenInclude(f => f.ModificadorVariavel)
+                                .ThenInclude(f => f.Dado)
+                        .Where(d => dadosIds.Contains(d.DadoId))
+                        .ToList();
+
+                // List<DadoComposto> dadosAchados = 
+                //     _ctx.DadosCompostos
+                //         .Include(d => d.Fixos)
+                //             .ThenInclude(f => f.ModificadorFixo)
+                //         .Include(d => d.Variaveis)
+                //             .ThenInclude(f => f.ModificadorVariavel)
+                //                 .ThenInclude(f => f.Dado)
+                //         .Where()
+                //         .ToList();
+                return Ok(dadosAchados);
             }
             catch (Exception e)
             {

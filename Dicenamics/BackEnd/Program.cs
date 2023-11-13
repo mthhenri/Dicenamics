@@ -1,4 +1,4 @@
-using Dicenamics.Data;
+using BackEnd.Data;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
