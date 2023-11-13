@@ -1,6 +1,7 @@
-import { Component, ElementRef, Injectable, ViewChild } from '@angular/core';
-import { MatSidenav } from '@angular/material/sidenav';
-import { delay } from 'rxjs';
+import { Component, Injectable } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { Router } from '@angular/router';
+import { SairConfirmarComponent } from './pages/sair-confirmar/sair-confirmar.component';
 
 
 @Injectable({
@@ -12,16 +13,58 @@ import { delay } from 'rxjs';
   styleUrls: ["./app.component.css"]
 })
 export class AppComponent {
+  constructor(
+    private router: Router,
+    public dialog: MatDialog
+  ){}
+
   title = 'FrontEnd';
   chegada: boolean = true;
+  logando: boolean = false;
+
+  checkLogando() {
+    return this.logando
+  }
 
   login() {
-    this.chegada = !this.chegada;
-    localStorage.setItem("login" , this.chegada ? '1' : '0');
+    localStorage.setItem("login", false ? '1' : '0');
   }
 
   checkLogin() {
     const val = localStorage.getItem("login");
-    return val ? parseInt(val) === 1 : false;
+    return val ? parseInt(val) === 1 : false;;
+    
+  }
+
+  abrirPopUp(enterAnimationDuration: string, exitAnimationDuration: string) : void {
+    this.dialog.open(SairConfirmarComponent, {
+      width: '350px',
+      enterAnimationDuration,
+      exitAnimationDuration,
+    });
+  }
+
+  sair() {
+    localStorage.setItem("login", true ? '1' : '0');
+  }
+
+  voltarHome() {
+    this.router.navigate([""])
+  }
+
+  navUsuario() {
+    this.router.navigate([""])
+  }
+
+  navSalas() {
+    this.router.navigate([""])
+  }
+
+  navDadosPessoais() {
+    this.router.navigate([""])
+  }
+
+  navSintaxe() {
+    this.router.navigate([""])
   }
 }

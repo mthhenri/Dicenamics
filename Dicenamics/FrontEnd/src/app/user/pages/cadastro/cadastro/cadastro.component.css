@@ -1,0 +1,44 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* centraliza verticalmente */
+    justify-content: center; /* centraliza horizontalmente */
+    height: calc(100% - 64px); /* 100% da altura da viewport (tela) */
+}
+
+/* Opcional: Adicione margem entre os mat-form-fields */
+mat-form-field {
+    margin-bottom: 5px;
+}
+
+span {
+    margin-bottom: 25px;
+}
+
+#title {
+    font-weight: bold;
+    font-size: 30px;
+}
+
+#login {
+    font-style: italic;
+    font-size: 20px;
+}
+
+.buttonsDiv > button {
+    margin: 10px;
+    margin-left: 20px;
+}
+
+.buttonsDiv {
+    display: flex;
+    flex-direction: row;
+}
+
+#logarBtn {
+    background-color: rgba(26, 194, 26, 0.5);
+}
+
+#cadastrarBtn { 
+    background-color: rgba(12, 94, 12, 0.5);
+}

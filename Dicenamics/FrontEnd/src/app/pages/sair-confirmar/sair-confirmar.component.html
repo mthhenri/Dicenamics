@@ -1,0 +1,15 @@
+<div class="container">
+    <h1> Deseja sair? </h1>
+    <p>Qualquer porcesso não finalizado será perdido</p>
+    <br>
+    <div class="buttons">
+        <button id="yes" (click)="appComponent.sair()" mat-dialog-close mat-button>
+            <mat-icon> done </mat-icon>
+            <span> Sim </span>
+        </button>
+        <button id="no" mat-dialog-close mat-button>
+            <mat-icon> do_not_disturb </mat-icon>
+            <span> Não </span>
+        </button>
+    </div>
+</div>

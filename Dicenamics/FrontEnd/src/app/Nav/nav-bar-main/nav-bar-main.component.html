@@ -1,4 +1,4 @@
-<mat-toolbar class="nav-bar" color="secondary">
+<mat-toolbar class="nav-bar">
     <a>
         <img src="../assets/images/dicenamics.logo.png" alt="Logo" class="logo-dicenamics">
     </a>
@@ -6,8 +6,16 @@
         Dicenamics
     </span>
     <span class="space"></span>
-    <button mat-button class="btn-login" (click)="appComponent.login()">
-        <span>Login</span>
-        <mat-icon>person_outline</mat-icon>
-    </button>
+    <div *ngIf="!appComponent.logando; main loginIn">
+        <button mat-button class="btn-login" (click)="login()" #main>
+            <span>Login</span>
+            <mat-icon>person_outline</mat-icon>
+        </button>
+    </div>
+    <div *ngIf="appComponent.logando; main loginIn">
+        <button mat-button class="btn-voltar" (click)="voltar()" #loginIn>
+            <span>Voltar</span>
+            <mat-icon>arrow_back</mat-icon>
+        </button>
+    </div>
 </mat-toolbar>

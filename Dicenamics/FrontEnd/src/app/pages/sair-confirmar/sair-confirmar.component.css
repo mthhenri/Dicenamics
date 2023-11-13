@@ -1,0 +1,17 @@
+.container {
+    margin: 20px;
+    justify-content: center;
+}
+
+.buttons {
+    display: flex;
+    justify-content: space-around;
+}
+
+#yes {
+    background-color: rgba(26, 194, 26, 0.25);
+}
+
+#no {
+    background-color: rgba(194, 26, 26, 0.25);
+}

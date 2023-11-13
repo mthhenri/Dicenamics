@@ -3,7 +3,7 @@
 
 <!-- Navigation Bar Após Login -->
 <ng-template #initial>
-    <mat-toolbar class="nav-bar" color="secondary">
+    <mat-toolbar class="nav-bar">
         <a>
             <img src="../assets/images/dicenamics.logo.png" alt="Logo" class="logo-dicenamics">
         </a>
@@ -21,31 +21,37 @@
     <mat-sidenav #sidenav [opened]="false" mode="side" position="end">
         <mat-nav-list>
             <div class="listItem">
-                <button mat-icon-button>
+                <button mat-icon-button (click)="voltarHome()">
+                    <mat-icon> home </mat-icon>
+                </button>
+                <span class="text"> Home </span>
+            </div>
+            <div class="listItem">
+                <button mat-icon-button (click)="navUsuario()">
                     <mat-icon> person </mat-icon>
                 </button>
                 <span class="text"> Usuário </span>
             </div>
             <div class="listItem">
-                <button mat-icon-button>
+                <button mat-icon-button (click)="navSalas()">
                     <mat-icon> door_front </mat-icon>
                 </button>
                 <span class="text"> Salas </span>
             </div>
             <div class="listItem">
-                <button mat-icon-button>
+                <button mat-icon-button (click)="navDadosPessoais">
                     <mat-icon> check_box_outline_blank </mat-icon>
                 </button>
                 <span class="text"> Dados Pessoais </span>
             </div>
             <div class="listItem">
-                <button mat-icon-button>
+                <button mat-icon-button (click)="navSintaxe()">
                     <mat-icon> code </mat-icon>
                 </button>
                 <span> Sintaxe </span>
             </div>
             <div class="listItem">
-                <button mat-icon-button (click)="login(); sidenav.toggle(); checkLogin(); checkLogin()">
+                <button mat-icon-button (click)="abrirPopUp('100ms', '100ms'); sidenav.toggle()">
                     <mat-icon> arrow_back </mat-icon>
                 </button>
                 <span class="text"> Sair </span>
@@ -53,42 +59,8 @@
         </mat-nav-list>
     </mat-sidenav>
     <mat-sidenav-content>
-        <div *ngIf="checkLogin(); chegada initial" #chegada>
-            <!-- Conteúdo de chegada no site -->
-            <div class="chegadaDiv">
-                <span id="title">Bem vindo ao Dicenamics!</span>
-                <img src="../assets/images/dicenamics.logo.png" alt="Logo" id="logo">
-            </div>
-            <div class="divSpace"></div>
-            <div class="loreDiv">
-                <span>
-                    <span id="titleLore">Qual o propósito desse site?</span><br><br>
-                    Dicenamics é uma aplicação feita para<br>
-                    os jogadores e mestres de RPG que necessitam<br>
-                    de uma ferramenta de dados para seus RPGs, tanto os<br>
-                    online, quanto os presenciais, dados são a alma do RPG<br>
-                    e é isso que nos propomos a fazer: Rolar dados.<br><br><br>
-                </span>
-                <span> 
-                    <span id="titleLore"> Porquê devo usar o Dicenamics? </span><br><br>
-                    Além de ser uma aplicação completa, com<br>
-                    rolagem dados, customização dos dados, faces ilimitadas<br>
-                    e salas para rolagem com amigos, o Dicenamics é<br>
-                    COMPLETAMENTE BRASILEIRO.<br>
-                    ou seja, tudo aqui está em Português Brasileiro.<br><br><br>
-                </span>
-                <span>
-                    <span id="titleLore"> Quais as funcionalidades? </span><br><br>
-                    Como lista de funcionalidades temos:<br><br>
-                    - Rolagem de Dados Customizados.<br>
-                    - Criação de Salas de Rolagem além de Dados Únicos de Salas.<br>
-                    - Diferentes Modos de Rolagem.<br>
-                    - Completamente Brasileiro.<br><br><br>
-                </span>
-            </div>
-        </div>
-        <router-outlet #initial>
-            <!-- Conteúdo após login -->
+        <router-outlet>
+            <!-- Conteúdo -->
         </router-outlet>
     </mat-sidenav-content>
 </mat-sidenav-container>
