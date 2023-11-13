@@ -1,3 +1,28 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* centraliza verticalmente */
+    justify-content: center; /* centraliza horizontalmente */
+    height: calc(100% - 64px); /* 100% da altura da viewport (tela) */
+}
+
 #criarBtn {
+    margin-top: 15px;
     background-color: rgba(26, 194, 26, 0.5);
+}
+
+#title {
+    font-weight: bold;
+    font-size: 30px;
+    margin: 15px;
+}
+
+#criar {
+    font-style: italic;
+    font-size: 20px;
+    margin: 15px;
+}
+
+.spacer {
+    margin: 50px;
 }
