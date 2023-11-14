@@ -1,5 +1,5 @@
 export interface Usuario {
-    usuarioId : number,
+    usuarioId? : number,
     username : string,
     nickname : string,
     senha : string,

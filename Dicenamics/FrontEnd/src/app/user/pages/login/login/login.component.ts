@@ -44,7 +44,7 @@ export class LoginComponent {
             this.appComponent.gravarUser(user)
             this.appComponent.logando = !this.appComponent.logando
             this.appComponent.login()
-            this.router.navigate([""])
+            this.router.navigate(["dicenamics"])
           } else {
             this.snackBar.open(`Senha errada!`, `Entendido`, {
               duration: 1750,
@@ -65,7 +65,7 @@ export class LoginComponent {
   }
 
   realizarCadastro() {
-    this.router.navigate(["cadastrar"])
+    this.router.navigate(["dicenamics/cadastrar"])
   }
 
 }

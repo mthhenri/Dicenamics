@@ -15,11 +15,11 @@ export class NavBarMainComponent {
 
   login(){
     this.appComponent.logando = !this.appComponent.logando;
-    this.router.navigate(["login"])
+    this.router.navigate(["dicenamics/login"])
   }
 
   voltar(){
     this.appComponent.logando = !this.appComponent.logando;
-    this.router.navigate([""])
+    this.router.navigate(["dicenamics"])
   }
 }

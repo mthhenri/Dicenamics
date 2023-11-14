@@ -33,3 +33,8 @@
     right: 0;
     margin: 15px;
 }
+
+.descDados {
+    display: flex;
+    justify-content: space-around;
+}

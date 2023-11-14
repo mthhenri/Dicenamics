@@ -62,10 +62,18 @@ export class CadastroComponent {
           this.appComponent.gravarUser(userCriar)
           this.appComponent.logando = !this.appComponent.logando
           this.appComponent.login()
-          this.router.navigate([""])
+          this.router.navigate(["dicenamics"])
         },
         error: (error) => {
           console.log(error)
+
+          if(error.status === 400){
+            this.snackBar.open(`O usuário informado já existe!`, `Tente novamente!`, {
+              duration: 1750,
+              horizontalPosition: 'center',
+              verticalPosition: 'bottom'
+            })
+          }
         }
       })
   }

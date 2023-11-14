@@ -3,6 +3,7 @@ import { Component, Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
+import { delay } from 'rxjs';
 import { AppComponent } from 'src/app/app.component';
 import { DadoComposto } from 'src/app/models/dadoComposto.models';
 import { ApagarConfirmarComponent } from 'src/app/pages/apagar-confirmar/apagar-confirmar.component';
@@ -27,6 +28,7 @@ export class DadosPessoaisComponent {
 
   result : number[][] = []
   dados : DadoComposto[] = []
+  step? : number = -1
 
   ngOnInit(){
     this.client
@@ -39,6 +41,10 @@ export class DadosPessoaisComponent {
           console.log(error)
         }
       })
+  }
+
+  setStep(index? : number){
+    this.step = index
   }
 
   dadoBonito(dado : DadoComposto){
@@ -58,7 +64,7 @@ export class DadosPessoaisComponent {
     return this.result
   }
 
-  gerarResultados(id : number){
+  gerarResultados(id? : number){
     this.client
       .get<number[][]>(`https://localhost:7151/dicenamics/dados/composto/rolar/${id}`)
       .subscribe({
@@ -74,7 +80,7 @@ export class DadosPessoaisComponent {
 
   rolarDado(enterAnimationDuration: string, exitAnimationDuration: string) {
     this.dialog.open(RolagemDadoComponent, {
-      width: '250px',
+      width: '400px',
       enterAnimationDuration,
       exitAnimationDuration,
       data : {
@@ -83,7 +89,7 @@ export class DadosPessoaisComponent {
     });
   }
 
-  realmenteApagar(dadoId: number, dadoNome : string){
+  realmenteApagar(dadoId?: number, dadoNome? : string){
     this.dialog.open(ApagarConfirmarComponent, { width: '350px', data: {id: dadoId, nome: dadoNome} })
   }
 
@@ -92,22 +98,24 @@ export class DadosPessoaisComponent {
       .delete(`https://localhost:7151/dicenamics/dados/composto/deletar/${id}`)
       .subscribe({
         next: (result) => {
-          const bar = this.snackBar.open(`O dado "${nome}" foi apagado!`, 'Beleza!', {
-            horizontalPosition: 'center',
-            verticalPosition: 'bottom'
-          })
-          bar.onAction().subscribe(() => {
-            this.ngOnInit()
-          })
-          this.ngOnInit()
+          window.location.reload();
+          // const bar = this.snackBar.open(`O dado "${nome}" foi apagado!`, 'Beleza!', {
+          //   horizontalPosition: 'center',
+          //   verticalPosition: 'bottom'
+          // })
         },
         error: (error) => {
           console.log(error)
         }
       })
+    
   }
 
   criarDado(){
-    this.router.navigate(["dadosPessoais/criar"])
+    this.router.navigate(["dicenamics/dadosPessoais/criar"])
+  }
+
+  editarDado(dadoEnviado? : number){
+    this.router.navigate(["dicenamics/dadosPessoais/editar", dadoEnviado], { queryParams : { dadoId : dadoEnviado }})
   }
 }

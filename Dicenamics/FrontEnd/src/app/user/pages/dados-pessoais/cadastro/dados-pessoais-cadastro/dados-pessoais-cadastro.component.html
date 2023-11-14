@@ -1,6 +1,6 @@
 <div class="container">
     <span id="title"> Dados Pessoais </span>
-    <span id="criar"> Criar </span>
+    <span id="criar"> {{acao}} </span>
     <div class="spacer"></div>
     <mat-form-field>
         <mat-label> Nome </mat-label>
@@ -23,13 +23,17 @@
     <mat-form-field>
         <mat-label> Condição </mat-label>
         <div>
-            <input matInput [formControl]="condicao" type="text" required>
+            <input matInput [formControl]="condicao" type="text">
         </div>
     </mat-form-field>
     <div class="buttonsDiv">
-        <button id="criarBtn" (click)="criarDado()" mat-button>
+        <button id="criarBtn" (click)="criarDado()" *ngIf="acao == 'Criar'" mat-button>
             <mat-icon> done </mat-icon>
-            <span> Criar Dado </span>
+            <span> {{acaoDado}} </span>
+        </button>
+        <button id="criarBtn" (click)="editarDado()" *ngIf="acao == 'Editar'" mat-button>
+            <mat-icon> done </mat-icon>
+            <span> {{acaoDado}} </span>
         </button>
     </div>
 </div>

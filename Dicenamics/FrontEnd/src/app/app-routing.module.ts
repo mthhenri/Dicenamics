@@ -9,23 +9,27 @@ import { DadosPessoaisCadastroComponent } from './user/pages/dados-pessoais/cada
 const routes: Routes = [
   // inserir as rotas aqui
   {
-    path: "",
+    path: "dicenamics",
     component: InicialComponent
   },
   {
-    path: "login",
+    path: "dicenamics/login",
     component: LoginComponent
   },
   {
-    path: "cadastrar",
+    path: "dicenamics/cadastrar",
     component: CadastroComponent
   },
   {
-    path: "dadosPessoais",
+    path: "dicenamics/dadosPessoais",
     component: DadosPessoaisComponent
   },
   {
-    path: "dadosPessoais/criar",
+    path: "dicenamics/dadosPessoais/criar",
+    component: DadosPessoaisCadastroComponent
+  },
+  {
+    path: "dicenamics/dadosPessoais/editar/:dadoId",
     component: DadosPessoaisCadastroComponent
   }
 ];

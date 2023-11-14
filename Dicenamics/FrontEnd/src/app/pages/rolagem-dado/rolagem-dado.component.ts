@@ -23,30 +23,43 @@ export class RolagemDadoComponent {
     this.result = this.data.resultados
   }  
 
-  gerarResultado() : string{
-    var dadosRolados: string = '';
-    var valoresFinais: string = '';
+  dadosRoladosS: string = "";
+  dadosRoladosI: number[] = [];
+  valoresFinais: number[] = [];
+  valoresFinaisS: string = "";
 
-    for (let index = 0; index < this.result[0].length; index++) {
-      const valor = this.result[0][index];
-
-      if(index === this.result[0].length - 1){
-        dadosRolados += valor.toString()
-      } else {
-        dadosRolados += valor.toString() + ", "
+  gerarResultado(){
+    if(this.dadosRoladosS === ""){
+      for (let index = 0; index < this.result[0].length; index++) {
+        const valor = this.result[0][index];
+        if(index === this.result[0].length - 1){
+          this.dadosRoladosS += valor.toString()
+          this.dadosRoladosI.push(valor)
+        } else {
+          this.dadosRoladosS += valor.toString() + ", "
+        }
+      }
+  
+      for (let index = 0; index < this.result[1].length; index++) {
+        const valor = this.result[1][index];
+        this.valoresFinais.push(valor)
+      }
+      this.valoresFinais.sort(function(a, b) {
+        return b - a
+      });
+      for (let index = 0; index < this.valoresFinais.length; index++) {
+        const valor = this.valoresFinais[index];
+        if(index === this.valoresFinais.length - 1){
+          this.valoresFinaisS += valor.toString()
+        } else {
+          this.valoresFinaisS += valor.toString() + " | "
+        }
       }
     }
+  }
 
-    for (let index = 0; index < this.result[1].length; index++) {
-      const valor = this.result[1][index];
-
-      if(index === this.result[1].length - 1){
-        valoresFinais += valor.toString()
-      } else {
-        valoresFinais += valor.toString() + ", "
-      }
-    }
-
-    return `<span> Os dados rolados foram: <br>${dadosRolados} </span><br><hr><span>Aplicando a condição se obtém: <br>${valoresFinais}<hr>`
+  todosOsDados() {
+    this.gerarResultado()
+    return this.dadosRoladosS
   }
 }
