@@ -36,4 +36,10 @@ app.UseAuthorization();
 
 app.MapControllers();
 
+app.UseCertificateForwarding();
+
+app.UseAuthentication();
+
+app.UseAuthorization();
+
 app.Run();

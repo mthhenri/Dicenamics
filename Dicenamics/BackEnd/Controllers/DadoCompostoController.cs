@@ -97,7 +97,13 @@ public class DadoCompostoController : ControllerBase
     {
         try
         {
-            DadoComposto? dado = _ctx.DadosCompostos.Include(d => d.Fixos).ThenInclude(f => f.ModificadorFixo).Include(d => d.Variaveis).ThenInclude(f => f.ModificadorVariavel).ThenInclude(d => d.Dado).FirstOrDefault(x => x.DadoId == id);
+            DadoComposto? dado = _ctx.DadosCompostos
+                                    .Include(d => d.Fixos)
+                                        .ThenInclude(f => f.ModificadorFixo)
+                                    .Include(d => d.Variaveis)
+                                        .ThenInclude(f => f.ModificadorVariavel)
+                                            .ThenInclude(d => d.Dado)
+                                    .FirstOrDefault(x => x.DadoId == id);
             if (dado == null)
             {
                 return NotFound();
@@ -116,7 +122,13 @@ public class DadoCompostoController : ControllerBase
     {
         try
         {
-            DadoComposto? dado = _ctx.DadosCompostos.Include(d => d.Fixos).ThenInclude(f => f.ModificadorFixo).Include(d => d.Variaveis).ThenInclude(f => f.ModificadorVariavel).ThenInclude(d => d.Dado).FirstOrDefault(x => x.DadoId == id);
+            DadoComposto? dado = _ctx.DadosCompostos
+                                    .Include(d => d.Fixos)
+                                        .ThenInclude(f => f.ModificadorFixo)
+                                    .Include(d => d.Variaveis)
+                                        .ThenInclude(f => f.ModificadorVariavel)
+                                            .ThenInclude(d => d.Dado)
+                                    .FirstOrDefault(x => x.DadoId == id);
             dado.Nome = dadoCompostoDTO.Nome;
             dado.Faces = dadoCompostoDTO.Faces;
             dado.Quantidade = dadoCompostoDTO.Quantidade;
