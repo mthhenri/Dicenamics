@@ -25,7 +25,6 @@ public class DadoComposto
         Random random = new();
         //Usado para a criação da base desse método https://chat.openai.com/share/caa70bd7-58ee-4616-9768-a3330c09732d
 
-        //feito
         if(string.Equals(Condicao, "", StringComparison.OrdinalIgnoreCase) || Condicao == null)
         {
             for (int i = 0; i < Quantidade; i++)
@@ -222,6 +221,7 @@ public class DadoComposto
         } else if(string.Equals(Condicao[..3], "acd", StringComparison.OrdinalIgnoreCase))
         {
             List<int> temp = new();
+            List<int> temp2 = new();
             var vDito = Condicao[3..];
             int valorDito = int.Parse(vDito);
             
@@ -229,13 +229,7 @@ public class DadoComposto
             {
                 int resultadoLancamento = random.Next(1, Faces + 1);
                 resultados.Add(resultadoLancamento);
-            }
-            foreach (var valor in resultados)
-            {
-                if(valor >= valorDito)
-                {
-                    temp.Add(valor);
-                }
+                temp.Add(resultadoLancamento);
             }
 
             if(Fixos != null)
@@ -264,7 +258,15 @@ public class DadoComposto
                 }
             }
 
-            escolhidos = temp;
+            foreach (var valor in temp)
+            {
+                if(valor >= valorDito)
+                {
+                    temp2.Add(valor);
+                }
+            }
+
+            escolhidos = temp2;
             eResultados.Add(resultados);
             eResultados.Add(escolhidos);
             return eResultados;
@@ -272,6 +274,7 @@ public class DadoComposto
         } else if(string.Equals(Condicao[..3], "abd", StringComparison.OrdinalIgnoreCase))
         {
             List<int> temp = new();
+            List<int> temp2 = new();
             var vDito = Condicao[3..];
             int valorDito = int.Parse(vDito);
             
@@ -279,65 +282,7 @@ public class DadoComposto
             {
                 int resultadoLancamento = random.Next(1, Faces + 1);
                 resultados.Add(resultadoLancamento);
-            }
-
-            foreach (var valor in resultados)
-            {
-                if(valor <= valorDito)
-                {
-                    temp.Add(valor);
-                }
-            }
-            
-
-            if(Fixos != null)
-            {
-                for (int i = 0; i < temp.Count; i++)
-                {
-                    for (int j = 0; j < Fixos.Count; j++)
-                    {
-                        temp[i] += Fixos[j].ModificadorFixo.Valor;
-                    }
-                }
-            }
-            
-            if(Variaveis != null)
-            {
-                for (int i = 0; i < temp.Count; i++)
-                {
-                    for (int j = 0; j < Variaveis.Count; j++)
-                    {
-                        List<int> dados = Variaveis[j].ModificadorVariavel.Dado.RolarDado();
-                        for (int k = 0; k < dados.Count; k++)
-                        {
-                            temp[i] += dados[k];
-                        }
-                    }
-                }
-            }
-
-            escolhidos = temp;
-            eResultados.Add(resultados);
-            eResultados.Add(escolhidos);
-            return eResultados;
-
-        } else if(string.Equals(Condicao[..3], "ved", StringComparison.OrdinalIgnoreCase))
-        {
-            List<int> temp = new();
-            var vDito = Condicao[3..];
-            int valorDito = int.Parse(vDito);
-            
-            for (int i = 0; i < Quantidade; i++)
-            {
-                int resultadoLancamento = random.Next(1, Faces + 1);
-                resultados.Add(resultadoLancamento);
-            }
-            foreach (var valor in resultados)
-            {
-                if(valor == valorDito)
-                {
-                    temp.Add(valor);
-                }
+                temp.Add(resultadoLancamento);
             }            
 
             if(Fixos != null)
@@ -366,7 +311,68 @@ public class DadoComposto
                 }
             }
 
-            escolhidos = temp;
+            foreach (var valor in temp)
+            {
+                if(valor <= valorDito)
+                {
+                    temp2.Add(valor);
+                }
+            }
+
+            escolhidos = temp2;
+            eResultados.Add(resultados);
+            eResultados.Add(escolhidos);
+            return eResultados;
+
+        } else if(string.Equals(Condicao[..3], "ved", StringComparison.OrdinalIgnoreCase))
+        {
+            List<int> temp = new();
+            List<int> temp2 = new();
+            var vDito = Condicao[3..];
+            int valorDito = int.Parse(vDito);
+            
+            for (int i = 0; i < Quantidade; i++)
+            {
+                int resultadoLancamento = random.Next(1, Faces + 1);
+                resultados.Add(resultadoLancamento);
+                temp.Add(resultadoLancamento);
+            }                       
+
+            if(Fixos != null)
+            {
+                for (int i = 0; i < temp.Count; i++)
+                {
+                    for (int j = 0; j < Fixos.Count; j++)
+                    {
+                        temp[i] += Fixos[j].ModificadorFixo.Valor;
+                    }
+                }
+            }
+            
+            if(Variaveis != null)
+            {
+                for (int i = 0; i < temp.Count; i++)
+                {
+                    for (int j = 0; j < Variaveis.Count; j++)
+                    {
+                        List<int> dados = Variaveis[j].ModificadorVariavel.Dado.RolarDado();
+                        for (int k = 0; k < dados.Count; k++)
+                        {
+                            temp[i] += dados[k];
+                        }
+                    }
+                }
+            }
+
+            foreach (var valor in temp)
+            {
+                if(valor == valorDito)
+                {
+                    temp2.Add(valor);
+                }
+            }
+
+            escolhidos = temp2;
             eResultados.Add(resultados);
             eResultados.Add(escolhidos);
             return eResultados;
@@ -379,6 +385,7 @@ public class DadoComposto
             if (match.Success)
             {
                 List<int> temp = new();
+                List<int> temp2 = new();
                 int valorMinimo = int.Parse(match.Groups[1].Value);
                 int valorMaximo = int.Parse(match.Groups[2].Value);
 
@@ -386,14 +393,8 @@ public class DadoComposto
                 {
                     int resultadoLancamento = random.Next(1, Faces + 1);
                     resultados.Add(resultadoLancamento);
-                }
-                foreach (var valor in resultados)
-                {
-                    if(valor <= valorMaximo && valor >= valorMinimo)
-                    {
-                            temp.Add(valor);
-                    }
-                }            
+                    temp.Add(resultadoLancamento);
+                }           
 
                 if(Fixos != null)
                 {
@@ -421,7 +422,16 @@ public class DadoComposto
                     }
                 }
 
-                escolhidos = temp;
+                
+                foreach (var valor in temp)
+                {
+                    if(valor <= valorMaximo && valor >= valorMinimo)
+                    {
+                            temp2.Add(valor);
+                    }
+                } 
+
+                escolhidos = temp2;
                 eResultados.Add(resultados);
                 eResultados.Add(escolhidos);
             }
