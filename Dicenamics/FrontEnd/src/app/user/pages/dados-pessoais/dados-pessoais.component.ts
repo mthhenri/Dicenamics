@@ -3,9 +3,10 @@ import { Component, Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
-import { delay } from 'rxjs';
 import { AppComponent } from 'src/app/app.component';
 import { DadoComposto } from 'src/app/models/dadoComposto.models';
+import { DadoCompostoModFixo } from 'src/app/models/dadoCompostoModFixo.models';
+import { ModificadorFixo } from 'src/app/models/modificadorFixo.models';
 import { ApagarConfirmarComponent } from 'src/app/pages/apagar-confirmar/apagar-confirmar.component';
 import { RolagemDadoComponent } from 'src/app/pages/rolagem-dado/rolagem-dado.component';
 
@@ -49,10 +50,37 @@ export class DadosPessoaisComponent {
 
   dadoBonito(dado : DadoComposto){
     let texto = ''
-    dado.fixos.forEach(fixo => {
-      
-    });
     texto = `${dado.quantidade}D${dado.faces}${dado.condicao}`
+    if(dado.fixos != null){
+      dado.fixos.forEach(fixo => {
+        if(fixo.modificadorFixo.valor < 0){
+          texto += `${fixo.modificadorFixo.valor}`
+        } else {
+          texto += `+${fixo.modificadorFixo.valor}`
+        }
+      });
+    }
+    return texto
+  }
+
+  formatarString(str?: string): string {
+    if(str != undefined && str != ""){
+      return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+    } else {
+      return ""
+    }
+  }
+
+  modificadorBonito(modDado : DadoCompostoModFixo[]){
+    let texto = ''
+    for (let index = 0; index < modDado.length; index++) {
+      const mod = modDado[index];
+      if(index === modDado.length - 1){
+        texto += `${this.formatarString(mod.modificadorFixo.nome)} ${mod.modificadorFixo.valor}`
+      } else {
+        texto += `${this.formatarString(mod.modificadorFixo.nome)} ${mod.modificadorFixo.valor} | `
+      }
+    }
     return texto
   }
 

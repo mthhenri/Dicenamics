@@ -7,6 +7,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AppComponent } from 'src/app/app.component';
 import { ModificadorFixo } from 'src/app/models/modificadorFixo.models';
+import { DadoCompostoModFixo } from 'src/app/models/dadoCompostoModFixo.models';
 
 @Component({
   selector: 'app-dados-pessoais-cadastro',
@@ -35,11 +36,12 @@ export class DadosPessoaisCadastroComponent {
       this.client
         .get<DadoComposto>(`https://localhost:7151/dicenamics/dados/composto/buscar/${this.dadoEditarId}`)
         .subscribe({
-          next: (dado) => {
+          next: async (dado) => {
             this.nome.setValue(dado.nome)
             this.faces.setValue(dado.faces.toString())
             this.quantidade.setValue(dado.quantidade.toString())
             this.condicao.setValue(dado.condicao)
+            await this.formModAddEdit(dado);
           },
           error: (error) => {
             console.log(error)
@@ -71,10 +73,56 @@ export class DadosPessoaisCadastroComponent {
     this.modFixQuantidade = this.modFixQuantidade.filter(e => e != index)
   }
 
+  async formModAddEdit(dado : DadoComposto) : Promise<void> {
+    return new Promise((resolve, reject) => {
+      if(dado.fixos != undefined && dado.fixos != null){
+
+        for (let index = 0; index < dado.fixos.length - 1; index++) {
+          this.addModFix(index)
+        }
+
+        dado.fixos.forEach((fixo, index) => {
+          const nome = fixo.modificadorFixo.nome?.toString();
+          const valor = fixo.modificadorFixo.valor?.toString();
+        
+          this.atualizarFormControlNome(index, nome);
+          this.atualizarFormControlValor(index, valor);
+        });
+
+        resolve()
+      }
+      reject()
+    })
+  }
+
+  private atualizarFormControlNome(index: number, nome: string | undefined): void {
+    let formControlName = `nome_${index}`;
+    if (this.formControls[formControlName]) {
+      this.formControls[formControlName].setValue(nome || '');
+    } else {
+      this.formControls[formControlName] = this.formBuilder.control('');
+      this.formControls[formControlName].setValue(nome || '');
+    }
+  }
+  
+  private atualizarFormControlValor(index: number, valor: string | undefined): void {
+    let formControlValue = `valor_${index}`;
+    if (this.formControls[formControlValue]) {
+      this.formControls[formControlValue].setValue(parseInt(valor || '0', 10));
+    } else {
+      this.formControls[formControlValue] = this.formBuilder.control('', Validators.required);
+      this.formControls[formControlValue].setValue(parseInt(valor || '0', 10));
+    }
+  }
+
   getFormControlFixo(index: number, campo: string): FormControl {
     const controlName = `${campo}_${index}`;  
     if (!this.formControls[controlName]) {
-      this.formControls[controlName] = this.formBuilder.control('', Validators.required);
+      if(campo === "nome"){
+        this.formControls[controlName] = this.formBuilder.control('');
+      } else {
+        this.formControls[controlName] = this.formBuilder.control('', Validators.required);
+      }
     }
     return this.formControls[controlName];
   }
@@ -86,8 +134,7 @@ export class DadosPessoaisCadastroComponent {
         .subscribe({
           next: (modCriado) => {
             if (modCriado.modificadorFixoId != undefined) {
-              console.log(modCriado.modificadorFixoId)
-              dadoNovo.fixos.push(modCriado.modificadorFixoId);
+              dadoNovo.fixosId.push(modCriado.modificadorFixoId);
               resolve();
             }
           },
@@ -118,7 +165,7 @@ export class DadosPessoaisCadastroComponent {
         faces : faces,
         quantidade : quantidade,
         condicao : condicao,
-        fixos : [],
+        fixosId : [],
         variaveis : []
       }
     } else {
@@ -129,7 +176,6 @@ export class DadosPessoaisCadastroComponent {
     for (let index = 0; index < this.modFixQuantidade.length; index++) {    
       const nome = this.formControls[`nome_${index}`].value?.toString() || '';
       const valor = parseInt(this.formControls[`valor_${index}`].value?.toString() || '0', 10);
-      console.log(nome, valor)
       let mod : ModificadorFixo = {
         nome : nome,
         valor : valor
@@ -139,14 +185,11 @@ export class DadosPessoaisCadastroComponent {
         await this.criarModFixo(dadoNovo, mod)
       }
     }
-
-    console.log(dadoNovo.fixos.toString())
     
     this.client
       .put<DadoComposto>(`https://localhost:7151/dicenamics/usuario/adicionarDado/composto/${this.appComponent.usuario.usuarioId}`, dadoNovo)
       .subscribe({
         next: (dado) => {
-          console.log(dado.dadoId)
           this.router.navigate(["dadosPessoais"])
           this.snackBar.open(`O dado ${dadoNovo.nome} foi criado!`, 'Beleza!', {
             duration: 1750,
@@ -162,7 +205,7 @@ export class DadosPessoaisCadastroComponent {
       })
   }
 
-  editarDado(){
+  async editarDado(){
     let nome : string | undefined = this.nome.value?.toString() 
     let f : string | undefined = this.faces.value?.toString()
     let q : string | undefined = this.quantidade.value?.toString() 
@@ -177,8 +220,21 @@ export class DadosPessoaisCadastroComponent {
         faces : faces,
         quantidade : quantidade,
         condicao : condicao,
-        fixos : [],
+        fixosId : [],
         variaveis : []
+      }
+
+      for (let index = 0; index < this.modFixQuantidade.length; index++) {    
+        const nome = this.formControls[`nome_${index}`].value?.toString() || '';
+        const valor = parseInt(this.formControls[`valor_${index}`].value?.toString() || '0', 10);
+        let mod : ModificadorFixo = {
+          nome : nome,
+          valor : valor
+        }
+  
+        if(mod.valor != null && mod.valor != 0 && mod.nome != undefined){
+          await this.criarModFixo(this.dadoEditar, mod)
+        }
       }
 
       this.client

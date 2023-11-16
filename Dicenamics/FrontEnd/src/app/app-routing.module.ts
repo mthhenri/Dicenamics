@@ -9,6 +9,10 @@ import { DadosPessoaisCadastroComponent } from './user/pages/dados-pessoais/cada
 const routes: Routes = [
   // inserir as rotas aqui
   {
+    path: "",
+    component: InicialComponent
+  },
+  {
     path: "dicenamics",
     component: InicialComponent
   },

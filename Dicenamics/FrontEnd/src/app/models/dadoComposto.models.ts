@@ -1,4 +1,4 @@
-import { ModificadorFixo } from "./modificadorFixo.models"
+import { DadoCompostoModFixo } from "./dadoCompostoModFixo.models"
 
 export interface DadoComposto {
     dadoId? : number
@@ -6,6 +6,7 @@ export interface DadoComposto {
     faces : number
     quantidade : number 
     condicao : string
-    fixos : number[]
+    fixosId : number[]
+    fixos? : DadoCompostoModFixo[]
     variaveis : number[]
 }

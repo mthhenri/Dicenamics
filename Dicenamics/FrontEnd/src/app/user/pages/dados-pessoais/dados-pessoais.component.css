@@ -37,13 +37,23 @@
 .descDados {
     display: flex;
     justify-content: space-around;
+    margin: 7px;
 }
 
 .modList {
     display: flex;
     align-items: center;
+    padding-bottom: 15px;
 }
 
 .modList > mat-icon {
     padding-right: 5px;
+}
+
+.modList > #modTitle {
+    margin-right: 5px;
+}
+
+.modList > #modMod {
+    margin-right: 5px;
 }
