@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace Dicenamics.Migrations
+namespace BackEnd.Migrations
 {
     [DbContext(typeof(AppDatabase))]
     partial class AppDatabaseModelSnapshot : ModelSnapshot
@@ -17,7 +17,7 @@ namespace Dicenamics.Migrations
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "6.0.21");
 
-            modelBuilder.Entity("Dicenamics.Models.DadoComposto", b =>
+            modelBuilder.Entity("BackEnd.Models.DadoComposto", b =>
                 {
                     b.Property<int>("DadoId")
                         .ValueGeneratedOnAdd()
@@ -45,7 +45,7 @@ namespace Dicenamics.Migrations
                     b.ToTable("DadosCompostos", (string)null);
                 });
 
-            modelBuilder.Entity("Dicenamics.Models.DadoCompostoModFixo", b =>
+            modelBuilder.Entity("BackEnd.Models.DadoCompostoModFixo", b =>
                 {
                     b.Property<int>("DadoId")
                         .HasColumnType("INTEGER");
@@ -60,7 +60,7 @@ namespace Dicenamics.Migrations
                     b.ToTable("DadoCompostoModFixo");
                 });
 
-            modelBuilder.Entity("Dicenamics.Models.DadoCompostoModVar", b =>
+            modelBuilder.Entity("BackEnd.Models.DadoCompostoModVar", b =>
                 {
                     b.Property<int>("ConectDadoVarId")
                         .ValueGeneratedOnAdd()
@@ -81,7 +81,7 @@ namespace Dicenamics.Migrations
                     b.ToTable("DadoCompostoModVar");
                 });
 
-            modelBuilder.Entity("Dicenamics.Models.DadoCompostoSala", b =>
+            modelBuilder.Entity("BackEnd.Models.DadoCompostoSala", b =>
                 {
                     b.Property<int>("DadoCompostoSalaId")
                         .ValueGeneratedOnAdd()
@@ -117,7 +117,7 @@ namespace Dicenamics.Migrations
                     b.ToTable("DadosCompostosSalas");
                 });
 
-            modelBuilder.Entity("Dicenamics.Models.DadoCompostoSalaModFixo", b =>
+            modelBuilder.Entity("BackEnd.Models.DadoCompostoSalaModFixo", b =>
                 {
                     b.Property<int>("ConectDadoVarId")
                         .ValueGeneratedOnAdd()
@@ -138,7 +138,7 @@ namespace Dicenamics.Migrations
                     b.ToTable("DadoCompostoSalaModFixo");
                 });
 
-            modelBuilder.Entity("Dicenamics.Models.DadoCompostoSalaModVar", b =>
+            modelBuilder.Entity("BackEnd.Models.DadoCompostoSalaModVar", b =>
                 {
                     b.Property<int>("ConectDadoVarId")
                         .ValueGeneratedOnAdd()
@@ -157,7 +157,7 @@ namespace Dicenamics.Migrations
                     b.ToTable("DadoCompostoSalaModVar");
                 });
 
-            modelBuilder.Entity("Dicenamics.Models.DadoSimples", b =>
+            modelBuilder.Entity("BackEnd.Models.DadoSimples", b =>
                 {
                     b.Property<int>("DadoId")
                         .ValueGeneratedOnAdd()
@@ -185,7 +185,7 @@ namespace Dicenamics.Migrations
                     b.ToTable("DadosSimples", (string)null);
                 });
 
-            modelBuilder.Entity("Dicenamics.Models.DadoSimplesSala", b =>
+            modelBuilder.Entity("BackEnd.Models.DadoSimplesSala", b =>
                 {
                     b.Property<int>("DadoSimplesSalaId")
                         .ValueGeneratedOnAdd()
@@ -218,7 +218,7 @@ namespace Dicenamics.Migrations
                     b.ToTable("DadosSimplesSalas");
                 });
 
-            modelBuilder.Entity("Dicenamics.Models.ModificadorFixo", b =>
+            modelBuilder.Entity("BackEnd.Models.ModificadorFixo", b =>
                 {
                     b.Property<int>("ModificadorFixoId")
                         .ValueGeneratedOnAdd()
@@ -235,7 +235,7 @@ namespace Dicenamics.Migrations
                     b.ToTable("ModificadoresFixos");
                 });
 
-            modelBuilder.Entity("Dicenamics.Models.ModificadorVariavel", b =>
+            modelBuilder.Entity("BackEnd.Models.ModificadorVariavel", b =>
                 {
                     b.Property<int>("ModificadorVariavelId")
                         .ValueGeneratedOnAdd()
@@ -255,7 +255,7 @@ namespace Dicenamics.Migrations
                     b.ToTable("ModificadoresVariaveis");
                 });
 
-            modelBuilder.Entity("Dicenamics.Models.Sala", b =>
+            modelBuilder.Entity("BackEnd.Models.Sala", b =>
                 {
                     b.Property<int>("SalaId")
                         .ValueGeneratedOnAdd()
@@ -284,7 +284,7 @@ namespace Dicenamics.Migrations
                     b.ToTable("Salas");
                 });
 
-            modelBuilder.Entity("Dicenamics.Models.SalaUsuario", b =>
+            modelBuilder.Entity("BackEnd.Models.SalaUsuario", b =>
                 {
                     b.Property<int>("SalaUsuarioId")
                         .ValueGeneratedOnAdd()
@@ -305,7 +305,7 @@ namespace Dicenamics.Migrations
                     b.ToTable("SalaUsuario");
                 });
 
-            modelBuilder.Entity("Dicenamics.Models.Usuario", b =>
+            modelBuilder.Entity("BackEnd.Models.Usuario", b =>
                 {
                     b.Property<int>("UsuarioId")
                         .ValueGeneratedOnAdd()
@@ -325,22 +325,22 @@ namespace Dicenamics.Migrations
                     b.ToTable("Usuarios");
                 });
 
-            modelBuilder.Entity("Dicenamics.Models.DadoComposto", b =>
+            modelBuilder.Entity("BackEnd.Models.DadoComposto", b =>
                 {
-                    b.HasOne("Dicenamics.Models.Usuario", null)
+                    b.HasOne("BackEnd.Models.Usuario", null)
                         .WithMany("DadosCompostosPessoais")
                         .HasForeignKey("UsuarioId");
                 });
 
-            modelBuilder.Entity("Dicenamics.Models.DadoCompostoModFixo", b =>
+            modelBuilder.Entity("BackEnd.Models.DadoCompostoModFixo", b =>
                 {
-                    b.HasOne("Dicenamics.Models.ModificadorFixo", "ModificadorFixo")
+                    b.HasOne("BackEnd.Models.DadoComposto", "DadoComposto")
                         .WithMany("Fixos")
                         .HasForeignKey("DadoId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Dicenamics.Models.DadoComposto", "DadoComposto")
+                    b.HasOne("BackEnd.Models.ModificadorFixo", "ModificadorFixo")
                         .WithMany("Fixos")
                         .HasForeignKey("ModificadorId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -351,15 +351,15 @@ namespace Dicenamics.Migrations
                     b.Navigation("ModificadorFixo");
                 });
 
-            modelBuilder.Entity("Dicenamics.Models.DadoCompostoModVar", b =>
+            modelBuilder.Entity("BackEnd.Models.DadoCompostoModVar", b =>
                 {
-                    b.HasOne("Dicenamics.Models.DadoComposto", "DadoComposto")
+                    b.HasOne("BackEnd.Models.DadoComposto", "DadoComposto")
                         .WithMany("Variaveis")
                         .HasForeignKey("DadoId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Dicenamics.Models.ModificadorVariavel", "ModificadorVariavel")
+                    b.HasOne("BackEnd.Models.ModificadorVariavel", "ModificadorVariavel")
                         .WithMany("Variaveis")
                         .HasForeignKey("ModificadorId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -370,30 +370,30 @@ namespace Dicenamics.Migrations
                     b.Navigation("ModificadorVariavel");
                 });
 
-            modelBuilder.Entity("Dicenamics.Models.DadoCompostoSala", b =>
+            modelBuilder.Entity("BackEnd.Models.DadoCompostoSala", b =>
                 {
-                    b.HasOne("Dicenamics.Models.Usuario", "Criador")
+                    b.HasOne("BackEnd.Models.Usuario", "Criador")
                         .WithMany()
                         .HasForeignKey("CriadorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Dicenamics.Models.Sala", null)
+                    b.HasOne("BackEnd.Models.Sala", null)
                         .WithMany("DadosCompostosSala")
                         .HasForeignKey("SalaId");
 
                     b.Navigation("Criador");
                 });
 
-            modelBuilder.Entity("Dicenamics.Models.DadoCompostoSalaModFixo", b =>
+            modelBuilder.Entity("BackEnd.Models.DadoCompostoSalaModFixo", b =>
                 {
-                    b.HasOne("Dicenamics.Models.ModificadorFixo", "ModificadorFixo")
+                    b.HasOne("BackEnd.Models.ModificadorFixo", "ModificadorFixo")
                         .WithMany("FixosSala")
                         .HasForeignKey("DadoId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Dicenamics.Models.DadoCompostoSala", "DadoCompostoSala")
+                    b.HasOne("BackEnd.Models.DadoCompostoSala", "DadoCompostoSala")
                         .WithMany("Fixos")
                         .HasForeignKey("ModificadorId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -404,15 +404,15 @@ namespace Dicenamics.Migrations
                     b.Navigation("ModificadorFixo");
                 });
 
-            modelBuilder.Entity("Dicenamics.Models.DadoCompostoSalaModVar", b =>
+            modelBuilder.Entity("BackEnd.Models.DadoCompostoSalaModVar", b =>
                 {
-                    b.HasOne("Dicenamics.Models.DadoCompostoSala", "DadoCompostoSala")
+                    b.HasOne("BackEnd.Models.DadoCompostoSala", "DadoCompostoSala")
                         .WithMany("Variaveis")
                         .HasForeignKey("DadoId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Dicenamics.Models.ModificadorVariavel", "ModificadorVariavel")
+                    b.HasOne("BackEnd.Models.ModificadorVariavel", "ModificadorVariavel")
                         .WithMany("VariaveisSala")
                         .HasForeignKey("DadoId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -423,42 +423,42 @@ namespace Dicenamics.Migrations
                     b.Navigation("ModificadorVariavel");
                 });
 
-            modelBuilder.Entity("Dicenamics.Models.DadoSimples", b =>
+            modelBuilder.Entity("BackEnd.Models.DadoSimples", b =>
                 {
-                    b.HasOne("Dicenamics.Models.Usuario", null)
+                    b.HasOne("BackEnd.Models.Usuario", null)
                         .WithMany("DadosSimplesPessoais")
                         .HasForeignKey("UsuarioId");
                 });
 
-            modelBuilder.Entity("Dicenamics.Models.DadoSimplesSala", b =>
+            modelBuilder.Entity("BackEnd.Models.DadoSimplesSala", b =>
                 {
-                    b.HasOne("Dicenamics.Models.Usuario", "Criador")
+                    b.HasOne("BackEnd.Models.Usuario", "Criador")
                         .WithMany()
                         .HasForeignKey("CriadorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Dicenamics.Models.Sala", null)
+                    b.HasOne("BackEnd.Models.Sala", null)
                         .WithMany("DadosSimplesSala")
                         .HasForeignKey("SalaId");
 
                     b.Navigation("Criador");
                 });
 
-            modelBuilder.Entity("Dicenamics.Models.ModificadorVariavel", b =>
+            modelBuilder.Entity("BackEnd.Models.ModificadorVariavel", b =>
                 {
-                    b.HasOne("Dicenamics.Models.DadoSimples", "Dado")
+                    b.HasOne("BackEnd.Models.DadoSimples", "Dado")
                         .WithOne("ModificadorVariavel")
-                        .HasForeignKey("Dicenamics.Models.ModificadorVariavel", "DadoSimplesId")
+                        .HasForeignKey("BackEnd.Models.ModificadorVariavel", "DadoSimplesId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Dado");
                 });
 
-            modelBuilder.Entity("Dicenamics.Models.Sala", b =>
+            modelBuilder.Entity("BackEnd.Models.Sala", b =>
                 {
-                    b.HasOne("Dicenamics.Models.Usuario", "UsuarioMestre")
+                    b.HasOne("BackEnd.Models.Usuario", "UsuarioMestre")
                         .WithMany()
                         .HasForeignKey("UsuarioMestreId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -467,15 +467,15 @@ namespace Dicenamics.Migrations
                     b.Navigation("UsuarioMestre");
                 });
 
-            modelBuilder.Entity("Dicenamics.Models.SalaUsuario", b =>
+            modelBuilder.Entity("BackEnd.Models.SalaUsuario", b =>
                 {
-                    b.HasOne("Dicenamics.Models.Sala", "Sala")
+                    b.HasOne("BackEnd.Models.Sala", "Sala")
                         .WithMany("Convidados")
                         .HasForeignKey("SalaId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Dicenamics.Models.Usuario", "Usuario")
+                    b.HasOne("BackEnd.Models.Usuario", "Usuario")
                         .WithMany("Salas")
                         .HasForeignKey("UsuarioId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -486,41 +486,41 @@ namespace Dicenamics.Migrations
                     b.Navigation("Usuario");
                 });
 
-            modelBuilder.Entity("Dicenamics.Models.DadoComposto", b =>
+            modelBuilder.Entity("BackEnd.Models.DadoComposto", b =>
                 {
                     b.Navigation("Fixos");
 
                     b.Navigation("Variaveis");
                 });
 
-            modelBuilder.Entity("Dicenamics.Models.DadoCompostoSala", b =>
+            modelBuilder.Entity("BackEnd.Models.DadoCompostoSala", b =>
                 {
                     b.Navigation("Fixos");
 
                     b.Navigation("Variaveis");
                 });
 
-            modelBuilder.Entity("Dicenamics.Models.DadoSimples", b =>
+            modelBuilder.Entity("BackEnd.Models.DadoSimples", b =>
                 {
                     b.Navigation("ModificadorVariavel")
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Dicenamics.Models.ModificadorFixo", b =>
+            modelBuilder.Entity("BackEnd.Models.ModificadorFixo", b =>
                 {
                     b.Navigation("Fixos");
 
                     b.Navigation("FixosSala");
                 });
 
-            modelBuilder.Entity("Dicenamics.Models.ModificadorVariavel", b =>
+            modelBuilder.Entity("BackEnd.Models.ModificadorVariavel", b =>
                 {
                     b.Navigation("Variaveis");
 
                     b.Navigation("VariaveisSala");
                 });
 
-            modelBuilder.Entity("Dicenamics.Models.Sala", b =>
+            modelBuilder.Entity("BackEnd.Models.Sala", b =>
                 {
                     b.Navigation("Convidados");
 
@@ -529,7 +529,7 @@ namespace Dicenamics.Migrations
                     b.Navigation("DadosSimplesSala");
                 });
 
-            modelBuilder.Entity("Dicenamics.Models.Usuario", b =>
+            modelBuilder.Entity("BackEnd.Models.Usuario", b =>
                 {
                     b.Navigation("DadosCompostosPessoais");
 

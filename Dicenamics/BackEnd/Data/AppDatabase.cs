@@ -36,19 +36,6 @@ public class AppDatabase : DbContext
             .HasMany(dc => dc.Variaveis) // Propriedade de navegação em DadoComposto
             .WithOne(df => df.DadoComposto) // Propriedade de navegação correspondente em DadoCompostoModVar
             .HasForeignKey(df => df.DadoId); // Chave estrangeira em DadoCompostoModVar
-
-        modelBuilder.Entity<DadoCompostoModFixo>()
-            .HasKey(df => new {df.DadoId, df.ModificadorId});
-
-        modelBuilder.Entity<DadoCompostoModFixo>()
-            .HasOne(df => df.DadoComposto)
-            .WithMany(df => df.Fixos)
-            .HasForeignKey(df => df.ModificadorId);
-
-        modelBuilder.Entity<DadoCompostoModFixo>()
-            .HasOne(df => df.ModificadorFixo)
-            .WithMany(df => df.Fixos)
-            .HasForeignKey(df => df.DadoId);
         
         modelBuilder.Entity<DadoCompostoModVar>()
             .HasOne(df => df.DadoComposto)
@@ -58,6 +45,19 @@ public class AppDatabase : DbContext
         modelBuilder.Entity<DadoCompostoModVar>()
             .HasOne(df => df.ModificadorVariavel)
             .WithMany(mv => mv.Variaveis) 
+            .HasForeignKey(df => df.ModificadorId);
+
+        modelBuilder.Entity<DadoCompostoModFixo>()
+            .HasKey(df => new {df.DadoId, df.ModificadorId});
+
+        modelBuilder.Entity<DadoCompostoModFixo>()
+            .HasOne(df => df.DadoComposto)
+            .WithMany(df => df.Fixos)
+            .HasForeignKey(df => df.DadoId);
+
+        modelBuilder.Entity<DadoCompostoModFixo>()
+            .HasOne(df => df.ModificadorFixo)
+            .WithMany(df => df.Fixos)
             .HasForeignKey(df => df.ModificadorId);
         
         modelBuilder.Entity<SalaUsuario>()
