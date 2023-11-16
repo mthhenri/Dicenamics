@@ -236,7 +236,7 @@ namespace Dicenamics.Controllers
 
                 List<DadoCompostoModFixo> fixos = new();
                 List<DadoCompostoModVar> variaveis = new();
-                List<ModificadorFixo> fixo = _ctx.ModificadoresFixos.Where(mf => dadoAdd.Fixos.Contains(mf.ModificadorFixoId)).ToList();
+                List<ModificadorFixo> fixo = _ctx.ModificadoresFixos.Where(mf => dadoAdd.FixosId.Contains(mf.ModificadorFixoId)).ToList();
                 List<ModificadorVariavel> variavel = _ctx.ModificadoresVariaveis.Where(mf => dadoAdd.Variaveis.Contains(mf.ModificadorVariavelId)).Include(d => d.Dado).ToList();
                 
                 foreach (var item in fixo)

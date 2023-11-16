@@ -45,24 +45,50 @@ public class DadoComposto
                     }               
                     tempFixos.Add(novoValor);
                 }
+                if(Fixos != null && Variaveis != null){
+                escolhidos = tempFixos;
+                }
             }
             
             if(Variaveis != null)
             {
-                foreach (var valor in tempFixos)
-                {
-                    var novoValor = valor;
-                    for (int i = 0; i < Variaveis.Count; i++)
+                if(Fixos != null){
+                    foreach (var valor in tempFixos)
                     {
-                        List<int> dados = Variaveis[i].ModificadorVariavel.Dado.RolarDado();
-                        foreach (var valorDado in dados)
+                        var novoValor = valor;
+                        for (int i = 0; i < Variaveis.Count; i++)
                         {
-                            novoValor += valorDado;       
+                            List<int> dados = Variaveis[i].ModificadorVariavel.Dado.RolarDado();
+                            foreach (var valorDado in dados)
+                            {
+                                novoValor += valorDado;       
+                            }
                         }
+                        tempVar.Add(novoValor);
                     }
-                    tempVar.Add(novoValor);
+                } else {
+                    foreach (var valor in resultados)
+                    {
+                        var novoValor = valor;
+                        for (int i = 0; i < Variaveis.Count; i++)
+                        {
+                            List<int> dados = Variaveis[i].ModificadorVariavel.Dado.RolarDado();
+                            foreach (var valorDado in dados)
+                            {
+                                novoValor += valorDado;       
+                            }
+                        }
+                        tempVar.Add(novoValor);
+                    }
                 }
+            }
+
+            if(Fixos != null && Variaveis == null){
+                escolhidos = tempFixos;
+            } else if (Fixos == null && Variaveis != null) {
                 escolhidos = tempVar;
+            } else if (Fixos != null && Variaveis != null) {
+                escolhidos = resultados;
             }
 
             eResultados.Add(resultados);

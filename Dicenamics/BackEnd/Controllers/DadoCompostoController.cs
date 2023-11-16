@@ -22,7 +22,7 @@ public class DadoCompostoController : ControllerBase
         {
             List<DadoCompostoModFixo> fixos = new();
             List<DadoCompostoModVar> variaveis = new();
-            List<ModificadorFixo> fixo = _ctx.ModificadoresFixos.Where(mf => dadoCompostoDTO.Fixos.Contains(mf.ModificadorFixoId)).ToList();
+            List<ModificadorFixo> fixo = _ctx.ModificadoresFixos.Where(mf => dadoCompostoDTO.FixosId.Contains(mf.ModificadorFixoId)).ToList();
             List<ModificadorVariavel> variavel = _ctx.ModificadoresVariaveis.Where(mf => dadoCompostoDTO.Variaveis.Contains(mf.ModificadorVariavelId)).Include(d => d.Dado).ToList();
             
             foreach (var item in fixo)
@@ -136,7 +136,7 @@ public class DadoCompostoController : ControllerBase
 
             List<DadoCompostoModFixo> fixos = new();
             List<DadoCompostoModVar> variaveis = new();
-            List<ModificadorFixo> fixo = _ctx.ModificadoresFixos.Where(mf => dadoCompostoDTO.Fixos.Contains(mf.ModificadorFixoId)).ToList();
+            List<ModificadorFixo> fixo = _ctx.ModificadoresFixos.Where(mf => dadoCompostoDTO.FixosId.Contains(mf.ModificadorFixoId)).ToList();
             List<ModificadorVariavel> variavel = _ctx.ModificadoresVariaveis.Where(mf => dadoCompostoDTO.Variaveis.Contains(mf.ModificadorVariavelId)).Include(d => d.Dado).ToList();
             
             foreach (var item in fixo)
@@ -198,12 +198,15 @@ public class DadoCompostoController : ControllerBase
         try
         {
             DadoComposto? dado = _ctx.DadosCompostos
-                .Include(d => d.Fixos)
-                    .ThenInclude(f => f.ModificadorFixo)
-                .Include(d => d.Variaveis)
-                    .ThenInclude(f => f.ModificadorVariavel)
-                        .ThenInclude(d => d.Dado)
-                .FirstOrDefault(x => x.DadoId == id);
+                                    .Include(d => d.Fixos)
+                                        .ThenInclude(f => f.ModificadorFixo)
+                                    .FirstOrDefault(x => x.DadoId == id);
+                // .Include(d => d.Fixos)
+                //     .ThenInclude(f => f.ModificadorFixo)
+                // .Include(d => d.Variaveis)
+                //     .ThenInclude(f => f.ModificadorVariavel)
+                //         .ThenInclude(d => d.Dado)
+                // .FirstOrDefault(x => x.DadoId == id);
             if (dado == null)
             {
                 return NotFound();
@@ -214,7 +217,7 @@ public class DadoCompostoController : ControllerBase
             List<DadoCompostoModFixo> fixos = new();
             List<DadoCompostoModVar> variaveis = new();
 
-            if(dado.Fixos != null)
+            if(dado.Fixos != null && dado.Fixos.Count != 0)
             {
                 for (int i = 0; i < dado.Fixos.Count; i++)
                 {
@@ -232,23 +235,23 @@ public class DadoCompostoController : ControllerBase
                 dado.Fixos = fixos;
             }
 
-            if(dado.Variaveis != null)
-            {
-                for (int i = 0; i < dado.Fixos.Count; i++)
-                {
-                    ModificadorVariavel? mod = _ctx.ModificadoresVariaveis.FirstOrDefault(m => m.ModificadorVariavelId == dado.Variaveis[i].ModificadorId);
-                    variavel.Add(mod);
-                }            
-                foreach (var item in variavel)
-                {
-                    DadoCompostoModVar mods = new()
-                    {
-                        ModificadorVariavel = item
-                    };
-                    variaveis.Add(mods);
-                }
-                dado.Variaveis = variaveis;
-            }
+            // if(dado.Variaveis != null && dado.Variaveis.Count != 0)
+            // {
+            //     for (int i = 0; i < dado.Variaveis.Count; i++)
+            //     {
+            //         ModificadorVariavel? mod = _ctx.ModificadoresVariaveis.FirstOrDefault(m => m.ModificadorVariavelId == dado.Variaveis[i].ModificadorId);
+            //         variavel.Add(mod);
+            //     }            
+            //     foreach (var item in variavel)
+            //     {
+            //         DadoCompostoModVar mods = new()
+            //         {
+            //             ModificadorVariavel = item
+            //         };
+            //         variaveis.Add(mods);
+            //     }
+            //     dado.Variaveis = variaveis;
+            // }
             
             return Ok(dado.RolarDado());
         }
