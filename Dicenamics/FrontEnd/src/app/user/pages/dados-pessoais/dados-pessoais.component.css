@@ -38,3 +38,12 @@
     display: flex;
     justify-content: space-around;
 }
+
+.modList {
+    display: flex;
+    align-items: center;
+}
+
+.modList > mat-icon {
+    padding-right: 5px;
+}

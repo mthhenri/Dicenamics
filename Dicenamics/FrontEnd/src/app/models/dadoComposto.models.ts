@@ -1,3 +1,5 @@
+import { ModificadorFixo } from "./modificadorFixo.models"
+
 export interface DadoComposto {
     dadoId? : number
     nome : string

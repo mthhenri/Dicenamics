@@ -2,10 +2,11 @@ import { DadosPessoaisComponent } from 'src/app/user/pages/dados-pessoais/dados-
 import { DadoComposto } from 'src/app/models/dadoComposto.models';
 import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
-import { FormControl, Validators } from '@angular/forms';
+import { FormControl, Validators, FormBuilder } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AppComponent } from 'src/app/app.component';
+import { ModificadorFixo } from 'src/app/models/modificadorFixo.models';
 
 @Component({
   selector: 'app-dados-pessoais-cadastro',
@@ -19,7 +20,8 @@ export class DadosPessoaisCadastroComponent {
     public appComponent: AppComponent,
     private client: HttpClient,
     private snackBar: MatSnackBar,
-    public dadosPessoais: DadosPessoaisComponent
+    public dadosPessoais: DadosPessoaisComponent,
+    private formBuilder: FormBuilder
   ) {}
 
   ngOnInit(){
@@ -27,7 +29,6 @@ export class DadosPessoaisCadastroComponent {
     this.route.queryParams.subscribe(params => {
       this.dadoEditarId = params['dadoId']
     })
-    console.log(this.dadoEditarId)
     if(this.dadoEditarId != 0 && this.dadoEditarId != undefined){
       this.acaoDado = "Salvar Alterações"
       this.acao = "Editar"
@@ -58,8 +59,48 @@ export class DadosPessoaisCadastroComponent {
   acao! : String
   dadoEditarId : number = 0
   dadoEditar! : DadoComposto
+  modFixQuantidade : number[] = [0]
+  modFixos : ModificadorFixo[] = []
+  formControls: { [key: string]: FormControl } = {};
 
-  criarDado(){
+  addModFix(index : number){
+    this.modFixQuantidade.push(this.modFixQuantidade[index] + 1)
+  }
+
+  removeModFixo(index : number){
+    this.modFixQuantidade = this.modFixQuantidade.filter(e => e != index)
+  }
+
+  getFormControlFixo(index: number, campo: string): FormControl {
+    const controlName = `${campo}_${index}`;  
+    if (!this.formControls[controlName]) {
+      this.formControls[controlName] = this.formBuilder.control('', Validators.required);
+    }
+    return this.formControls[controlName];
+  }
+
+  async criarModFixo(dadoNovo: DadoComposto, mod: ModificadorFixo): Promise<void> {
+    return new Promise((resolve, reject) => {
+      this.client
+        .post<ModificadorFixo>(`https://localhost:7151/dicenamics/modificadores/fixo/criar`, mod)
+        .subscribe({
+          next: (modCriado) => {
+            if (modCriado.modificadorFixoId != undefined) {
+              console.log(modCriado.modificadorFixoId)
+              dadoNovo.fixos.push(modCriado.modificadorFixoId);
+              resolve();
+            }
+          },
+          error: (error) => {
+            console.log(error);
+            reject();
+          }
+        });
+    });
+  }
+  
+
+  async criarDado(){
     let nome : string | undefined = this.nome.value?.toString() 
     let f : string | undefined = this.faces.value?.toString()
     let q : string | undefined = this.quantidade.value?.toString() 
@@ -85,10 +126,27 @@ export class DadosPessoaisCadastroComponent {
       return
     }
 
+    for (let index = 0; index < this.modFixQuantidade.length; index++) {    
+      const nome = this.formControls[`nome_${index}`].value?.toString() || '';
+      const valor = parseInt(this.formControls[`valor_${index}`].value?.toString() || '0', 10);
+      console.log(nome, valor)
+      let mod : ModificadorFixo = {
+        nome : nome,
+        valor : valor
+      }
+
+      if(mod.valor != null && mod.valor != 0 && mod.nome != undefined){
+        await this.criarModFixo(dadoNovo, mod)
+      }
+    }
+
+    console.log(dadoNovo.fixos.toString())
+    
     this.client
       .put<DadoComposto>(`https://localhost:7151/dicenamics/usuario/adicionarDado/composto/${this.appComponent.usuario.usuarioId}`, dadoNovo)
       .subscribe({
         next: (dado) => {
+          console.log(dado.dadoId)
           this.router.navigate(["dadosPessoais"])
           this.snackBar.open(`O dado ${dadoNovo.nome} foi criado!`, 'Beleza!', {
             duration: 1750,

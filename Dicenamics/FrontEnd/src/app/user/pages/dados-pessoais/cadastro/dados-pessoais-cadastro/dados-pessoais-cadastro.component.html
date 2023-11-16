@@ -2,30 +2,61 @@
     <span id="title"> Dados Pessoais </span>
     <span id="criar"> {{acao}} </span>
     <div class="spacer"></div>
-    <mat-form-field>
-        <mat-label> Nome </mat-label>
-        <div>
-            <input matInput [formControl]="nome" type="text" required>
-        </div>
-    </mat-form-field>
-    <mat-form-field>
-        <mat-label> Faces </mat-label>
-        <div>
-            <input matInput [formControl]="faces" type="number" required>
-        </div>
-    </mat-form-field>
-    <mat-form-field>
-        <mat-label> Quantidade </mat-label>
-        <div>
-            <input matInput [formControl]="quantidade" type="number" required>
-        </div>
-    </mat-form-field>
-    <mat-form-field>
-        <mat-label> Condição </mat-label>
-        <div>
-            <input matInput [formControl]="condicao" type="text">
-        </div>
-    </mat-form-field>
+    <div id="layer1">
+        <mat-form-field>
+            <mat-label> Nome </mat-label>
+            <div>
+                <input matInput [formControl]="nome" type="text" required>
+            </div>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label> Faces </mat-label>
+            <div>
+                <input matInput [formControl]="faces" type="number" required>
+            </div>
+        </mat-form-field>
+    </div>
+    <div id="layer1">
+        <mat-form-field>
+            <mat-label> Quantidade </mat-label>
+            <div>
+                <input matInput [formControl]="quantidade" type="number" required>
+            </div>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label> Condição </mat-label>
+            <div>
+                <input matInput [formControl]="condicao" type="text">
+            </div>
+        </mat-form-field>
+    </div>
+    <span id="criar"> Modificadores Fixos </span>
+        <button mat-button (click)="addModFix(this.modFixQuantidade.length - 1)">
+            <mat-icon> add </mat-icon>
+            <span> Adionar Modificador </span>
+        </button>
+    <div id="layer3">
+        
+    </div>
+    <div>  
+        <div *ngFor="let index of modFixQuantidade" id="layer2">
+            <mat-form-field>
+                <mat-label> Nome </mat-label>
+                <div>
+                    <input matInput [formControl]="getFormControlFixo(index, 'nome')" type="text">
+                </div>
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label> Valor </mat-label>
+                <div>
+                    <input matInput [formControl]="getFormControlFixo(index, 'valor')" type="number">
+                </div>
+            </mat-form-field>
+            <button mat-icon-button id="removeBtn" (click)="removeModFixo(index)">
+                <mat-icon> remove </mat-icon>
+            </button>
+        </div>      
+    </div>
     <div class="buttonsDiv">
         <button id="criarBtn" (click)="criarDado()" *ngIf="acao == 'Criar'" mat-button>
             <mat-icon> done </mat-icon>

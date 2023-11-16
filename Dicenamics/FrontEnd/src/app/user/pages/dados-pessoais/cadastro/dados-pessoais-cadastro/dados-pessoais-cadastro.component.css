@@ -3,17 +3,19 @@
     flex-direction: column;
     align-items: center; /* centraliza verticalmente */
     justify-content: center; /* centraliza horizontalmente */
-    height: calc(100% - 64px); /* 100% da altura da viewport (tela) */
+    /* height: calc(100vh - 64px); /* 100% da altura da viewport (tela) */
 }
 
 #criarBtn {
     margin-top: 15px;
     background-color: rgba(26, 194, 26, 0.5);
+    margin-bottom: 50px;
 }
 
 #title {
     font-weight: bold;
     font-size: 30px;
+    padding-top: 100px;
     margin: 15px;
 }
 
@@ -24,5 +26,41 @@
 }
 
 .spacer {
-    margin: 50px;
+    margin: 30px;
+}
+
+#layer1 {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#layer1 > mat-form-field {
+    margin-right: 35px;
+    margin-left: 35px;
+    margin-bottom: 15px;
+}
+
+#layer2 {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#layer2 > mat-form-field {
+    margin-right: 15px;
+    margin-left: 15px;
+    padding-bottom: 15px;
+    align-items: center;
+}
+
+#layer2 > #removeBtn {
+    margin-bottom: 30px;
+}
+
+#layer3 {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin-bottom: 25px;   
 }

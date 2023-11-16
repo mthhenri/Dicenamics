@@ -11,6 +11,13 @@
                 <mat-panel-title> {{dado.nome}} </mat-panel-title>
                 <mat-panel-description> {{dadoBonito(dado)}} </mat-panel-description>
             </mat-expansion-panel-header>
+            <span *ngIf="dado.fixos != undefined && dado.fixos.length != 0" class="modList">
+                <mat-icon> mode_standby </mat-icon>
+                <span> Modificadores: </span>
+                <div *ngFor="let mod of dado.fixos">
+                   {{ "mod" }}
+                </div>
+            </span>
             <span class="descDados">
                 <button mat-button (click)="gerarResultados(dado.dadoId); "> 
                     <mat-icon> play_arrow </mat-icon> 
