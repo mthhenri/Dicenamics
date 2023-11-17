@@ -13,6 +13,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatGridListModule } from '@angular/material/grid-list';
 
 
 import { AppRoutingModule } from './app-routing.module';
@@ -58,6 +59,7 @@ import { DadosPessoaisCadastroComponent } from './user/pages/dados-pessoais/cada
     FormsModule,
     ReactiveFormsModule,
     MatSnackBarModule,
+    MatGridListModule,
 
   ],
   providers: [],

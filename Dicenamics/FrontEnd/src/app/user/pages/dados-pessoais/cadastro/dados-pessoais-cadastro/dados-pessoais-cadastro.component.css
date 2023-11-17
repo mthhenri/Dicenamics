@@ -22,7 +22,6 @@
 #criar {
     font-style: italic;
     font-size: 20px;
-    margin: 15px;
 }
 
 .spacer {
@@ -64,3 +63,48 @@
     align-items: center;
     margin-bottom: 25px;   
 }
+
+#layerMod {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+#layerMod > #general {
+    margin-left: 50px;
+}
+
+#layerMod {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .mod-section {
+    display: flex;
+    flex-direction: column;
+    margin-right: 20px;
+  }
+  
+  .form-container {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 10px;
+  }
+  
+  #criar,
+  .criar2 {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+  
+  button {
+    margin-top: 10px;
+  }
+  
+  mat-divider {
+    height: 100%;
+    margin: 0 10px;
+  }
+  
+  
