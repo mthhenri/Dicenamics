@@ -6,5 +6,5 @@ public class DadoCompostoDTO
     public int Quantidade { get; set; }
     public string? Condicao { get; set; }
     public List<int>? FixosId { get; set; }
-    public List<int>? Variaveis { get; set; }
+    public List<int>? VariaveisId { get; set; }
 }

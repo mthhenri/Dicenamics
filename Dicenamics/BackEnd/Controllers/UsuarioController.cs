@@ -190,30 +190,37 @@ namespace Dicenamics.Controllers
         }
 
         [HttpPut("adicionarDado/simples/{id}")]
-        public IActionResult AdicionarDadoS([FromRoute] int id)
+        public IActionResult AdicionarDadoS([FromRoute] int id, [FromBody] DadoSimplesDTO dadoSimplesDTO)
         {
             try
             {
-                Usuario? usuario = _ctx.Usuarios.Include(d => d.DadosCompostosPessoais).Include(d => d.DadosSimplesPessoais).FirstOrDefault(u => u.UsuarioId == id);
+                Usuario? usuario = _ctx.Usuarios
+                                        .Include(d => d.DadosCompostosPessoais)
+                                            .ThenInclude(d => d.Fixos)
+                                        .Include(d => d.DadosCompostosPessoais)
+                                            .ThenInclude(d => d.Variaveis)
+                                                .ThenInclude(d => d.ModificadorVariavel)
+                                                    .ThenInclude(d => d.Dado)
+                                        .Include(d => d.DadosSimplesPessoais)
+                                        .FirstOrDefault(u => u.UsuarioId == id);
 
                 if (usuario == null)
                 {
                     return NotFound();
                 }
 
-                // DadoSimples? dadoNovo = new()
-                // {
-                //     Nome = dadoAdd.Nome,
-                //     Faces = dadoAdd.Faces,
-                //     Quantidade = dadoAdd.Quantidade
-                // };
-                DadoSimples? dadoNovo = _ctx.DadosSimples.FirstOrDefault(d => d.DadoId == id);
+                DadoSimples? dadoNovo = new()
+                {
+                    Nome = dadoSimplesDTO.Nome,
+                    Faces = dadoSimplesDTO.Faces,
+                    Quantidade = dadoSimplesDTO.Quantidade
+                };
                 _ctx.DadosSimples.Add(dadoNovo);
                 usuario.DadosSimplesPessoais.Add(dadoNovo);
                 _ctx.Usuarios.Update(usuario);
                 _ctx.SaveChanges();
                 
-                return Ok(usuario);
+                return Ok(dadoNovo);
             }
             catch (Exception e)
             {
@@ -237,7 +244,7 @@ namespace Dicenamics.Controllers
                 List<DadoCompostoModFixo> fixos = new();
                 List<DadoCompostoModVar> variaveis = new();
                 List<ModificadorFixo> fixo = _ctx.ModificadoresFixos.Where(mf => dadoAdd.FixosId.Contains(mf.ModificadorFixoId)).ToList();
-                List<ModificadorVariavel> variavel = _ctx.ModificadoresVariaveis.Where(mf => dadoAdd.Variaveis.Contains(mf.ModificadorVariavelId)).Include(d => d.Dado).ToList();
+                List<ModificadorVariavel> variavel = _ctx.ModificadoresVariaveis.Where(mf => dadoAdd.VariaveisId.Contains(mf.ModificadorVariavelId)).Include(d => d.Dado).ToList();
                 
                 foreach (var item in fixo)
                 {

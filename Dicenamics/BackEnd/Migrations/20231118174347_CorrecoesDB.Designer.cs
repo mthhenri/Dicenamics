@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BackEnd.Migrations
 {
     [DbContext(typeof(AppDatabase))]
-    [Migration("20231116011051_ErroModFixDado2")]
-    partial class ErroModFixDado2
+    [Migration("20231118174347_CorrecoesDB")]
+    partial class CorrecoesDB
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

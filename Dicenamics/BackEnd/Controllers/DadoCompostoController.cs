@@ -23,7 +23,7 @@ public class DadoCompostoController : ControllerBase
             List<DadoCompostoModFixo> fixos = new();
             List<DadoCompostoModVar> variaveis = new();
             List<ModificadorFixo> fixo = _ctx.ModificadoresFixos.Where(mf => dadoCompostoDTO.FixosId.Contains(mf.ModificadorFixoId)).ToList();
-            List<ModificadorVariavel> variavel = _ctx.ModificadoresVariaveis.Where(mf => dadoCompostoDTO.Variaveis.Contains(mf.ModificadorVariavelId)).Include(d => d.Dado).ToList();
+            List<ModificadorVariavel> variavel = _ctx.ModificadoresVariaveis.Where(mf => dadoCompostoDTO.VariaveisId.Contains(mf.ModificadorVariavelId)).Include(d => d.Dado).ToList();
             
             foreach (var item in fixo)
             {
@@ -137,7 +137,7 @@ public class DadoCompostoController : ControllerBase
             List<DadoCompostoModFixo> fixos = new();
             List<DadoCompostoModVar> variaveis = new();
             List<ModificadorFixo> fixo = _ctx.ModificadoresFixos.Where(mf => dadoCompostoDTO.FixosId.Contains(mf.ModificadorFixoId)).ToList();
-            List<ModificadorVariavel> variavel = _ctx.ModificadoresVariaveis.Where(mf => dadoCompostoDTO.Variaveis.Contains(mf.ModificadorVariavelId)).Include(d => d.Dado).ToList();
+            List<ModificadorVariavel> variavel = _ctx.ModificadoresVariaveis.Where(mf => dadoCompostoDTO.VariaveisId.Contains(mf.ModificadorVariavelId)).Include(d => d.Dado).ToList();
             
             foreach (var item in fixo)
             {
@@ -200,6 +200,9 @@ public class DadoCompostoController : ControllerBase
             DadoComposto? dado = _ctx.DadosCompostos
                                     .Include(d => d.Fixos)
                                         .ThenInclude(f => f.ModificadorFixo)
+                                    .Include(d => d.Variaveis)
+                                    .ThenInclude(f => f.ModificadorVariavel)
+                                        .ThenInclude(d => d.Dado)
                                     .FirstOrDefault(x => x.DadoId == id);
                 // .Include(d => d.Fixos)
                 //     .ThenInclude(f => f.ModificadorFixo)

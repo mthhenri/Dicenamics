@@ -19,19 +19,21 @@ public class ModificadorVariavelController : ControllerBase
     }
 
     // Create
-    [HttpPost("criar")]
-    public IActionResult AdicionarModificadorVar([FromBody] ModificadorVariavelDTO modificadorVariavelDTO)
+    [HttpPost("criar/{dadoSimplesId}")]
+    public IActionResult AdicionarModificadorVar([FromRoute] int dadoSimplesId,[FromBody] ModificadorVariavelDTO modificadorVariavelDTO)
     {
         try
         {
-            DadoSimples? dadoMod = new()
-            {
-                Nome = modificadorVariavelDTO.Dado.Nome,
-                Faces = modificadorVariavelDTO.Dado.Faces,
-                Quantidade = modificadorVariavelDTO.Dado.Quantidade,
-            };
-            _ctx.DadosSimples.Add(dadoMod);
-            _ctx.SaveChanges();
+            // DadoSimples? dadoMod = new()
+            // {
+            //     Nome = modificadorVariavelDTO.Dado.Nome,
+            //     Faces = modificadorVariavelDTO.Dado.Faces,
+            //     Quantidade = modificadorVariavelDTO.Dado.Quantidade,
+            // };
+            // _ctx.DadosSimples.Add(dadoMod);
+            // _ctx.SaveChanges();
+            DadoSimples dadoMod = _ctx.DadosSimples.FirstOrDefault(d => d.DadoId == dadoSimplesId);
+
             ModificadorVariavel? modificadorVariavel = new()
             {
                 Nome = modificadorVariavelDTO.Nome,
@@ -41,6 +43,8 @@ public class ModificadorVariavelController : ControllerBase
 
             _ctx.ModificadoresVariaveis.Add(modificadorVariavel);
             _ctx.SaveChanges();
+            dadoMod.ModificadorVariavelId = modificadorVariavel.ModificadorVariavelId;
+            _ctx.DadosSimples.Update(dadoMod);
             return Created("", modificadorVariavel);
         }
         catch (System.Exception e)

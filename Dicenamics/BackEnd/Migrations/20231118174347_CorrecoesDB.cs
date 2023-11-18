@@ -4,7 +4,7 @@
 
 namespace BackEnd.Migrations
 {
-    public partial class ErroModFixDado2 : Migration
+    public partial class CorrecoesDB : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
