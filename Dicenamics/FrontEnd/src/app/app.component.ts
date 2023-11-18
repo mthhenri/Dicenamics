@@ -50,7 +50,6 @@ export class AppComponent {
 
   checkLogin() {
     const val = localStorage.getItem("login");
-    console.log(val?.toString())
     if(val === null){
       return true
     } else {
@@ -106,7 +105,7 @@ export class AppComponent {
   }
 
   navDadosPessoais() {
-    this.router.navigate(["dicenamics/dadosPessoais"])
+    this.router.navigate(["dicenamics/dados"])
   }
 
   navSintaxe() {

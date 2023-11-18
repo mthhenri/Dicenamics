@@ -50,7 +50,7 @@ export class DadosPessoaisComponent {
 
   dadoBonito(dado : DadoComposto){
     let texto = ''
-    texto = `${dado.quantidade}D${dado.faces}${dado.condicao}`
+    texto = `${dado.quantidade}d${dado.faces}${dado.condicao}`
     if(dado.fixos != null){
       dado.fixos.forEach(fixo => {
         if(fixo.modificadorFixo.valor < 0){
@@ -58,6 +58,11 @@ export class DadosPessoaisComponent {
         } else {
           texto += `+${fixo.modificadorFixo.valor}`
         }
+      });
+    }
+    if(dado.variaveis != null){
+      dado.variaveis.forEach(variavel => {
+        texto += `+${variavel.modificadorVariavel.dado.quantidade}d${variavel.modificadorVariavel.dado.faces}`
       });
     }
     return texto
@@ -71,14 +76,28 @@ export class DadosPessoaisComponent {
     }
   }
 
-  modificadorBonito(modDado : DadoCompostoModFixo[]){
+  modificadorBonito(dadoMods : DadoComposto){
     let texto = ''
-    for (let index = 0; index < modDado.length; index++) {
-      const mod = modDado[index];
-      if(index === modDado.length - 1){
-        texto += `${this.formatarString(mod.modificadorFixo.nome)} ${mod.modificadorFixo.valor}`
-      } else {
-        texto += `${this.formatarString(mod.modificadorFixo.nome)} ${mod.modificadorFixo.valor} | `
+    if(dadoMods.fixos != undefined && dadoMods.fixos != null){
+      for (let index = 0; index < dadoMods.fixos.length; index++) {
+        const mod = dadoMods.fixos[index];
+        texto += ` | ${this.formatarString(mod.modificadorFixo.nome)} ${mod.modificadorFixo.valor}`
+        // if(index === dadoMods.fixos.length - 1){
+        //   texto += `${this.formatarString(mod.modificadorFixo.nome)} ${mod.modificadorFixo.valor} `
+        // } else {
+        //   texto += `${this.formatarString(mod.modificadorFixo.nome)} ${mod.modificadorFixo.valor} | `
+        // }
+      }
+    }
+    if(dadoMods.variaveis != undefined && dadoMods.variaveis != null){
+      for (let index = 0; index < dadoMods.variaveis.length; index++) {
+        const mod = dadoMods.variaveis[index];
+        texto += ` | ${mod.modificadorVariavel.nome} ${mod.modificadorVariavel.dado.quantidade}d${mod.modificadorVariavel.dado.faces}`
+        // if(index === dadoMods.variaveis.length - 1){
+        //   texto += `${mod.modificadorVariavel.nome} ${mod.modificadorVariavel.dado.quantidade}d${mod.modificadorVariavel.dado.faces} `
+        // } else {
+        //   texto += `${mod.modificadorVariavel.nome} ${mod.modificadorVariavel.dado.quantidade}d${mod.modificadorVariavel.dado.faces} | `
+        // }
       }
     }
     return texto
@@ -92,13 +111,13 @@ export class DadosPessoaisComponent {
     return this.result
   }
 
-  gerarResultados(id? : number){
+  gerarResultados(dadoRolado: DadoComposto){
     this.client
-      .get<number[][]>(`https://localhost:7151/dicenamics/dados/composto/rolar/${id}`)
+      .get<number[][]>(`https://localhost:7151/dicenamics/dados/composto/rolar/${dadoRolado.dadoId}`)
       .subscribe({
         next: (resultados) => {
           this.setResult(resultados)
-          this.rolarDado('150ms', '150ms')
+          this.rolarDado('150ms', '150ms', dadoRolado)
         },
         error: (error) => {
           console.log(error)
@@ -106,13 +125,14 @@ export class DadosPessoaisComponent {
       })
   }
 
-  rolarDado(enterAnimationDuration: string, exitAnimationDuration: string) {
+  rolarDado(enterAnimationDuration: string, exitAnimationDuration: string, dadoRolado: DadoComposto) {
     this.dialog.open(RolagemDadoComponent, {
       width: '400px',
       enterAnimationDuration,
       exitAnimationDuration,
       data : {
-        resultados: this.getResult()
+        resultados: this.getResult(),
+        dado: dadoRolado
       }
     });
   }
@@ -140,10 +160,10 @@ export class DadosPessoaisComponent {
   }
 
   criarDado(){
-    this.router.navigate(["dicenamics/dadosPessoais/criar"])
+    this.router.navigate(["dicenamics/dados/criar"])
   }
 
   editarDado(dadoEnviado? : number){
-    this.router.navigate(["dicenamics/dadosPessoais/editar", dadoEnviado], { queryParams : { dadoId : dadoEnviado }})
+    this.router.navigate(["dicenamics/dados/editar", dadoEnviado], { queryParams : { dadoId : dadoEnviado }})
   }
 }

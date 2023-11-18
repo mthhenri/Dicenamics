@@ -1,7 +1,8 @@
 import { DadoSimples } from "./dadoSimples.models"
 
 export interface ModificadorVariavel {
-    mmodificadorVariavelid? : number
+    modificadorVariavelId? : number
     nome? : string
+    dadoSimplesId? : number
     dado : DadoSimples
 }

@@ -35,6 +35,10 @@ span {
     flex-direction: row;
 }
 
+.form {
+    width: 275px;
+}
+
 #logarBtn {
     background-color: rgba(26, 194, 26, 0.5);
 }

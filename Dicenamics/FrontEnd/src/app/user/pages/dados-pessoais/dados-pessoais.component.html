@@ -1,6 +1,6 @@
 <div class="container">
     <div id="title">
-        <span>Dados Pessoais</span>
+        <span>Dados</span>
     </div>
     <div class="spacer"></div>
     <div class="listDadosUser">
@@ -11,15 +11,15 @@
                     <mat-panel-title> {{dado.nome}} </mat-panel-title>
                     <mat-panel-description> {{dadoBonito(dado)}} </mat-panel-description>
                 </mat-expansion-panel-header>
-                <div *ngIf="dado.fixos != undefined && dado.fixos.length != 0" class="modList">
+                <div *ngIf="dado.fixos != undefined && dado.fixos.length != 0 || dado.variaveis != undefined && dado.variaveis.length != 0 " class="modList">
                     <mat-icon> mode_standby </mat-icon>
                     <span id="modTitle"> Modificadores: </span>
                     <span id="modMod">
-                        {{modificadorBonito(dado.fixos)}}
+                        {{modificadorBonito(dado)}}
                     </span>
                 </div>
                 <span class="descDados">
-                    <button mat-button (click)="gerarResultados(dado.dadoId); "> 
+                    <button mat-button (click)="gerarResultados(dado); "> 
                         <mat-icon> play_arrow </mat-icon> 
                         <span> Rolar Dado </span> 
                     </button>
@@ -41,10 +41,6 @@
         </button>
     </div>
 </div>
-
-
-
-
 
 <!-- <div id="title">
     <span>Dados Pessoais</span>

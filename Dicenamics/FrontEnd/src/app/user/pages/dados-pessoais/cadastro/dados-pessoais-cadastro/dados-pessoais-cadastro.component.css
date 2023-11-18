@@ -6,6 +6,19 @@
     /* height: calc(100vh - 64px); /* 100% da altura da viewport (tela) */
 }
 
+.formDado {
+    width: 250px;
+}
+
+.formMod {
+    width: 200px;
+    margin: 15px;
+}
+
+.formModBtn {
+    margin-top: 20px;
+}
+
 #criarBtn {
     margin-top: 15px;
     background-color: rgba(26, 194, 26, 0.5);
@@ -68,6 +81,7 @@
     display: flex;
     justify-content: space-around;
     align-items: center;
+    margin-top: 75px;
 }
 
 #layerMod > #general {
@@ -77,34 +91,32 @@
 #layerMod {
     display: flex;
     justify-content: space-between;
-  }
-  
-  .mod-section {
+}
+
+.mod-section {
     display: flex;
     flex-direction: column;
     margin-right: 20px;
-  }
-  
-  .form-container {
+}
+
+.form-container {
     display: flex;
     flex-direction: row;
     margin-bottom: 10px;
-  }
-  
-  #criar,
-  .criar2 {
+}
+
+#criar,
+    .criar2 {
     display: block;
     font-weight: bold;
     margin-bottom: 5px;
-  }
-  
-  button {
+}
+
+button {
     margin-top: 10px;
-  }
-  
-  mat-divider {
+}
+
+mat-divider {
     height: 100%;
     margin: 0 10px;
-  }
-  
-  
+}

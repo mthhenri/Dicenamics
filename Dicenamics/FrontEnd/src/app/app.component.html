@@ -4,21 +4,23 @@
 <!-- Navigation Bar Após Login -->
 <ng-template #initial>
     <mat-toolbar class="nav-bar">
-        <a>
-            <img src="../assets/images/dicenamics.logo.png" alt="Logo" class="logo-dicenamics">
-        </a>
-        <span>
-            Dicenamics
-        </span>
-        <span class="space"></span>
         <button (click)="sidenav.toggle()" mat-icon-button>
             <mat-icon> menu </mat-icon>
         </button>
-    </mat-toolbar>
+        
+        <!-- <span class="space"></span> -->
+        
+        <a routerLink="dicenamics">
+            <img src="../assets/images/dicenamics.logo.png" alt="Logo" class="logo-dicenamics">
+        </a>        
+        <span>
+            Dicenamics
+        </span>
+    </mat-toolbar> 
 </ng-template>
 
 <mat-sidenav-container #initial class="sideNav">
-    <mat-sidenav #sidenav [opened]="false" mode="side" position="end">
+    <mat-sidenav #sidenav [opened]="false" mode="side" position="start">
         <mat-nav-list>
             <div class="listItem">
                 <button mat-icon-button (click)="voltarHome(); sidenav.toggle()">
@@ -40,9 +42,9 @@
             </div>
             <div class="listItem">
                 <button mat-icon-button (click)="navDadosPessoais(); sidenav.toggle()">
-                    <mat-icon> check_box_outline_blank </mat-icon>
+                    <img src="../assets/images/d6_ico.ico" alt="Dados" class="icons">
                 </button>
-                <span class="text"> Dados Pessoais </span>
+                <span class="text"> Dados </span>
             </div>
             <div class="listItem">
                 <button mat-icon-button (click)="navSintaxe(); sidenav.toggle()">

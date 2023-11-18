@@ -9,6 +9,11 @@
     width: 65px;
 }
 
+.icons {
+    height: 21px;
+    width: 21px;
+}
+
 .space {
     flex: 1 1 auto
 }
@@ -33,7 +38,7 @@
 .listItem {
     display: flex;
     align-items: center;
-    padding-right: 15px;
+    padding-right: 25px;
     padding-bottom: 10px;
 }
 

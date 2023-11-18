@@ -25,15 +25,15 @@ const routes: Routes = [
     component: CadastroComponent
   },
   {
-    path: "dicenamics/dadosPessoais",
+    path: "dicenamics/dados",
     component: DadosPessoaisComponent
   },
   {
-    path: "dicenamics/dadosPessoais/criar",
+    path: "dicenamics/dados/criar",
     component: DadosPessoaisCadastroComponent
   },
   {
-    path: "dicenamics/dadosPessoais/editar/:dadoId",
+    path: "dicenamics/dados/editar/:dadoId",
     component: DadosPessoaisCadastroComponent
   }
 ];
