@@ -62,6 +62,7 @@ export class DadosPessoaisCadastroComponent {
   dadoEditarId : number = 0
   dadoEditar! : DadoComposto
   modFixQuantidade : number[] = [0]
+  modVarQuantidade : number[] = [0]
   modFixos : ModificadorFixo[] = []
   formControls: { [key: string]: FormControl } = {};
 
@@ -69,8 +70,16 @@ export class DadosPessoaisCadastroComponent {
     this.modFixQuantidade.push(this.modFixQuantidade[index] + 1)
   }
 
+  addModVar(index : number){
+    this.modVarQuantidade.push(this.modVarQuantidade[index] + 1)
+  }
+
   removeModFixo(index : number){
     this.modFixQuantidade = this.modFixQuantidade.filter(e => e != index)
+  }
+
+  removeModVar(index : number){
+    this.modVarQuantidade = this.modVarQuantidade.filter(e => e != index)
   }
 
   async formModAddEdit(dado : DadoComposto) : Promise<void> {

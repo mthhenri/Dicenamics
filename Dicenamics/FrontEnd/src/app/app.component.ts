@@ -33,7 +33,7 @@ export class AppComponent {
     const user = localStorage.getItem('usuario')
     //const user : Usuario = { username : '', nickname : '', senha : ''}
     //console.log(user)
-    if(user != undefined){
+    if(user != undefined && user != null){
       this.usuario = JSON.parse(user);
       return this.usuario
     }
@@ -50,11 +50,28 @@ export class AppComponent {
 
   checkLogin() {
     const val = localStorage.getItem("login");
-    if(val ? parseInt(val) === 1 : false){
+    console.log(val?.toString())
+    if(val === null){
       return true
     } else {
-      return false
-    }     
+      let userCheck = parseInt(val)
+      if(userCheck === 1){
+        return true
+      } else {
+        return false
+      }
+    }
+
+    // if(val != null || val != undefined){
+    //   let userCheck = parseInt(val)
+    //   if(userCheck === 1){
+    //     return true
+    //   } else {
+    //     return false
+    //   }
+    // } else {
+    //   return false
+    // }
   }
 
   abrirPopUp(enterAnimationDuration: string, exitAnimationDuration: string) : void {
