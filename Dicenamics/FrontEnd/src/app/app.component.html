@@ -16,6 +16,23 @@
         <span>
             Dicenamics
         </span>
+        <span class="space"></span>
+        <div class="userCard">
+            <div id="partNick">
+                <mat-icon (click)="navUsuario()"> person </mat-icon>
+                <span (click)="navUsuario()"> {{pegarUser()?.nickname}} </span>
+            </div>
+            <span id="partUser" (click)="navUsuario()"> @{{pegarUser()?.username}} </span>
+        </div>
+        <!-- <mat-card>
+            <mat-card-header class="userCard">
+                <mat-card-title>
+                    <mat-icon> person </mat-icon>
+                    <span> {{usuario.nickname}} </span>
+                </mat-card-title>
+                <mat-card-subtitle> {{usuario.username}} </mat-card-subtitle>
+            </mat-card-header>
+        </mat-card> -->
     </mat-toolbar> 
 </ng-template>
 
@@ -27,12 +44,6 @@
                     <mat-icon> home </mat-icon>
                 </button>
                 <span class="text"> Home </span>
-            </div>
-            <div class="listItem">
-                <button mat-icon-button (click)="navUsuario(); sidenav.toggle()">
-                    <mat-icon> person </mat-icon>
-                </button>
-                <span class="text"> Usuário </span>
             </div>
             <div class="listItem">
                 <button mat-icon-button (click)="navSalas(); sidenav.toggle()">
@@ -58,13 +69,13 @@
                 </button>
                 <span class="text"> Sair </span>
             </div>
-            <div class="listItem">
+            <!-- <div class="listItem">
                 <span class="username">
                     <span id="nick"> {{pegarUser()?.nickname}} </span> <br>
                     <span>  -=X=- </span> <br>
                     <span id="username"> {{pegarUser()?.username}} </span>
                 </span>
-            </div>
+            </div> -->
         </mat-nav-list>
     </mat-sidenav>
     <mat-sidenav-content>

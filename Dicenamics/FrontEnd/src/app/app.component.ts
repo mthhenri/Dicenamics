@@ -109,6 +109,6 @@ export class AppComponent {
   }
 
   navSintaxe() {
-    this.router.navigate(["dicenamics"])
+    this.router.navigate(["dicenamics/sintaxe"])
   }
 }

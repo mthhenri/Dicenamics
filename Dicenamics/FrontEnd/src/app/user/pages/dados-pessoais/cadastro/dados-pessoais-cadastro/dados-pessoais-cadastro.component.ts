@@ -57,6 +57,10 @@ export class DadosPessoaisCadastroComponent {
     }
   }
 
+  voltarPg(){
+    this.router.navigate(["dicenamics/dados"])
+  }
+
   nome = new FormControl('', Validators.required)
   dado = new FormControl('', Validators.required)
   // faces = new FormControl('', Validators.required)
@@ -267,16 +271,19 @@ export class DadosPessoaisCadastroComponent {
     if(nome != undefined && dadoFormat != undefined && condicao != undefined && userId != undefined){
       // let faces = parseInt(f)
       // let quantidade = parseInt(q)
-
-      dadoNovo = {
-        dadoId : 0,
-        nome : nome,
-        faces : parseInt(dadoFormat[2], 10),
-        quantidade : parseInt(dadoFormat[1], 10),
-        condicao : condicao,
-        fixosId : [],
-        variaveisId : []
-      }
+      if(parseInt(dadoFormat[2], 10) > 1 || parseInt(dadoFormat[1], 10) > 0){
+        dadoNovo = {
+          dadoId : 0,
+          nome : nome,
+          faces : parseInt(dadoFormat[2], 10),
+          quantidade : parseInt(dadoFormat[1], 10),
+          condicao : condicao,
+          fixosId : [],
+          variaveisId : []
+        }
+      } else {
+        return
+      }      
     } else {
       console.log(dadoNovo)
       return
@@ -302,20 +309,22 @@ export class DadosPessoaisCadastroComponent {
       
       const dadoFormat = dadoString.match(padrao)
 
-      let die : DadoSimples = {
-        nome : nome,
-        faces : parseInt(dadoFormat[2], 10),
-        quantidade : parseInt(dadoFormat[1], 10)
-      }
-
-      let modV : ModificadorVariavel = {
-        nome : nome,
-        dado : die
-      }
-
-      if(modV.dado != null && modV.nome != undefined){
-        await this.criarDadoSimplesMod(modV)
-        await this.criarModVar(dadoNovo, modV)
+      if(dadoFormat != undefined && parseInt(dadoFormat[2], 10) != null && parseInt(dadoFormat[1], 10) != null){
+        let die : DadoSimples = {
+          nome : nome,
+          faces : parseInt(dadoFormat[2], 10),
+          quantidade : parseInt(dadoFormat[1], 10)
+        }
+  
+        let modV : ModificadorVariavel = {
+          nome : nome,
+          dado : die
+        }
+  
+        if(modV.dado != null && modV.nome != undefined){
+          await this.criarDadoSimplesMod(modV)
+          await this.criarModVar(dadoNovo, modV)
+        }
       }
     }
     
@@ -350,14 +359,18 @@ export class DadosPessoaisCadastroComponent {
       // let faces = parseInt(f)
       // let quantidade = parseInt(q)
 
-      this.dadoEditar = {
-        dadoId : 0,
-        nome : nome,
-        faces : parseInt(dadoFormat[2], 10),
-        quantidade : parseInt(dadoFormat[1], 10),
-        condicao : condicao,
-        fixosId : [],
-        variaveisId : []
+      if(parseInt(dadoFormat[2], 10) > 1 || parseInt(dadoFormat[1], 10) > 0){
+        this.dadoEditar = {
+          dadoId : 0,
+          nome : nome,
+          faces : parseInt(dadoFormat[2], 10),
+          quantidade : parseInt(dadoFormat[1], 10),
+          condicao : condicao,
+          fixosId : [],
+          variaveisId : []
+        }
+      } else {
+        return
       }
 
       for (let index = 0; index < this.modFixQuantidade.length; index++) {    

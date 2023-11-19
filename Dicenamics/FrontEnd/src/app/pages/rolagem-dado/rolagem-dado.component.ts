@@ -64,7 +64,8 @@ export class RolagemDadoComponent {
           }
         }
 
-        for (let i = 1; i < this.result[0].length; i++) {
+        valor = 0;
+        for (let i = 0; i < this.result[0].length; i++) {
           if (this.result[0][i] >= valor) {
             valor = this.result[0][i];
           }
@@ -87,7 +88,7 @@ export class RolagemDadoComponent {
         }
 
         valor = this.dadoRolado.faces + 1
-        for (let i = 1; i < this.result[0].length; i++) {
+        for (let i = 0; i < this.result[0].length; i++) {
           if (this.result[0][i] <= valor) {
             valor = this.result[0][i];
           }
@@ -110,6 +111,66 @@ export class RolagemDadoComponent {
         }
       }
 
+      // Formatação para Acima De
+      if(this.dadoRolado.condicao.substring(0, 3) === "acd"){
+        for (let index = 0; index < this.result[0].length; index++) {
+          const valor = this.result[0][index];
+  
+          if(index === 0){
+            this.dadosRoladosS += "[ " + valor.toString() + " , "
+          } else if(index === this.result[0].length - 1){
+            this.dadosRoladosS += valor.toString() + " ]"
+          } else {
+            this.dadosRoladosS += valor.toString() + " , "
+          }
+        }
+      }
+
+      // Formatação para Abaixo De
+      if(this.dadoRolado.condicao.substring(0, 3) === "abd"){
+        for (let index = 0; index < this.result[0].length; index++) {
+          const valor = this.result[0][index];
+  
+          if(index === 0){
+            this.dadosRoladosS += "[ " + valor.toString() + " , "
+          } else if(index === this.result[0].length - 1){
+            this.dadosRoladosS += valor.toString() + " ]"
+          } else {
+            this.dadosRoladosS += valor.toString() + " , "
+          }
+        }
+      }
+
+      // Formatação para Valor Escolhido
+      if(this.dadoRolado.condicao.substring(0, 3) === "ved"){
+        for (let index = 0; index < this.result[0].length; index++) {
+          const valor = this.result[0][index];
+  
+          if(index === 0){
+            this.dadosRoladosS += "[ " + valor.toString() + " , "
+          } else if(index === this.result[0].length - 1){
+            this.dadosRoladosS += valor.toString() + " ]"
+          } else {
+            this.dadosRoladosS += valor.toString() + " , "
+          }
+        }
+      }
+
+      // Formatação para De A
+      if(this.dadoRolado.condicao.substring(0, 2) === "de"){
+        for (let index = 0; index < this.result[0].length; index++) {
+          const valor = this.result[0][index];
+  
+          if(index === 0){
+            this.dadosRoladosS += "[ " + valor.toString() + " , "
+          } else if(index === this.result[0].length - 1){
+            this.dadosRoladosS += valor.toString() + " ]"
+          } else {
+            this.dadosRoladosS += valor.toString() + " , "
+          }
+        }
+      }
+
       // Fazer formatação para as outras condições
 
       if(this.dadoRolado.fixos != undefined && this.dadoRolado.fixos.length != 0){
@@ -118,7 +179,7 @@ export class RolagemDadoComponent {
           if(fixo.valor > 0){
             this.dadosRoladosS += " + " + fixo.valor
           } else {
-            this.dadosRoladosS += " - " + fixo.valor
+            this.dadosRoladosS += " " + fixo.valor
           }
         }
       }

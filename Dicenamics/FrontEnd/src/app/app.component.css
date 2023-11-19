@@ -35,6 +35,27 @@
     height: calc(100% - 64px);
 }
 
+.userCard {
+    display: flex;
+    flex-direction: column;
+}
+
+#partNick {
+    display: flex;
+    align-items: center;
+}
+
+#partNick > span {
+    margin-left: 5px;
+}
+
+#partUser {
+    margin-top: -10px;
+    font-size: small;
+    color: grey;
+    font-style: italic;
+}
+
 .listItem {
     display: flex;
     align-items: center;

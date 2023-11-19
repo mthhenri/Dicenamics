@@ -3,6 +3,7 @@ import { Component, Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
+import { delay } from 'rxjs';
 import { AppComponent } from 'src/app/app.component';
 import { DadoComposto } from 'src/app/models/dadoComposto.models';
 import { DadoCompostoModFixo } from 'src/app/models/dadoCompostoModFixo.models';
@@ -76,28 +77,40 @@ export class DadosPessoaisComponent {
     }
   }
 
+  randomChar() : string{
+    const letrasPermitidas: string = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+    const quantidadeLetras: number = Math.floor(Math.random() * (8 - 6 + 1) + 6);
+    let resultado: string = '';
+
+    for (let i = 0; i < quantidadeLetras; i++) {
+        const indice: number = Math.floor(Math.random() * letrasPermitidas.length);
+        const letra: string = letrasPermitidas.charAt(indice);
+        resultado += letra;
+    }
+    return resultado;
+  }
+
   modificadorBonito(dadoMods : DadoComposto){
     let texto = ''
     if(dadoMods.fixos != undefined && dadoMods.fixos != null){
       for (let index = 0; index < dadoMods.fixos.length; index++) {
         const mod = dadoMods.fixos[index];
-        texto += ` | ${this.formatarString(mod.modificadorFixo.nome)} ${mod.modificadorFixo.valor}`
-        // if(index === dadoMods.fixos.length - 1){
-        //   texto += `${this.formatarString(mod.modificadorFixo.nome)} ${mod.modificadorFixo.valor} `
-        // } else {
-        //   texto += `${this.formatarString(mod.modificadorFixo.nome)} ${mod.modificadorFixo.valor} | `
-        // }
+        if(mod.modificadorFixo.nome != "" && mod.modificadorFixo.nome != null){
+          texto += ` | ${this.formatarString(mod.modificadorFixo.nome)} ${mod.modificadorFixo.valor}`
+        } else {
+          texto += ` | ${this.randomChar()} ${mod.modificadorFixo.valor}`
+        }
       }
     }
     if(dadoMods.variaveis != undefined && dadoMods.variaveis != null){
       for (let index = 0; index < dadoMods.variaveis.length; index++) {
         const mod = dadoMods.variaveis[index];
-        texto += ` | ${mod.modificadorVariavel.nome} ${mod.modificadorVariavel.dado.quantidade}d${mod.modificadorVariavel.dado.faces}`
-        // if(index === dadoMods.variaveis.length - 1){
-        //   texto += `${mod.modificadorVariavel.nome} ${mod.modificadorVariavel.dado.quantidade}d${mod.modificadorVariavel.dado.faces} `
-        // } else {
-        //   texto += `${mod.modificadorVariavel.nome} ${mod.modificadorVariavel.dado.quantidade}d${mod.modificadorVariavel.dado.faces} | `
-        // }
+        if(mod.modificadorVariavel.nome != "" && mod.modificadorVariavel.nome != null){
+          texto += ` | ${mod.modificadorVariavel.nome} ${mod.modificadorVariavel.dado.quantidade}d${mod.modificadorVariavel.dado.faces}`
+        } else {
+          texto += ` | ${this.randomChar()} ${mod.modificadorVariavel.dado.quantidade}d${mod.modificadorVariavel.dado.faces}`
+        }
+        
       }
     }
     return texto

@@ -5,6 +5,7 @@ import { CadastroComponent } from './user/pages/cadastro/cadastro/cadastro.compo
 import { InicialComponent } from './pages/inicial/inicial.component';
 import { DadosPessoaisComponent } from './user/pages/dados-pessoais/dados-pessoais.component';
 import { DadosPessoaisCadastroComponent } from './user/pages/dados-pessoais/cadastro/dados-pessoais-cadastro/dados-pessoais-cadastro.component';
+import { SintaxePageComponent } from './sintaxe/sintaxe-page/sintaxe-page.component';
 
 const routes: Routes = [
   // inserir as rotas aqui
@@ -35,6 +36,10 @@ const routes: Routes = [
   {
     path: "dicenamics/dados/editar/:dadoId",
     component: DadosPessoaisCadastroComponent
+  },
+  {
+    path: "dicenamics/sintaxe",
+    component: SintaxePageComponent
   }
 ];
 

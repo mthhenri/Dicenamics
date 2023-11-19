@@ -1,0 +1,146 @@
+<div class="container">
+    <div id="title">
+        <span>Sintaxe</span>
+    </div>
+    <div class="spacer"></div>
+    <div class="listaSintax">
+        <!-- <mat-accordion>
+            <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        <span> Titulo Exemplo </span>
+                    </mat-panel-title>
+                </mat-expansion-panel-header>
+                <div class="contentSintax">
+                    <p>
+                        Conteúdo Exemplo
+                    </p>
+                </div>
+            </mat-expansion-panel>
+            <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        <span> Titulo Exemplo </span>
+                    </mat-panel-title>
+                </mat-expansion-panel-header>
+                <div class="contentSintax">
+                    <p>
+                        Conteúdo Exemplo
+                    </p>
+                </div>
+            </mat-expansion-panel>
+            <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        <span> Titulo Exemplo </span>
+                    </mat-panel-title>
+                </mat-expansion-panel-header>
+                <div class="contentSintax">
+                    <p>
+                        Conteúdo Exemplo
+                    </p>
+                </div>
+            </mat-expansion-panel>
+        </mat-accordion> -->
+        <hr>
+        <div class="content"> <!-- Divisórias -->
+            <span class="contentTitle"> Criação de Dados </span>
+            <div>
+                <span class="contentSubTitle"> - Conceito </span>
+                <div>
+                    <p class="contentText">
+                        <span id="first">Os </span>dados são uma junção de diversos itens e definições, contendo um <strong>nome</strong> no qual você usará para identificá-lo. O nome pode ser qualquer coisa, mas lembre-se de que nomes mais precisos são melhores e mais fáceis de serem lembrados, a parte principal de um dado se concentra nas <strong>faces</strong> e na <strong>quantidade</strong>, possuindo um valor de faces, sendo no mínimo dois, já que, um dado de uma face não gera um valor aleatório. E uma quantidade, que se inicia com o valor mínimo de um, para poder ao menos ter um dado a ser rolado. Um dado também pode ou não conter uma <strong>condição</strong> na qual ele define o que será feito com os valores obtidos na rolagem. Também existem os <strong>modificadores</strong>, um modificador pode ser <strong>fixo</strong>, sendo um valor inteiro (positivo ou negativo), ou ser <strong>variável</strong>, tendo o valor definido por dados. Com todos esses elementos (Nome, Dado, Condição e Modificadores) se forma um dado.
+                    </p>
+                </div>
+                <span class="contentSubTitle"> - Escrita </span>
+                <div>
+                    <p class="contentText">
+                        <span id="first">Um </span>dado sempre deve ser escrito da seguinte forma: <strong>XdY</strong>, sendo o X o valor que representa a quantidade de dados rolados e o Y representando a quantidade de faces. Um dado não pode ser negativo. O valor mínimo para a quantidade é um e o valor mínimo para as faces é dois. A letra "d" entre a quantidade e as faces sempre deve ser minúscula. Alguns exemplos de dados podem ser: <strong>3d20</strong>, <strong>1d12</strong>, <strong>10d4</strong>, <strong>2d3</strong>.
+                    </p>
+                </div>
+            </div>
+        </div> <!-- Fim Divisória -->
+        <hr>
+        <div class="content"> <!-- Divisórias -->
+            <span class="contentTitle"> Condições </span>
+            <div>
+                <span class="contentSubTitle"> - Conceito </span>
+                <div>
+                    <p class="contentText">
+                        <span id="first">Uma </span>condição é uma forma de filtragem de resultados aplicada aos dados, só se pode aplicar até uma condição em um dado. Dados de modificadores não possuem condições, e valores fixos também não podem ter condições. A sigla da condição deve ser escrita completamente em minúsculo.
+                    </p>
+                </div>
+                <span class="contentSubTitle"> - Vazio </span>
+                <div>
+                    <p class="contentText">
+                        <span id="first">A </span>condição vazia é o campo Condição sem nenhum texto. Nesse caso, o resultado filtrado é igual ao resultado dos dados rolados, aplicando apenas os modificadores a todos eles. Exemplo: <br>
+                        <i>Foram rolados <strong>3d20+5+1d6</strong>. Os resultados foram: 3d20 = [13, 20, 10] e 1d6 = [2]. Agora, aplicando a condição nula, será somado cada valor dos dados principais (3d20) com os modificadores (5 e 2). Então no final será obtido o seguinte resultado: 13+5+2 = 20, 20+5+2 = 27 e 10+5+2 = 17. Resultando em <strong>[20, 27, 17]</strong>.</i>
+                    </p>
+                </div>
+                <span class="contentSubTitle"> - Somar Tudo </span>
+                <div>
+                    <p class="contentText">
+                        <span id="first">A </span>condição de Somar Tudo é chamada pela sigla <strong>"std"</strong>. Essa condição pega todos os valores e soma em um valor total, somando todos os dados principais entre si, e em seguida somando os modificadores até obter o valor final. Exemplo: <br>
+                        <i>Foram rolados <strong>3d12+2+3+2d6+1d8</strong>. Os resultados foram: 3d12 = [4, 12, 2], 2d6 = [3, 4] e 1d8 = [7]. Começando a soma pelos dados principas temos 4+12+2 = 18. Agora indo para os modificadores fixos temos 18+2+3 = 23. E por fim, os modificadores variáveis temos 23+3+4+7 = 37. Resultando em <strong>[37]</strong>.</i>
+                    </p>
+                </div>
+                <span class="contentSubTitle"> - Maior Valor </span>
+                <div>
+                    <p class="contentText">
+                        <span id="first">A </span>condição de Maior Valor é chamada pela sigla <strong>"mrv"</strong>. Essa condição pega todos os resultados obtidos dos dados e seleciona o maior valor dentre eles, aplicando os modificadores apenas a esse valor selecionado. A condição seleciona apenas <strong>um valor</strong>. Exemplo: <br>
+                        <i>Foram rolados <strong>5d20+15</strong>. Os resultados foram: 5d20 = [14, 8, 1, 19, 14]. Agora, aplicando a condição de maior valor, é selecionado o maior valor, nesse exemplo, o valor é <strong>19</strong>. Aplicando os modificadores temos: 19+15 = 34. Resultando em <strong>[34]</strong>.</i>
+                    </p>
+                </div>
+                <span class="contentSubTitle"> - Menor Valor </span>
+                <div>
+                    <p class="contentText">
+                        <span id="first">A </span>condição de Menor Valor é chamada pela sigla <strong>"mnv"</strong>. Essa condição pega todos os resultados da rolagem e seleciona o menor valor dentre eles, aplicando os modificadores a esse valor selecionado. A condição seleciona <strong>um valor</strong>. Exemplo: <br>
+                        <i>Foram rolados <strong>3d100+10-7+1d4</strong>. Os resultados foram: 3d100 = [46, 9, 97] e 1d4 = [2]. Agora, aplicando a condição, selecionamos o valor <strong>9</strong>. Aplicando as condições temos: 9+10-7 = 12 e em seguida 12+2 = 14. Resultando em <strong>[14]</strong>.</i>
+                    </p>
+                </div>
+                <span class="contentSubTitle"> - Acima de... </span>
+                <div>
+                    <p class="contentText">
+                        <span id="first">A </span>condição de Acima de é chamada pela sigla <strong>"acd_"</strong>, tendo a barra substituída pela pelo valor desejado. Essa condição pega todos os valores acima ou iguais ao valor informado e separa eles, aplicando os modificadores nesses valores. Exemplo: <br>
+                        <i>Foram rolados <strong>5d6+3</strong>. A condição foi definida como <strong>"acd4"</strong>. Os resultados foram: 5d6 = [6, 3, 2, 5, 5]. Agora, aplicando a condição, temos os valores [6, 5, 5]. Agora, somando os modificadores, temos os valores de: 6+3 = 9, 5+3 = 8, 5+3 = 8. Resultando em <strong>[9, 8, 8]</strong>.</i>
+                    </p>
+                </div>
+                <span class="contentSubTitle"> - Abaixo de... </span>
+                <div>
+                    <p class="contentText">
+                        <span id="first">A </span>condição de Abaixo de é chamada pela sigla <strong>"abd_"</strong>, tendo a barra substituída pelo valor desejado. Nessa condição, todos os valores menores ou iguais ao informado são selecionados e tem os modificadores aplicados neles. Exemplo: <br>
+                        <i>Foram rolados <strong>4d10+5+1d4</strong>. A condição foi definida como <strong>"abd3"</strong>. Os resultados foram: 4d10 = [10, 6, 2, 6] e 1d4 = [1]. Aplicando a condição, temos o valor [2]. Adicionando os modificadores temos: 2+5 = 7 e em seguida 7+1 = 8. Resultando em <strong>[8]</strong>.</i>
+                    </p>
+                </div>
+                <span class="contentSubTitle"> - Valor Escolhido </span>
+                <div>
+                    <p class="contentText">
+                        <span id="first">A </span>condição Valor escolhido é chamada pela sigla <strong>"ved_"</strong>, tendo a barra substituída pelo valor desejado. Aplicando essa condição, todos os valores iguais ao informado são separados e tem os modificadores aplicados a eles. Exemplo: <br>
+                        <i>Foram rolados <strong>7d4+1</strong>. A condição definida é <strong>"ved4"</strong>. Os resultados foram: 7d4 = [3, 4, 4, 1, 2, 1, 4]. Aplicando a condição, temos os valores [4, 4, 4]. Aplicando os modificadores temos 4+1 = 5, 4+1 = 5 e 4+1 = 5. Resultando em <strong>[5, 5, 5]</strong>.</i>
+                    </p>
+                </div>
+                <span class="contentSubTitle"> - De... a... </span>
+                <div>
+                    <p class="contentText">
+                        <span id="first">A </span>condição De A é chamada pela sigla <strong>"de_a_"</strong>, tendo as barras substituídas pelos valores desejados, sendo a primeira barra o menor valor e a segunda barra o maior valor. Ao usar essa condição, todos os valores dentro do espectro de valores definidos serão selecionados e terão os modificadores aplicados. Exemplo: <br>
+                        <i>Foram rolados <strong>10d6+3+1d10</strong>. A condição foi definida como <strong>"de2a4"</strong>. Os resultados foram: 10d6 = [6, 1, 4, 3, 5, 6, 1, 3, 5, 3] e 1d10 = [5]. Aplicando a condição temos: [4, 3, 3, 3]. Agora colocando os modificadores temos 4+3 = 7, 3+3 = 6, 3+3 = 6, 3+3 = 6 e em seguida 7+5 = 12, 6+5 = 11, 6+5 = 11 e 6+5 = 11. Resultando em <strong>[12, 11, 11, 11]</strong>.</i>
+                    </p>
+                </div>
+            </div>
+        </div> <!-- Fim Divisória -->
+        <hr>
+    </div>    
+</div>
+
+<!-- <div class="content"> <!- Divisórias ->
+    <span class="contentTitle"> Titulo </span>
+    <div>
+        <span class="contentSubTitle"> SubTitulo </span>
+        <div>
+            <p class="contentText">
+                <span id="first">teste </span>aaaaaa
+            </p>
+        </div>
+    </div>
+</div>
+<hr> <!- Fim Divisória -> -->

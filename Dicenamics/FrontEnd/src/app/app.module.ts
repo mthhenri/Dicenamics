@@ -14,6 +14,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatGridListModule } from '@angular/material/grid-list';
+import { MatCardModule } from '@angular/material/card';
 
 
 import { AppRoutingModule } from './app-routing.module';
@@ -28,6 +29,7 @@ import { DadosPessoaisComponent } from './user/pages/dados-pessoais/dados-pessoa
 import { RolagemDadoComponent } from './pages/rolagem-dado/rolagem-dado.component';
 import { ApagarConfirmarComponent } from './pages/apagar-confirmar/apagar-confirmar.component';
 import { DadosPessoaisCadastroComponent } from './user/pages/dados-pessoais/cadastro/dados-pessoais-cadastro/dados-pessoais-cadastro.component';
+import { SintaxePageComponent } from './sintaxe/sintaxe-page/sintaxe-page.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +42,8 @@ import { DadosPessoaisCadastroComponent } from './user/pages/dados-pessoais/cada
     DadosPessoaisComponent,
     RolagemDadoComponent,
     ApagarConfirmarComponent,
-    DadosPessoaisCadastroComponent
+    DadosPessoaisCadastroComponent,
+    SintaxePageComponent
   ],
   imports: [
     BrowserModule,
@@ -60,7 +63,8 @@ import { DadosPessoaisCadastroComponent } from './user/pages/dados-pessoais/cada
     ReactiveFormsModule,
     MatSnackBarModule,
     MatGridListModule,
-
+    MatCardModule,
+    
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,0 +1,46 @@
+.container {
+    height: calc(100% - 64px);
+}
+
+#title {
+    display: flex;
+    justify-content: center;
+    padding-top: 70px;
+    font-size: 45px;
+    color: black;
+    font-weight: bold;
+}
+
+.spacer { 
+    margin: 50px;
+}
+
+.listaSintax{
+    margin: 50px;
+    padding-bottom: 75px;
+}
+
+.content {
+    margin: 10px;
+}
+
+.contentTitle {
+    font-size: 25px;
+    color: black;
+}
+
+.contentSubTitle {
+    padding-left: 10px;
+    font-size: 17px;
+    color: gray;
+    font-style: italic;
+}
+
+.contentText {
+    font-size: 14px;
+    padding-top: 15px;
+}
+
+.contentText > #first {
+    padding-left: 20px;
+}
