@@ -178,6 +178,15 @@ namespace Dicenamics.Controllers
                 usuario.DadosSimplesPessoais = dadosSimples;
                 usuario.DadosCompostosPessoais = dadosCompostos;
 
+                var userNovo = _ctx.Usuarios.FirstOrDefault(u => u.Username == usuario.Username);
+
+                if(userNovo != null)
+                {
+                    if(userNovo.UsuarioId != id){
+                        return BadRequest("Usuario já existente");
+                    }
+                }
+
                 _ctx.Usuarios.Update(usuario);
                 _ctx.SaveChanges();
                 return Ok(usuario);
