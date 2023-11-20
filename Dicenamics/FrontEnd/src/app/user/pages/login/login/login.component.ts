@@ -35,7 +35,7 @@ export class LoginComponent {
       .get<Usuario>(`https://localhost:7151/dicenamics/usuario/buscar/u/${userbuscar}`)
       .subscribe({
         next: (user) => {
-          if(senhaTestar === user.senha){
+          if(senhaTestar?.toString() === user.senha.toString()){
             this.snackBar.open(`Seja bem vindo ${user.nickname}`, `Dicenamics 2023`, {
               duration: 1750,
               horizontalPosition: 'center',

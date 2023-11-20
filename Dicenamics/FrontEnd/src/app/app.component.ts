@@ -4,7 +4,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { SairConfirmarComponent } from './pages/sair-confirmar/sair-confirmar.component';
 
-
 @Injectable({
   providedIn: 'root',
 })
@@ -19,20 +18,27 @@ export class AppComponent {
     public dialog: MatDialog
   ){}
 
+  ngOnInit(){
+    // Caso de erro no usuario gravado no browser
+    // localStorage.setItem('usuario', JSON.stringify(this.usuario));
+  }
+
   title = 'FrontEnd';
   chegada: boolean = true;
   logando: boolean = false;
   usuario: Usuario = { username : '', nickname : '', senha : ''};
 
   gravarUser(usuario : Usuario){
+    // usuario = { username : '', nickname : '', senha : ''}
     this.usuario = usuario;
+    console.log(this.usuario)
     localStorage.setItem('usuario', JSON.stringify(this.usuario));
   }
 
   pegarUser() : Usuario | null {
     const user = localStorage.getItem('usuario')
-    //const user : Usuario = { username : '', nickname : '', senha : ''}
-    //console.log(user)
+    // const user : Usuario = { username : '', nickname : '', senha : ''}
+    // console.log(user)
     if(user != undefined && user != null){
       this.usuario = JSON.parse(user);
       return this.usuario
@@ -51,7 +57,7 @@ export class AppComponent {
   checkLogin() {
     const val = localStorage.getItem("login");
     if(val === null){
-      return true
+      return false
     } else {
       let userCheck = parseInt(val)
       if(userCheck === 1){
@@ -60,17 +66,6 @@ export class AppComponent {
         return false
       }
     }
-
-    // if(val != null || val != undefined){
-    //   let userCheck = parseInt(val)
-    //   if(userCheck === 1){
-    //     return true
-    //   } else {
-    //     return false
-    //   }
-    // } else {
-    //   return false
-    // }
   }
 
   abrirPopUp(enterAnimationDuration: string, exitAnimationDuration: string) : void {
@@ -96,8 +91,10 @@ export class AppComponent {
     this.router.navigate(["dicenamics"])
   }
 
-  navUsuario() {
-    this.router.navigate(["dicenamics"])
+  navUsuario(user : string) {
+    if(user != undefined){
+      this.router.navigate([`dicenamics/usuario/${user.toString()}`])
+    }
   }
 
   navSalas() {

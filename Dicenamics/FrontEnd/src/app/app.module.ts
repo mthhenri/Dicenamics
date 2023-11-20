@@ -30,6 +30,7 @@ import { RolagemDadoComponent } from './pages/rolagem-dado/rolagem-dado.componen
 import { ApagarConfirmarComponent } from './pages/apagar-confirmar/apagar-confirmar.component';
 import { DadosPessoaisCadastroComponent } from './user/pages/dados-pessoais/cadastro/dados-pessoais-cadastro/dados-pessoais-cadastro.component';
 import { SintaxePageComponent } from './sintaxe/sintaxe-page/sintaxe-page.component';
+import { UsuarioComponent } from './user/pages/usuario/usuario.component';
 
 @NgModule({
   declarations: [
@@ -43,7 +44,8 @@ import { SintaxePageComponent } from './sintaxe/sintaxe-page/sintaxe-page.compon
     RolagemDadoComponent,
     ApagarConfirmarComponent,
     DadosPessoaisCadastroComponent,
-    SintaxePageComponent
+    SintaxePageComponent,
+    UsuarioComponent,
   ],
   imports: [
     BrowserModule,

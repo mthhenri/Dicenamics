@@ -6,6 +6,7 @@ import { InicialComponent } from './pages/inicial/inicial.component';
 import { DadosPessoaisComponent } from './user/pages/dados-pessoais/dados-pessoais.component';
 import { DadosPessoaisCadastroComponent } from './user/pages/dados-pessoais/cadastro/dados-pessoais-cadastro/dados-pessoais-cadastro.component';
 import { SintaxePageComponent } from './sintaxe/sintaxe-page/sintaxe-page.component';
+import { UsuarioComponent } from './user/pages/usuario/usuario.component';
 
 const routes: Routes = [
   // inserir as rotas aqui
@@ -20,6 +21,10 @@ const routes: Routes = [
   {
     path: "dicenamics/login",
     component: LoginComponent
+  },
+  {
+    path: "dicenamics/usuario/:usuarioUser",
+    component: UsuarioComponent
   },
   {
     path: "dicenamics/cadastrar",

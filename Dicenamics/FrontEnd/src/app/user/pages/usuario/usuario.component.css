@@ -1,0 +1,60 @@
+.container {
+    height: calc(100% - 64px);
+}
+
+#title {
+    display: flex;
+    justify-content: center;
+    padding-top: 70px;
+    font-size: 45px;
+    color: black;
+    font-weight: bold;
+}
+
+.spacer { 
+    margin: 50px;
+}
+
+.imgLogo {
+    display: flex;
+    justify-content: center;
+}
+
+.userInfo {
+    display: flex;
+    flex-direction: column;
+    padding: 15px;
+    padding-bottom: 30px;
+    align-items: center;
+}
+
+.form {
+    width: 275px;
+}
+
+.buttons {
+    display: flex;
+    justify-content: center;
+    padding: 10px;
+}
+
+.btnSalvar {
+    background-color: rgba(26, 194, 26, 0.5);
+    margin-right: 20px;
+}
+
+.btnVoltar {
+    background-color: rgba(200, 200, 200, 0.5);
+    margin-left: 20px;
+}
+
+.buttonsDEL {
+    display: flex;
+    justify-content: space-around;
+    padding-top: 150px;
+}
+
+.btnApagar {
+    padding: 25px;
+    background-color: rgba(233, 0, 0, 0.75);    
+}

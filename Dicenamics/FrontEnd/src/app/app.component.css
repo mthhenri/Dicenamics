@@ -43,6 +43,8 @@
 #partNick {
     display: flex;
     align-items: center;
+    border: 0px;
+    background-color: none;
 }
 
 #partNick > span {
@@ -50,6 +52,7 @@
 }
 
 #partUser {
+    margin-left: 6px;
     margin-top: -10px;
     font-size: small;
     color: grey;
