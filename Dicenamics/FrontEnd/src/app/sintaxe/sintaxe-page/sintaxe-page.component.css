@@ -7,7 +7,7 @@
     justify-content: center;
     padding-top: 70px;
     font-size: 45px;
-    color: black;
+    color: white;
     font-weight: bold;
 }
 
@@ -26,13 +26,13 @@
 
 .contentTitle {
     font-size: 25px;
-    color: black;
+    color: gold
 }
 
 .contentSubTitle {
     padding-left: 10px;
     font-size: 17px;
-    color: gray;
+    color: #CCCCFF;
     font-style: italic;
 }
 

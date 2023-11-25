@@ -19,15 +19,15 @@
                     </span>
                 </div>
                 <span class="descDados">
-                    <button mat-button (click)="gerarResultados(dado); "> 
+                    <button mat-button (click)="gerarResultados(dado)" id="btnDice"> 
                         <mat-icon> play_arrow </mat-icon> 
                         <span> Rolar Dado </span> 
                     </button>
-                    <button mat-button (click)="editarDado(dado.dadoId)">
+                    <button mat-button (click)="editarDado(dado.dadoId)" id="btnDice">
                         <mat-icon> edit </mat-icon>
                         <span> Editar Dado </span>
                     </button>
-                    <button mat-button (click)="realmenteApagar(dado.dadoId,dado.nome)">
+                    <button mat-button (click)="realmenteApagar(dado.dadoId,dado.nome)" id="btnDice">
                         <mat-icon> delete </mat-icon>
                         <span> Deletar </span>
                     </button>

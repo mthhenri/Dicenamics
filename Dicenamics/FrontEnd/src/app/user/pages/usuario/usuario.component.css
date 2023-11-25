@@ -7,7 +7,7 @@
     justify-content: center;
     padding-top: 70px;
     font-size: 45px;
-    color: black;
+    color: white;
     font-weight: bold;
 }
 
@@ -56,5 +56,5 @@
 
 .btnApagar {
     padding: 25px;
-    background-color: rgba(233, 0, 0, 0.75);    
+    background-color: rgba(233, 0, 0, 0.75);
 }

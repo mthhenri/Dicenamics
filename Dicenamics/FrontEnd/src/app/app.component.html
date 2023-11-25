@@ -18,9 +18,9 @@
         </span>
         <span class="space"></span>
         <div class="userCard">
-            <button id="partNick">
-                <mat-icon (click)="navUsuario(usuario.username)"> person </mat-icon>
-                <span (click)="navUsuario(usuario.username)"> {{pegarUser()?.nickname}} </span>
+            <button mat-button id="partNick" (click)="navUsuario(usuario.username)">
+                <mat-icon> person </mat-icon>
+                <span> {{pegarUser()?.nickname}} </span>
             </button>
             <span id="partUser" (click)="navUsuario(usuario.username)"> @{{pegarUser()?.username}} </span>
         </div>
