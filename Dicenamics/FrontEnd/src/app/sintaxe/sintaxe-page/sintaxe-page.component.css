@@ -26,13 +26,17 @@
 
 .contentTitle {
     font-size: 25px;
-    color: gold
+    color: gold;
+    /* color: #69f0ae; */
+    /* color: white; */
 }
 
 .contentSubTitle {
     padding-left: 10px;
     font-size: 17px;
-    color: #CCCCFF;
+    /* color: gold; */
+    /* color: #69f0ae; */
+    color: white;
     font-style: italic;
 }
 
