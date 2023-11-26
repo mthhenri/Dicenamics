@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BackEnd.Migrations
 {
     [DbContext(typeof(AppDatabase))]
-    [Migration("20231118174347_CorrecoesDB")]
-    partial class CorrecoesDB
+    [Migration("20231126092949_RolagemEdit")]
+    partial class RolagemEdit
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -121,7 +121,7 @@ namespace BackEnd.Migrations
 
             modelBuilder.Entity("BackEnd.Models.DadoCompostoSalaModFixo", b =>
                 {
-                    b.Property<int>("ConectDadoVarId")
+                    b.Property<int>("ConectDadoFixoId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
@@ -131,7 +131,7 @@ namespace BackEnd.Migrations
                     b.Property<int>("ModificadorId")
                         .HasColumnType("INTEGER");
 
-                    b.HasKey("ConectDadoVarId");
+                    b.HasKey("ConectDadoFixoId");
 
                     b.HasIndex("DadoId");
 
@@ -255,6 +255,35 @@ namespace BackEnd.Migrations
                         .IsUnique();
 
                     b.ToTable("ModificadoresVariaveis");
+                });
+
+            modelBuilder.Entity("BackEnd.Models.RolagemDadoSala", b =>
+                {
+                    b.Property<int>("DadoCompostoSalaId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("DadoId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("RoladoEm")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("SalaId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("TipoRolagem")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("UsuarioUsername")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasIndex("DadoCompostoSalaId");
+
+                    b.HasIndex("SalaId");
+
+                    b.ToTable("RolagensDadosSalas");
                 });
 
             modelBuilder.Entity("BackEnd.Models.Sala", b =>
@@ -456,6 +485,25 @@ namespace BackEnd.Migrations
                         .IsRequired();
 
                     b.Navigation("Dado");
+                });
+
+            modelBuilder.Entity("BackEnd.Models.RolagemDadoSala", b =>
+                {
+                    b.HasOne("BackEnd.Models.DadoCompostoSala", "DadoComposto")
+                        .WithMany()
+                        .HasForeignKey("DadoCompostoSalaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("BackEnd.Models.Sala", "Sala")
+                        .WithMany()
+                        .HasForeignKey("SalaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("DadoComposto");
+
+                    b.Navigation("Sala");
                 });
 
             modelBuilder.Entity("BackEnd.Models.Sala", b =>

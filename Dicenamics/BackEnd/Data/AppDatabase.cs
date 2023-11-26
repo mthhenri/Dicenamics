@@ -16,6 +16,8 @@ public class AppDatabase : DbContext
     public DbSet<DadoComposto>? DadosCompostos { get; set; }
     public DbSet<ModificadorFixo>? ModificadoresFixos {get; set;}
     public DbSet<ModificadorVariavel>? ModificadoresVariaveis { get; set; }
+    public DbSet<RolagemDadoSala> RolagemsDadosSalas { get; set; }
+
     protected override void OnConfiguring(DbContextOptionsBuilder options)
         => options.UseSqlite("Data Source=database.db");
 
@@ -80,7 +82,7 @@ public class AppDatabase : DbContext
             .OnDelete(DeleteBehavior.Cascade);
 
         modelBuilder.Entity<DadoCompostoSalaModFixo>()
-            .HasKey(d => d.ConectDadoVarId);
+            .HasKey(d => d.ConectDadoFixoId);
 
         modelBuilder.Entity<DadoCompostoSalaModVar>()
             .HasKey(d => d.ConectDadoVarId);
@@ -104,6 +106,9 @@ public class AppDatabase : DbContext
             .HasOne(df => df.ModificadorVariavel)
             .WithMany(df => df.VariaveisSala)
             .HasForeignKey(df => df.DadoId);
+
+        modelBuilder.Entity<RolagemDadoSala>()
+            .HasKey(r => r.RolagemDadoSalaId);
             
         base.OnModelCreating(modelBuilder);
     }

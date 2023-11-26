@@ -7,15 +7,15 @@
         <img src="../../../../assets/images/dicenamics.logo.png" alt="Logo" width="300px">
     </div> -->
     <div class="userInfo">
-        <mat-form-field class="form">
+        <mat-form-field class="form" appearance="outline" color="accent">
             <mat-label> Apelido </mat-label>
             <input matInput [formControl]="nickname" type="text">
         </mat-form-field>
-        <mat-form-field class="form">
+        <mat-form-field class="form" appearance="outline" color="accent">
             <mat-label> Username </mat-label>
             <input matInput [formControl]="username" type="text">
         </mat-form-field>
-        <mat-form-field class="form">
+        <mat-form-field class="form" appearance="outline" color="accent">
             <mat-label> Senha </mat-label>
             <input matInput [type]="hide ? 'password' : 'text'" [formControl]="senha">
             <button mat-icon-button matSuffix (click)="hideTurn()">

@@ -3,6 +3,7 @@ using System;
 using BackEnd.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BackEnd.Migrations
 {
     [DbContext(typeof(AppDatabase))]
-    partial class AppDatabaseModelSnapshot : ModelSnapshot
+    [Migration("20231126093848_RolagemEdit2")]
+    partial class RolagemEdit2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "6.0.21");
@@ -257,24 +259,16 @@ namespace BackEnd.Migrations
 
             modelBuilder.Entity("BackEnd.Models.RolagemDadoSala", b =>
                 {
-                    b.Property<int?>("RolagemDadoSalaId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
                     b.Property<int>("DadoCompostoSalaId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("DadoId")
+                    b.Property<int>("DadoId")
                         .HasColumnType("INTEGER");
-
-                    b.Property<string>("Resultados")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
 
                     b.Property<DateTime>("RoladoEm")
                         .HasColumnType("TEXT");
 
-                    b.Property<int?>("SalaId")
+                    b.Property<int>("SalaId")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("TipoRolagem")
@@ -284,8 +278,6 @@ namespace BackEnd.Migrations
                     b.Property<string>("UsuarioUsername")
                         .IsRequired()
                         .HasColumnType("TEXT");
-
-                    b.HasKey("RolagemDadoSalaId");
 
                     b.HasIndex("DadoCompostoSalaId");
 
@@ -505,7 +497,9 @@ namespace BackEnd.Migrations
 
                     b.HasOne("BackEnd.Models.Sala", "Sala")
                         .WithMany()
-                        .HasForeignKey("SalaId");
+                        .HasForeignKey("SalaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("DadoComposto");
 

@@ -7,6 +7,10 @@ import { DadosPessoaisComponent } from './user/pages/dados-pessoais/dados-pessoa
 import { DadosPessoaisCadastroComponent } from './user/pages/dados-pessoais/cadastro/dados-pessoais-cadastro/dados-pessoais-cadastro.component';
 import { SintaxePageComponent } from './sintaxe/sintaxe-page/sintaxe-page.component';
 import { UsuarioComponent } from './user/pages/usuario/usuario.component';
+import { SalasComponent } from './salas/pages/salas/salas.component';
+import { SalaCadastroComponent } from './salas/pages/cadastro/sala-cadastro/sala-cadastro.component';
+import { SalaAcessoComponent } from './salas/pages/acesso/sala-acesso/sala-acesso.component';
+import { CadastroDadosSalaComponent } from './salas/pages/cadastro-dados/cadastro-dados-sala/cadastro-dados-sala.component';
 
 const routes: Routes = [
   // inserir as rotas aqui
@@ -45,6 +49,22 @@ const routes: Routes = [
   {
     path: "dicenamics/sintaxe",
     component: SintaxePageComponent
+  },
+  {
+    path: "dicenamics/salas",
+    component: SalasComponent
+  },
+  {
+    path: "dicenamics/salas/criar",
+    component: SalaCadastroComponent
+  },
+  {
+    path: "dicenamics/salas/acesso/:idLink",
+    component: SalaAcessoComponent
+  },
+  {
+    path: "dicenamics/salas/acesso/:idLink/dados/criar",
+    component: CadastroDadosSalaComponent
   }
 ];
 

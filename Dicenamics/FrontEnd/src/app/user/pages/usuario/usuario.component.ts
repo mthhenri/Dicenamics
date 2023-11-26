@@ -24,7 +24,7 @@ export class UsuarioComponent {
     private client: HttpClient,
     private formBuilder: FormBuilder,
     public dialog: MatDialog,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
   ){}
 
   ngOnInit(){
@@ -63,7 +63,7 @@ export class UsuarioComponent {
   }
 
   voltar(){
-    this.router.navigate(["dicenamics"])
+    window.history.back();
   }
 
   salvarUser(){

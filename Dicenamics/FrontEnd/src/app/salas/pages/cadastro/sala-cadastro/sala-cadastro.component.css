@@ -1,0 +1,63 @@
+.container {
+    height: calc(100% - 64px);
+    margin: 25px;
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    padding-top: 70px;
+}
+
+#title {
+    font-size: 45px;
+    color: white;
+    font-weight: bold;
+}
+
+#criar {
+    margin: 15px;
+    font-style: italic;
+    font-size: 20px;
+}
+
+.spacer { 
+    margin: 50px;
+}
+
+.content {
+    margin: 25px;
+    display: flex;
+}
+
+.formMaster {
+    display: flex;
+    margin: auto;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.form {
+    width: 400px;
+    margin-bottom: 20px;
+}
+
+.buttons {
+    margin-top: 75px;
+    display: flex;
+    justify-content: center;
+}
+
+#criarBtn {
+    margin-top: 15px;
+    background-color: rgba(26, 194, 26, 0.5);
+    margin-bottom: 50px;
+}
+
+#voltarBtn {
+    margin-left: 50px;
+    margin-top: 15px;
+    background-color: rgba(200, 200, 200, 0.5);
+    margin-bottom: 50px;
+}

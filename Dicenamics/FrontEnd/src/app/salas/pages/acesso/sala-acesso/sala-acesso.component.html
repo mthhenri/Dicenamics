@@ -1,0 +1,288 @@
+<!-- Acesso como Mestre -->
+<div class="conteinerGM" *ngIf="salaAcesso.usuarioMestreId === appComponent.pegarUser()?.usuarioId">
+    <div id="title">
+        <button mat-button id="btnVoltar" (click)="voltar()">
+            <mat-icon> arrow_back </mat-icon>
+            <span>Voltar</span>
+        </button>
+        <span> {{salaAcesso.nome}} </span>
+    </div>
+    <div class="spacer"></div>
+    <div class="contentGM">
+        <div class="masterGrid">
+            <mat-tab-group animationDuration="0ms" color="accent">
+                <mat-tab label="Mestre">
+                    <div class="masterGridContent">
+                        <span id="titleMasterGrid">Editar Sala</span>
+                        <mat-form-field appearance="outline" color="accent">
+                            <mat-label>Nome da Sala</mat-label>
+                            <input matInput [formControl]="nomeSala" maxlength="50">
+                            <button matSuffix mat-icon-button (click)="editarSala('name')">
+                                <mat-icon> done </mat-icon>
+                            </button>
+                        </mat-form-field>
+                        <mat-form-field appearance="outline" color="accent">
+                            <mat-label>Descrição da Sala</mat-label>
+                            <textarea matInput [formControl]="descSala"></textarea>
+                            <button matSuffix mat-icon-button (click)="editarSala('desc')">
+                                <mat-icon> done </mat-icon>
+                            </button>
+                        </mat-form-field>
+                        <mat-form-field appearance="outline" color="accent">
+                            <mat-label>Id da Sala</mat-label>
+                            <input matInput [value]="idSala" disabled>
+                        </mat-form-field>
+                        <mat-slide-toggle class="gmRoll" [(ngModel)]="gmRoll"> {{checkRolagemGM()}} </mat-slide-toggle>
+                        <button mat-button (click)="apagarSala()" class="btnApagarSala">
+                            <mat-icon> delete </mat-icon>
+                            <span> Apagar Sala </span>
+                        </button>
+                    </div>                   
+                </mat-tab>
+                <mat-tab label="Jogadores">
+                    <div class="masterGridContent">
+                        <mat-form-field appearance="outline" color="accent">
+                            <mat-label>Adicionar Jogador</mat-label>
+                            <input matInput [formControl]="nomeJogadorAdd">
+                            <mat-hint><strong>Insira o username do jogador.</strong></mat-hint>
+                            <button matSuffix mat-icon-button (click)="addUser()">
+                                <fa-icon [icon]="playerAdd"></fa-icon>
+                            </button>
+                        </mat-form-field>
+                        <mat-list class="listUser">
+                            <mat-list-item>
+                                <fa-icon [icon]="GMIcon"></fa-icon>
+                                <span class="usernameUsuario">{{ "@" +  salaAcesso.usuarioMestre?.username }}</span>
+                                <span> - </span>
+                                <span class="nicknameUsuario"> {{salaAcesso.usuarioMestre?.nickname}} </span>
+                            </mat-list-item>
+                            <mat-list-item *ngFor="let user of salaAcesso.convidados">
+                                <fa-icon [icon]="playerIcon"></fa-icon>
+                                <span class="usernameUsuario">{{ "@" + user.usuario.username }}</span>
+                                <span> - </span>
+                                <span class="nicknameUsuario"> {{ "" + user.usuario.nickname}} </span>
+                                <button mat-icon-button (click)="removeUser(user)">
+                                    <mat-icon>remove</mat-icon>
+                                </button>
+                            </mat-list-item>
+                        </mat-list>
+                    </div>
+                </mat-tab>
+            </mat-tab-group>
+        </div>
+        <div class="dicesGridMaster">
+            <mat-sidenav-container>
+                <mat-sidenav #sideNavDadosMaster [opened]="true" mode="side" class="sidenavDadosMaster">
+                    <div>
+                        <mat-tab-group animationDuration="0ms" color="accent">
+                            <mat-tab label="Dados Públicos">
+                                <mat-list>
+                                    <mat-list-item class="masterListItem" *ngFor="let dado of dadosPublicosFilter()">
+                                        <span>
+                                            {{dado.nome}}
+                                        </span>
+                                        <button mat-icon-button>
+                                            <fa-icon [icon]="d20"></fa-icon>
+                                        </button>
+                                        <button mat-icon-button>
+                                            <mat-icon>delete</mat-icon>
+                                        </button>
+                                        <button mat-icon-button>
+                                            <mat-icon>edit</mat-icon>
+                                        </button>
+                                    </mat-list-item>
+                                </mat-list>
+                            </mat-tab>
+                            <mat-tab label="Dados Privados">
+                                <mat-list>
+                                    <mat-list-item class="masterListItem" *ngFor="let dado of dadosPrivadosFilter()">
+                                        <span>
+                                            {{dado.nome}}
+                                        </span>
+                                        <button mat-icon-button>
+                                            <fa-icon [icon]="d20"></fa-icon>
+                                        </button>
+                                        <button mat-icon-button>
+                                            <mat-icon>delete</mat-icon>
+                                        </button>
+                                        <button mat-icon-button>
+                                            <mat-icon>edit</mat-icon>
+                                        </button>
+                                    </mat-list-item>
+                                </mat-list>
+                            </mat-tab>
+                        </mat-tab-group>
+                    </div>
+                </mat-sidenav>
+                <mat-sidenav-content class="masterDiceContent">
+                    <div>
+                        <button mat-icon-button (click)="sideNavDadosMaster.toggle()">
+                            <mat-icon> menu </mat-icon>
+                        </button>
+                    </div>
+                    <div class="rolagemHistoricoMestre">
+                        <mat-card class="rolagemCardMaster">
+                            <mat-card-actions class="titleCardRolagemMestre">
+                                <mat-card-title> {{ "@Usuario" }} </mat-card-title>
+                                <mat-card-title> {{ "Dado resumo" }} </mat-card-title>
+                                <mat-card-title> {{ "Data" }} </mat-card-title>
+                            </mat-card-actions>
+                            <mat-card-content>
+                                <div class="cardRolagemMestre">
+                                    <span>{{ "Nome do Dado" }}</span>
+                                    <span>:</span>
+                                    <span id="cardRolagemResultMestre">{{ "Rolagem" }}</span>
+                                </div>
+                            </mat-card-content>
+                        </mat-card>
+                    </div>
+                </mat-sidenav-content>
+            </mat-sidenav-container>
+        </div>
+        <div class="addDiceSala">
+            <button mat-fab (click)="criarDadoSala()">
+                <mat-icon> add </mat-icon>
+            </button>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<!-- Acesso como Jogador -->
+<div class="conteinerYES" *ngIf="userOk()">
+    <div id="title">
+        <button mat-button id="btnVoltar" (click)="voltar()">
+            <mat-icon> arrow_back </mat-icon>
+            <span>Voltar</span>
+        </button>
+        <span> {{salaAcesso.nome}} </span>
+    </div>
+    <div class="spacer"></div>
+    <div class="contentYES">
+        <div class="playerGrid">
+            <mat-tab-group animationDuration="0ms" color="accent">
+                <mat-tab label="Utilitários">
+                    <div class="playerGridContent">
+                        <mat-slide-toggle class="playerRoll" [(ngModel)]="playerRoll"> {{checkRolagemPlayer()}} </mat-slide-toggle>
+                        <button mat-button (click)="sairSala(this.appComponent.pegarUser()?.username)" class="btnApagarSala">
+                            <mat-icon> close </mat-icon>
+                            <span> Sair da Sala </span>
+                        </button>
+                    </div>
+                </mat-tab>
+                <mat-tab label="Jogadores">
+                    <div class="playerGridContent">
+                        <mat-list class="listUser">
+                            <mat-list-item>
+                                <fa-icon [icon]="GMIcon"></fa-icon>
+                                <span class="usernameUsuario">{{ "@" +  salaAcesso.usuarioMestre?.username }}</span>
+                                <span> - </span>
+                                <span class="nicknameUsuario"> {{salaAcesso.usuarioMestre?.nickname}} </span>
+                            </mat-list-item>
+                            <mat-list-item *ngFor="let user of salaAcesso.convidados">
+                                <fa-icon [icon]="playerIcon"></fa-icon>
+                                <span class="usernameUsuario">{{ "@" + user.usuario.username }}</span>
+                                <span> - </span>
+                                <span class="nicknameUsuario" #else> {{ "" + user.usuario.nickname}}</span>                            
+                            </mat-list-item>
+                        </mat-list>
+                    </div>
+                </mat-tab>
+            </mat-tab-group>
+        </div>
+        <div class="dicesGridPlayer">
+            <mat-sidenav-container>
+                <mat-sidenav #sideNavDadosPlayer [opened]="true" mode="side" class="sidenavDadosPlayer">
+                    <div>
+                        <mat-tab-group animationDuration="0ms" color="accent">
+                            <mat-tab label="Dados Públicos">
+                                <mat-list>
+                                    <mat-list-item class="masterListItem" *ngFor="let dado of dadosPublicosFilter()">
+                                        <span>
+                                            {{dado.nome}}
+                                        </span>
+                                        <button mat-icon-button>
+                                            <fa-icon [icon]="d20"></fa-icon>
+                                        </button>
+                                        <button mat-icon-button *ngIf="dado.criador?.username === appComponent.pegarUser()?.username">
+                                            <mat-icon>delete</mat-icon>
+                                        </button>
+                                        <button mat-icon-button *ngIf="dado.criador?.username === appComponent.pegarUser()?.username">
+                                            <mat-icon>edit</mat-icon>
+                                        </button>
+                                    </mat-list-item>
+                                </mat-list>
+                            </mat-tab>
+                            <mat-tab label="Dados Privados">
+                                <mat-list>
+                                    <mat-list-item class="masterListItem" *ngFor="let dado of dadosPrivadosFilter()">
+                                        <span>
+                                            {{dado.nome}}
+                                        </span>
+                                        <button mat-icon-button>
+                                            <fa-icon [icon]="d20"></fa-icon>
+                                        </button>
+                                        <button mat-icon-button>
+                                            <mat-icon>delete</mat-icon>
+                                        </button>
+                                        <button mat-icon-button>
+                                            <mat-icon>edit</mat-icon>
+                                        </button>
+                                    </mat-list-item>
+                                </mat-list>
+                            </mat-tab>
+                        </mat-tab-group>
+                    </div>
+                </mat-sidenav>
+                <mat-sidenav-content class="playerDiceContent">
+                    <div>
+                        <button mat-icon-button (click)="sideNavDadosPlayer.toggle()">
+                            <mat-icon> menu </mat-icon>
+                        </button>
+                    </div>
+                    <div class="rolagemHistoricoPlayer">
+                        <mat-card class="rolagemCardPlayer">
+                            <mat-card-actions class="titleCardRolagemPlayer">
+                                <mat-card-title> {{ "@Usuario" }} </mat-card-title>
+                                <mat-card-title> {{ "Dado resumo" }} </mat-card-title>
+                                <mat-card-title> {{ "Data" }} </mat-card-title>
+                            </mat-card-actions>
+                            <mat-card-content>
+                                <div class="cardRalagemPlayer">
+                                    <span>{{ "Nome do Dado" }}</span>
+                                    <span>:</span>
+                                    <span id="cardRolagemResultPlayer">{{ "Rolagem" }}</span>
+                                </div>
+                            </mat-card-content>
+                        </mat-card>
+                    </div>
+                </mat-sidenav-content>
+            </mat-sidenav-container>
+        </div>
+        <div class="addDiceSala">
+            <button mat-fab (click)="criarDadoSala()">
+                <mat-icon> add </mat-icon>
+            </button>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<!-- Acesso como NãoJogador e NãoMestre -->
+<div class="conteinerNO" *ngIf="userUNK()">
+    <div class="contentNO">
+        <span id="title">Você não tem acesso a essa sala!</span>
+        <div>
+            <button mat-button id="voltarBtn" (click)="voltar()">
+                <span> Voltar </span>
+                <mat-icon> arrow_back </mat-icon>
+            </button>
+        </div>
+    </div>
+</div>

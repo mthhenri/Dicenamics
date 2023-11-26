@@ -1,0 +1,32 @@
+<div class="conteiner">
+    <div class="header">
+        <span id="title">Salas</span>
+        <span id="criar"> {{acao}} </span>
+    </div>
+    <div class="spacer"></div>
+    <div class="content">
+        <div class="formMaster">
+            <mat-form-field appearance="outline" class="form" color="accent">
+                <mat-label> Nome </mat-label>
+                <input matInput type="text" [formControl]="nome" maxlength="50">
+                <mat-hint align="start"><strong>Ex: Mestres da Luz - RPG</strong></mat-hint>
+                <mat-hint align="end"> {{nome.value?.length}} / 50 </mat-hint>
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="form" color="accent">
+                <mat-label> Descrição </mat-label>
+                <textarea matInput [formControl]="descricao"></textarea>
+                <mat-hint align="start"><strong>Ex: "Para saber o que é a luz, é necessário conhecer a escuridão". Esse rpg é sobre uma história de ladrões que, depois de serem condenados a prisão perpétua, foram levados para um mundo de trevas para se redimirem de seus crimes.</strong></mat-hint>
+            </mat-form-field>
+            <div class="buttons">
+                <button mat-button id="criarBtn" (click)="criarSala()">
+                    <span> {{acaoBtn}} </span>
+                    <mat-icon> {{iconBtn}} </mat-icon>
+                </button>
+                <button mat-button id="voltarBtn" (click)="voltar()">
+                    <span> Voltar </span>
+                    <mat-icon> arrow_back </mat-icon>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

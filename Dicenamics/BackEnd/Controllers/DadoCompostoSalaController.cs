@@ -3,6 +3,7 @@ using BackEnd.DTO;
 using BackEnd.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 
 namespace Dicenamics.Controllers;
 
@@ -38,8 +39,8 @@ public class DadoCompostoSalaController : ControllerBase
 
             List<DadoCompostoSalaModFixo> fixos = new();
             List<DadoCompostoSalaModVar> variaveis = new();
-            List<ModificadorFixo> fixo = _ctx.ModificadoresFixos.Where(mf => dadoSalaDTO.Fixos.Contains(mf.ModificadorFixoId)).ToList();
-            List<ModificadorVariavel> variavel = _ctx.ModificadoresVariaveis.Where(mf => dadoSalaDTO.Variaveis.Contains(mf.ModificadorVariavelId)).Include(d => d.Dado).ToList();
+            List<ModificadorFixo> fixo = _ctx.ModificadoresFixos.Where(mf => dadoSalaDTO.FixosId.Contains(mf.ModificadorFixoId)).ToList();
+            List<ModificadorVariavel> variavel = _ctx.ModificadoresVariaveis.Where(mf => dadoSalaDTO.VariaveisId.Contains(mf.ModificadorVariavelId)).Include(d => d.Dado).ToList();
             
             foreach (var item in fixo)
             {
@@ -198,8 +199,8 @@ public class DadoCompostoSalaController : ControllerBase
 
             List<DadoCompostoSalaModFixo> fixos = new();
             List<DadoCompostoSalaModVar> variaveis = new();
-            List<ModificadorFixo> fixo = _ctx.ModificadoresFixos.Where(mf => dadoSalaDTO.Fixos.Contains(mf.ModificadorFixoId)).ToList();
-            List<ModificadorVariavel> variavel = _ctx.ModificadoresVariaveis.Where(mf => dadoSalaDTO.Variaveis.Contains(mf.ModificadorVariavelId)).Include(d => d.Dado).ToList();
+            List<ModificadorFixo> fixo = _ctx.ModificadoresFixos.Where(mf => dadoSalaDTO.FixosId.Contains(mf.ModificadorFixoId)).ToList();
+            List<ModificadorVariavel> variavel = _ctx.ModificadoresVariaveis.Where(mf => dadoSalaDTO.VariaveisId.Contains(mf.ModificadorVariavelId)).Include(d => d.Dado).ToList();
             
             foreach (var item in fixo)
             {
@@ -285,8 +286,8 @@ public class DadoCompostoSalaController : ControllerBase
         }
     }
 
-    [HttpGet("rolar/{id}")]
-    public IActionResult RolarDado([FromRoute] int id)
+    [HttpGet("rolar/{id}/{tipoRolagem}/{usuarioRoll}")]
+    public IActionResult RolarDado([FromRoute] int id, [FromRoute] string tipoRolagem, [FromRoute] string usuarioRoll)
     {
         try
         {
@@ -315,7 +316,30 @@ public class DadoCompostoSalaController : ControllerBase
                 return NotFound();
             }
 
-            return Ok(dadoSala.RolarDado());
+            Sala? salaEncontrada = _ctx.Salas
+                                        .Include(s => s.DadosCompostosSala)
+                                        .Include(s => s.DadosSimplesSala)
+                                        .Include(s => s.UsuarioMestre)
+                                        .Include(s => s.Convidados)
+                                        .FirstOrDefault(x => x.SalaId == id);
+
+            if(salaEncontrada == null)
+            {
+                return NotFound();
+            }
+
+            RolagemDadoSala rolagem = new();
+            rolagem.UsuarioUsername = usuarioRoll;
+            rolagem.Resultados = JsonConvert.SerializeObject(dadoSala.RolarDado());
+            rolagem.TipoRolagem = tipoRolagem;
+            rolagem.DadoComposto = dadoSala;
+            rolagem.DadoId = dadoSala.DadoCompostoSalaId;
+            rolagem.Sala = salaEncontrada;
+
+            _ctx.RolagemsDadosSalas.Add(rolagem);
+            _ctx.SaveChanges();
+
+            return Ok(rolagem);
         }
         catch (System.Exception e)
         {

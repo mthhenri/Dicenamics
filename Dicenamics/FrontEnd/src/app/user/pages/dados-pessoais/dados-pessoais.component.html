@@ -4,9 +4,9 @@
     </div>
     <div class="spacer"></div>
     <div class="listDadosUser">
-        <mat-accordion *ngFor="let dado of dados">
+        <mat-accordion>
             <!-- //// Fazer um for que pega todos os dados de um usuário e exibe aqui -->
-            <mat-expansion-panel [expanded]="step === dado.dadoId" (opened)="setStep(dado.dadoId)">
+            <mat-expansion-panel *ngFor="let dado of dados" hideToggle [expanded]="step === dado.dadoId" (opened)="setStep(dado.dadoId)">
                 <mat-expansion-panel-header>
                     <mat-panel-title> {{dado.nome}} </mat-panel-title>
                     <mat-panel-description> {{dadoBonito(dado)}} </mat-panel-description>

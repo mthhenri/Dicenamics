@@ -1,10 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
 namespace BackEnd.Migrations
 {
-    public partial class CorrecoesDB : Migration
+    public partial class Rolagem : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -263,14 +264,14 @@ namespace BackEnd.Migrations
                 name: "DadoCompostoSalaModFixo",
                 columns: table => new
                 {
-                    ConectDadoVarId = table.Column<int>(type: "INTEGER", nullable: false)
+                    ConectDadoFixoId = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     DadoId = table.Column<int>(type: "INTEGER", nullable: false),
                     ModificadorId = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_DadoCompostoSalaModFixo", x => x.ConectDadoVarId);
+                    table.PrimaryKey("PK_DadoCompostoSalaModFixo", x => x.ConectDadoFixoId);
                     table.ForeignKey(
                         name: "FK_DadoCompostoSalaModFixo_DadosCompostosSalas_ModificadorId",
                         column: x => x.ModificadorId,
@@ -308,6 +309,36 @@ namespace BackEnd.Migrations
                         column: x => x.DadoId,
                         principalTable: "ModificadoresVariaveis",
                         principalColumn: "ModificadorVariavelId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "RolagensDadosSalas",
+                columns: table => new
+                {
+                    RolagemDadoSalaId = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    RoladoEm = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    UsuarioUsername = table.Column<string>(type: "TEXT", nullable: false),
+                    TipoRolagem = table.Column<string>(type: "TEXT", nullable: false),
+                    DadoCompostoSalaId = table.Column<int>(type: "INTEGER", nullable: false),
+                    DadoId = table.Column<int>(type: "INTEGER", nullable: false),
+                    SalaId = table.Column<int>(type: "INTEGER", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_RolagensDadosSalas", x => x.RolagemDadoSalaId);
+                    table.ForeignKey(
+                        name: "FK_RolagensDadosSalas_DadosCompostosSalas_DadoCompostoSalaId",
+                        column: x => x.DadoCompostoSalaId,
+                        principalTable: "DadosCompostosSalas",
+                        principalColumn: "DadoCompostoSalaId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_RolagensDadosSalas_Salas_SalaId",
+                        column: x => x.SalaId,
+                        principalTable: "Salas",
+                        principalColumn: "SalaId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -378,6 +409,16 @@ namespace BackEnd.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_RolagensDadosSalas_DadoCompostoSalaId",
+                table: "RolagensDadosSalas",
+                column: "DadoCompostoSalaId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_RolagensDadosSalas_SalaId",
+                table: "RolagensDadosSalas",
+                column: "SalaId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Salas_UsuarioMestreId",
                 table: "Salas",
                 column: "UsuarioMestreId");
@@ -411,6 +452,9 @@ namespace BackEnd.Migrations
                 name: "DadosSimplesSalas");
 
             migrationBuilder.DropTable(
+                name: "RolagensDadosSalas");
+
+            migrationBuilder.DropTable(
                 name: "SalaUsuario");
 
             migrationBuilder.DropTable(
@@ -420,16 +464,16 @@ namespace BackEnd.Migrations
                 name: "ModificadoresFixos");
 
             migrationBuilder.DropTable(
-                name: "DadosCompostosSalas");
-
-            migrationBuilder.DropTable(
                 name: "ModificadoresVariaveis");
 
             migrationBuilder.DropTable(
-                name: "Salas");
+                name: "DadosCompostosSalas");
 
             migrationBuilder.DropTable(
                 name: "DadosSimples");
+
+            migrationBuilder.DropTable(
+                name: "Salas");
 
             migrationBuilder.DropTable(
                 name: "Usuarios");

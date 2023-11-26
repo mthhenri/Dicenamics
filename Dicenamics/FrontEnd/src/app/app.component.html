@@ -40,34 +40,34 @@
     <mat-sidenav #sidenav [opened]="false" mode="side" position="start">
         <mat-nav-list>
             <div class="listItem">
-                <button mat-icon-button (click)="voltarHome(); sidenav.toggle()">
+                <button mat-button (click)="voltarHome(); sidenav.toggle()" class="btnListNav">
                     <mat-icon> home </mat-icon>
-                </button>
-                <span class="text"> Home </span>
+                    <span class="text"> Home </span>
+                </button>                
             </div>
             <div class="listItem">
-                <button mat-icon-button (click)="navSalas(); sidenav.toggle()">
+                <button mat-button (click)="navSalas(); sidenav.toggle()" class="btnListNav">
                     <mat-icon> door_front </mat-icon>
+                    <span class="text"> Salas </span>
                 </button>
-                <span class="text"> Salas </span>
             </div>
             <div class="listItem">
-                <button mat-icon-button (click)="navDadosPessoais(); sidenav.toggle()">
-                    <img src="../assets/images/d6_ico.ico" alt="Dados" class="icons">
+                <button mat-button (click)="navDadosPessoais(); sidenav.toggle()" class="btnListNav">
+                    <fa-icon [icon]="faDice" size="lg"></fa-icon>
+                    <span class="text" id="dice"> Dados </span>
                 </button>
-                <span class="text"> Dados </span>
             </div>
             <div class="listItem">
-                <button mat-icon-button (click)="navSintaxe(); sidenav.toggle()">
+                <button mat-button (click)="navSintaxe(); sidenav.toggle()" class="btnListNav">
                     <mat-icon> code </mat-icon>
+                    <span class="text"> Sintaxe </span>
                 </button>
-                <span> Sintaxe </span>
             </div>
             <div class="listItem">
-                <button mat-icon-button (click)="abrirPopUp('200ms', '200ms'); sidenav.toggle()">
+                <button mat-button (click)="abrirPopUp('200ms', '200ms'); sidenav.toggle()" class="btnListNav">
                     <mat-icon> arrow_back </mat-icon>
+                    <span class="text"> Sair </span>
                 </button>
-                <span class="text"> Sair </span>
             </div>
             <!-- <div class="listItem">
                 <span class="username">

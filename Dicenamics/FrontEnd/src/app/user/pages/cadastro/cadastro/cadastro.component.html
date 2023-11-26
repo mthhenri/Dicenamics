@@ -1,19 +1,19 @@
 <div class="container">
     <span id="title"> Dicenamics </span>
     <span id="login"> Cadastro </span>
-    <mat-form-field class="form">
+    <mat-form-field class="form" appearance="outline" color="accent">
         <mat-label>Apelido</mat-label>
         <div>
             <input matInput [formControl]="nickname" required>
         </div>
     </mat-form-field>
-    <mat-form-field class="form">
+    <mat-form-field class="form" appearance="outline" color="accent">
         <mat-label>Username</mat-label>
         <div>
             <input matInput [formControl]="username" required>
         </div>
     </mat-form-field>
-    <mat-form-field class="form">
+    <mat-form-field class="form" appearance="outline" color="accent">
         <mat-label>Senha</mat-label>
         <input matInput [formControl]="senha" [type]="hide ? 'password' : 'text'" required>
         <button mat-icon-button matSuffix (click)="hideTurn()">

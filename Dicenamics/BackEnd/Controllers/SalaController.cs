@@ -65,7 +65,12 @@ public class SalaController : ControllerBase
     {
         try
         {
-            Sala? SalaEncontrada = _ctx.Salas.Include(s => s.DadosCompostosSala).Include(s => s.DadosSimplesSala).Include(s => s.UsuarioMestre).Include(s => s.Convidados).FirstOrDefault(x => x.SalaId == id);
+            Sala? SalaEncontrada = _ctx.Salas
+                                        .Include(s => s.DadosCompostosSala)
+                                        .Include(s => s.DadosSimplesSala)
+                                        .Include(s => s.UsuarioMestre)
+                                        .Include(s => s.Convidados)
+                                        .FirstOrDefault(x => x.SalaId == id);
             
             if(SalaEncontrada == null)
             {
@@ -131,7 +136,17 @@ public class SalaController : ControllerBase
     {
         try
         {
-            Sala? SalaEncontrada = _ctx.Salas.Include(s => s.DadosCompostosSala).Include(s => s.DadosSimplesSala).Include(s => s.UsuarioMestre).Include(s => s.Convidados).FirstOrDefault(x => x.IdLink == idLink);
+            Sala? SalaEncontrada = _ctx.Salas
+                .Include(s => s.DadosCompostosSala)
+                    .ThenInclude(s => s.Fixos)
+                .Include(s => s.DadosCompostosSala)
+                    .ThenInclude(s => s.Variaveis)
+                        .ThenInclude(s => s.ModificadorVariavel)
+                            .ThenInclude(s => s.Dado)                        
+                .Include(s => s.DadosSimplesSala)
+                .Include(s => s.UsuarioMestre)
+                .Include(s => s.Convidados)
+                .FirstOrDefault(x => x.IdLink == idLink);
             
             if(SalaEncontrada == null)
             {
@@ -294,13 +309,121 @@ public class SalaController : ControllerBase
         }
     }
 
+    [HttpGet("listar/usuario/mestre/{username}")]
+    public IActionResult ListarSalasUsuarioMestre([FromRoute] string username)
+    {
+        try
+        {
+            Usuario? usuario = _ctx.Usuarios.Include(d => d.DadosCompostosPessoais).Include(d => d.DadosSimplesPessoais).FirstOrDefault(u => u.Username == username);
+
+            if (usuario == null)
+            {
+                return NotFound("Usuário não encontrado.");
+            }
+
+            List<Sala> salas = 
+                _ctx.Salas
+                    .Include(s => s.DadosCompostosSala)
+                    .Include(s => s.DadosSimplesSala)
+                    .Include(s => s.UsuarioMestre)
+                        .ThenInclude(um => um.DadosCompostosPessoais)
+                            .ThenInclude(um => um.Fixos)
+                                .ThenInclude(um => um.ModificadorFixo)
+                    .Include(s => s.UsuarioMestre)
+                        .ThenInclude(um => um.DadosCompostosPessoais)
+                            .ThenInclude(um => um.Variaveis)
+                                .ThenInclude(um => um.ModificadorVariavel)
+                                    .ThenInclude(um => um.Dado)
+                    .Include(s => s.UsuarioMestre)
+                        .ThenInclude(um => um.DadosSimplesPessoais)
+                    .Include(s => s.Convidados)
+                        .ThenInclude(s => s.Usuario)
+                    .Where(u => u.UsuarioMestreId == usuario.UsuarioId)
+                    .ToList();
+            
+            if(salas == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(salas);
+        }
+        catch(System.Exception e)
+        {
+            Console.WriteLine(e);
+            return BadRequest(e.Message);
+        }
+    }
+
+    [HttpGet("listar/usuario/jogador/{username}")]
+    public IActionResult ListarSalasUsuarioJogador([FromRoute] string username)
+    {
+        try
+        {
+            Usuario? usuario = _ctx.Usuarios.Include(d => d.DadosCompostosPessoais).Include(d => d.DadosSimplesPessoais).FirstOrDefault(u => u.Username == username);
+
+            if (usuario == null)
+            {
+                return NotFound("Usuário não encontrado.");
+            }
+
+            List<Sala> salas = 
+                _ctx.Salas
+                    .Include(s => s.DadosCompostosSala)
+                    .Include(s => s.DadosSimplesSala)
+                    .Include(s => s.UsuarioMestre)
+                        .ThenInclude(um => um.DadosCompostosPessoais)
+                            .ThenInclude(um => um.Fixos)
+                                .ThenInclude(um => um.ModificadorFixo)
+                    .Include(s => s.UsuarioMestre)
+                        .ThenInclude(um => um.DadosCompostosPessoais)
+                            .ThenInclude(um => um.Variaveis)
+                                .ThenInclude(um => um.ModificadorVariavel)
+                                    .ThenInclude(um => um.Dado)
+                    .Include(s => s.UsuarioMestre)
+                        .ThenInclude(um => um.DadosSimplesPessoais)
+                    .Include(s => s.Convidados)
+                    .ToList();
+            
+            List<Sala> salasJog = new();
+
+            foreach (var sala in salas)
+            {
+                foreach (var convidado in sala.Convidados)
+                {
+                    if(convidado.UsuarioId == usuario.UsuarioId){
+                        salasJog.Add(sala);
+                    }
+                }
+            }
+            
+            if(salas == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(salasJog);
+        }
+        catch(System.Exception e)
+        {
+            Console.WriteLine(e);
+            return BadRequest(e.Message);
+        }
+    }
+
     //Update
     [HttpPut("atualizar/{id}")]
     public IActionResult AtualizarSala([FromBody] SalaDTO salaDTO, [FromRoute] int id)
     {
         try
         {
-            Sala? salaEncontrada = _ctx.Salas.FirstOrDefault(x => x.SalaId == id);
+            Sala? salaEncontrada = _ctx.Salas
+                                        .Include(s => s.DadosCompostosSala)
+                                        .Include(s => s.DadosSimplesSala)
+                                        .Include(s => s.UsuarioMestre)
+                                        .Include(s => s.Convidados)
+                                        .FirstOrDefault(x => x.SalaId == id);
+
             if(salaEncontrada == null)
             {
                 return NotFound();
@@ -329,8 +452,92 @@ public class SalaController : ControllerBase
 
             _ctx.Salas.Update(salaEncontrada);
             _ctx.SaveChanges();
+
             return Ok(salaEncontrada);
         }
+        catch(System.Exception e)
+        {
+            Console.WriteLine(e);
+            return BadRequest(e.Message);
+        }
+    }
+
+    [HttpPut("adicionar/user/{idSala}/{usernameUser}")]
+    public IActionResult AdicionarUsuarioSala([FromRoute] int idSala, [FromRoute] string usernameUser)
+    {
+        try
+        {
+            Sala? SalaEncontrada = _ctx.Salas.Include(s => s.DadosCompostosSala).Include(s => s.DadosSimplesSala).Include(s => s.UsuarioMestre).Include(s => s.Convidados).FirstOrDefault(x => x.SalaId == idSala);
+            
+            if(SalaEncontrada == null)
+            {
+                return NotFound();
+            }
+
+            Usuario usuario = _ctx.Usuarios.FirstOrDefault(u => u.Username.Equals(usernameUser));
+
+            if(usuario == null){
+                return NotFound();
+            }
+
+            SalaUsuario user = new()
+            {
+                Usuario = usuario,
+                UsuarioId = usuario.UsuarioId,
+                Sala = SalaEncontrada,
+                SalaId = SalaEncontrada.SalaId
+            };
+
+            SalaEncontrada.Convidados.Add(user);
+            _ctx.SaveChanges();
+
+            return Ok(SalaEncontrada);
+        } 
+        catch(System.Exception e)
+        {
+            Console.WriteLine(e);
+            return BadRequest(e.Message);
+        }
+    }
+
+    [HttpPut("remover/user/{idSala}/{usernameUser}")]
+    public IActionResult RemoverUsuarioSala([FromRoute] int idSala, [FromRoute] string usernameUser)
+    {
+        try
+        {
+            Sala? SalaEncontrada = _ctx.Salas
+                                        .Include(s => s.DadosCompostosSala)
+                                        .Include(s => s.DadosSimplesSala)
+                                        .Include(s => s.UsuarioMestre)
+                                        .Include(s => s.Convidados)
+                                        .FirstOrDefault(x => x.SalaId == idSala);
+            
+            if(SalaEncontrada == null)
+            {
+                return NotFound();
+            }
+
+            SalaUsuario userSala = new();
+
+            Usuario usuario = _ctx.Usuarios.FirstOrDefault(u => u.Username.Equals(usernameUser));
+
+            if(usuario == null){
+                return NotFound();
+            }
+            
+            foreach (var user in SalaEncontrada.Convidados)
+            {
+                if(user.Usuario == usuario){
+                    SalaEncontrada.Convidados.Remove(user);
+                    _ctx.Usuarios.UpdateRange(user.Usuario);
+                    _ctx.SaveChanges();
+
+                    return Ok(SalaEncontrada);
+                }
+            }
+
+            return NotFound();
+        } 
         catch(System.Exception e)
         {
             Console.WriteLine(e);
@@ -367,7 +574,78 @@ public class SalaController : ControllerBase
     {
         try
         {
-            return Ok();
+            Sala? SalaEncontrada = _ctx.Salas
+                .Include(s => s.DadosCompostosSala)
+                    .ThenInclude(d => d.Fixos)
+                .Include(s => s.DadosCompostosSala)
+                    .ThenInclude(d => d.Variaveis)
+                .Include(s => s.DadosSimplesSala)
+                .Include(s => s.UsuarioMestre)
+                .Include(s => s.Convidados).
+                FirstOrDefault(x => x.SalaId == id);
+
+            if(SalaEncontrada == null){
+                return NotFound();
+            }
+
+            Usuario? criador = 
+                _ctx.Usuarios
+                .Include(c => c.DadosSimplesPessoais)
+                .Include(c => c.DadosCompostosPessoais)
+                    .ThenInclude(c => c.Fixos)
+                        .ThenInclude(x => x.ModificadorFixo)
+                .Include(c => c.DadosCompostosPessoais)
+                    .ThenInclude(c => c.Variaveis)
+                        .ThenInclude(c => c.ModificadorVariavel)
+                            .ThenInclude(c => c.Dado)
+                .FirstOrDefault(x => x.Username == dadoCompostoSalaDTO.CriadorUsername);
+
+            List<DadoCompostoSalaModFixo> fixos = new();
+            List<DadoCompostoSalaModVar> variaveis = new();
+            List<ModificadorFixo> fixo = _ctx.ModificadoresFixos.Where(mf => dadoCompostoSalaDTO.FixosId.Contains(mf.ModificadorFixoId)).ToList();
+            List<ModificadorVariavel> variavel = _ctx.ModificadoresVariaveis.Where(mf => dadoCompostoSalaDTO.VariaveisId.Contains(mf.ModificadorVariavelId)).Include(d => d.Dado).ToList();
+            
+            foreach (var item in fixo)
+            {
+                DadoCompostoSalaModFixo mods = new()
+                {
+                    ModificadorFixo = item
+                };
+                fixos.Add(mods);
+            }
+            foreach (var item in variavel)
+            {
+                DadoCompostoSalaModVar mods = new()
+                {
+                    ModificadorVariavel = item
+                };
+                variaveis.Add(mods);
+            }
+            
+            DadoCompostoSala? dadoSala = new()
+            {
+                AcessoPrivado = dadoCompostoSalaDTO.AcessoPrivado,
+                Criador = criador,
+                Faces = dadoCompostoSalaDTO.Faces,
+                Nome = dadoCompostoSalaDTO.Nome,
+                Quantidade = dadoCompostoSalaDTO.Quantidade,
+                Condicao = dadoCompostoSalaDTO.Condicao,
+                Fixos = fixos,
+                Variaveis = variaveis
+            };
+            if (dadoSala == null)
+            {
+                return NotFound();
+            }
+
+            _ctx.DadosCompostosSalas.Add(dadoSala);
+            _ctx.SaveChanges();
+            
+            SalaEncontrada.DadosCompostosSala.Add(dadoSala);
+            _ctx.Salas.UpdateRange(SalaEncontrada);
+            _ctx.SaveChanges();
+            
+            return Created("", dadoSala);
         }
         catch(System.Exception e)
         {
@@ -381,7 +659,50 @@ public class SalaController : ControllerBase
     {
         try
         {
-            return Ok();
+            Sala? SalaEncontrada = _ctx.Salas
+                .Include(s => s.DadosCompostosSala)
+                .Include(s => s.DadosSimplesSala)
+                .Include(s => s.UsuarioMestre)
+                .Include(s => s.Convidados).
+                FirstOrDefault(x => x.SalaId == id);
+
+            if(SalaEncontrada == null){
+                return NotFound();
+            }
+
+            Usuario? criador = 
+                _ctx.Usuarios
+                .Include(c => c.DadosSimplesPessoais)
+                .Include(c => c.DadosCompostosPessoais)
+                    .ThenInclude(c => c.Fixos)
+                        .ThenInclude(x => x.ModificadorFixo)
+                .Include(c => c.DadosCompostosPessoais)
+                    .ThenInclude(c => c.Variaveis)
+                        .ThenInclude(c => c.ModificadorVariavel)
+                            .ThenInclude(c => c.Dado)
+                .FirstOrDefault(x => x.Username == dadoSimplesSalaDTO.CriadorUsername);
+            DadoSimplesSala? dadoSala = new()
+            {
+                AcessoPrivado = dadoSimplesSalaDTO.AcessoPrivado,
+                Criador = criador,
+                Faces = dadoSimplesSalaDTO.Faces,
+                Nome = dadoSimplesSalaDTO.Nome,
+                Quantidade = dadoSimplesSalaDTO.Quantidade
+            };
+            
+            if (dadoSala == null)
+            {
+                return NotFound();
+            }
+
+            _ctx.DadosSimplesSalas.Add(dadoSala);
+            _ctx.SaveChanges();
+
+            SalaEncontrada.DadosSimplesSala.Add(dadoSala);
+            _ctx.Salas.UpdateRange(SalaEncontrada);
+            _ctx.SaveChanges();
+            
+            return Created("", dadoSala);
         }
         catch(System.Exception e)
         {

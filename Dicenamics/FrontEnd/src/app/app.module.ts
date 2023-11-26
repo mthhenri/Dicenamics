@@ -15,6 +15,9 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatCardModule } from '@angular/material/card';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatRadioModule } from '@angular/material/radio';
 
 
 import { AppRoutingModule } from './app-routing.module';
@@ -31,6 +34,11 @@ import { ApagarConfirmarComponent } from './pages/apagar-confirmar/apagar-confir
 import { DadosPessoaisCadastroComponent } from './user/pages/dados-pessoais/cadastro/dados-pessoais-cadastro/dados-pessoais-cadastro.component';
 import { SintaxePageComponent } from './sintaxe/sintaxe-page/sintaxe-page.component';
 import { UsuarioComponent } from './user/pages/usuario/usuario.component';
+import { SalasComponent } from './salas/pages/salas/salas.component';
+import { SalaCadastroComponent } from './salas/pages/cadastro/sala-cadastro/sala-cadastro.component';
+import { SalaAcessoComponent } from './salas/pages/acesso/sala-acesso/sala-acesso.component';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { CadastroDadosSalaComponent } from './salas/pages/cadastro-dados/cadastro-dados-sala/cadastro-dados-sala.component';
 
 @NgModule({
   declarations: [
@@ -46,6 +54,10 @@ import { UsuarioComponent } from './user/pages/usuario/usuario.component';
     DadosPessoaisCadastroComponent,
     SintaxePageComponent,
     UsuarioComponent,
+    SalasComponent,
+    SalaCadastroComponent,
+    SalaAcessoComponent,
+    CadastroDadosSalaComponent,
   ],
   imports: [
     BrowserModule,
@@ -66,7 +78,11 @@ import { UsuarioComponent } from './user/pages/usuario/usuario.component';
     MatSnackBarModule,
     MatGridListModule,
     MatCardModule,
-    
+    MatTabsModule,
+    FontAwesomeModule,
+    MatSlideToggleModule,
+    MatRadioModule,
+
   ],
   providers: [],
   bootstrap: [AppComponent]

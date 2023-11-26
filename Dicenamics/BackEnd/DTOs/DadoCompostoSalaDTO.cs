@@ -10,8 +10,8 @@ public class DadoCompostoSalaDTO
     public string? Nome { get; set; }
     public int Quantidade { get; set; }
     public string? Condicao { get; set; }
-    public List<int>? Fixos { get; set; }
-    public List<int>? Variaveis { get; set; }
+    public List<int>? FixosId { get; set; }
+    public List<int>? VariaveisId { get; set; }
     public DadoCompostoSalaDTO()
     {
         // Construtor vazio

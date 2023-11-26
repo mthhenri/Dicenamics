@@ -3,21 +3,21 @@
     <span id="criar"> {{acao}} </span>
     <div class="spacer"></div>
     <div id="layer1">
-        <mat-form-field class="formDado" appearance="outline">
+        <mat-form-field class="formDado" appearance="outline" color="accent">
             <mat-label> Nome </mat-label>
             <div>
                 <input matInput [formControl]="nome" type="text" required>
             </div>
             <mat-hint align="start"><strong>Ex: Ataque de Espada</strong> </mat-hint>
         </mat-form-field>
-        <mat-form-field class="formDado" appearance="outline">
+        <mat-form-field class="formDado" appearance="outline" color="accent">
             <mat-label> Dado </mat-label>
             <div>
                 <input matInput [formControl]="dado" type="text" required>
             </div>
             <mat-hint align="start"><strong>Ex: 3d20</strong> </mat-hint>
         </mat-form-field>
-        <mat-form-field class="formDado" appearance="outline">
+        <mat-form-field class="formDado" appearance="outline" color="accent">
             <mat-label> Condição </mat-label>
             <div>
                 <input matInput [formControl]="condicao" type="text">
@@ -37,14 +37,14 @@
             </div>
     
             <div *ngFor="let index of modFixQuantidade" class="form-container">
-                <mat-form-field class="formMod" appearance="outline">
+                <mat-form-field class="formMod" appearance="outline" color="accent">
                     <mat-label> Nome </mat-label>
                     <div>
                         <input matInput [formControl]="getFormControlFixo(index, 'nome')" type="text">
                     </div>
                     <mat-hint align="start"><strong>Ex: Luta</strong> </mat-hint>
                 </mat-form-field>
-                <mat-form-field class="formMod" appearance="outline">
+                <mat-form-field class="formMod" appearance="outline" color="accent">
                     <mat-label> Valor </mat-label>
                     <div>
                         <input matInput [formControl]="getFormControlFixo(index, 'valor')" type="number">
@@ -66,14 +66,14 @@
                 </button>
             </div>
             <div *ngFor="let index of modVarQuantidade" class="form-container">
-                <mat-form-field class="formMod" appearance="outline">
+                <mat-form-field class="formMod" appearance="outline" color="accent">
                     <mat-label> Nome </mat-label>
                     <div>
                         <input matInput [formControl]="getFormControlVar(index, 'nome')" type="text">
                     </div>
                     <mat-hint align="start"><strong>Ex: Sangramento</strong> </mat-hint>
                 </mat-form-field>
-                <mat-form-field class="formMod" appearance="outline">
+                <mat-form-field class="formMod" appearance="outline" color="accent">
                     <mat-label> Dado </mat-label>
                     <div>
                         <input matInput [formControl]="getFormControlVar(index, 'dado')" type="text">

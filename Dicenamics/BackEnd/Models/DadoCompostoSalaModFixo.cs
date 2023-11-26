@@ -6,7 +6,7 @@ public class DadoCompostoSalaModFixo
 {
     [Key]
     [JsonIgnore]
-    public int ConectDadoVarId { get; set; }
+    public int ConectDadoFixoId { get; set; }
     [JsonIgnore]
     public int DadoId { get; set; }
     [JsonIgnore]

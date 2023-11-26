@@ -62,13 +62,25 @@
 .listItem {
     display: flex;
     align-items: center;
-    padding-right: 25px;
-    padding-bottom: 10px;
+    margin-right: 20px;
+    margin-bottom: 10px;
 }
 
-.listItem > span {
-    padding-top: 2px;
+.btnListNav {
+    
+    justify-content: start;
+    padding-top: 25px;
+    padding-bottom: 25px;
+    padding-right: 25px;
+    width: 125px;
+}
+
+.text {
     font-size: medium;
+}
+
+#dice {
+    padding-left: 5px;
 }
 
 .chegadaDiv {

@@ -3,6 +3,8 @@ import { Component, Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { SairConfirmarComponent } from './pages/sair-confirmar/sair-confirmar.component';
+import { faDiceD6 } from '@fortawesome/free-solid-svg-icons';
+
 
 @Injectable({
   providedIn: 'root',
@@ -22,6 +24,7 @@ export class AppComponent {
     // Caso de erro no usuario gravado no browser
     // localStorage.setItem('usuario', JSON.stringify(this.usuario));
   }
+  faDice = faDiceD6;
 
   title = 'FrontEnd';
   chegada: boolean = true;
@@ -98,7 +101,7 @@ export class AppComponent {
   }
 
   navSalas() {
-    this.router.navigate(["dicenamics"])
+    this.router.navigate(["dicenamics/salas"])
   }
 
   navDadosPessoais() {
