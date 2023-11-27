@@ -426,14 +426,14 @@ namespace BackEnd.Migrations
 
             modelBuilder.Entity("BackEnd.Models.DadoCompostoSalaModFixo", b =>
                 {
-                    b.HasOne("BackEnd.Models.ModificadorFixo", "ModificadorFixo")
-                        .WithMany("FixosSala")
+                    b.HasOne("BackEnd.Models.DadoCompostoSala", "DadoCompostoSala")
+                        .WithMany("Fixos")
                         .HasForeignKey("DadoId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("BackEnd.Models.DadoCompostoSala", "DadoCompostoSala")
-                        .WithMany("Fixos")
+                    b.HasOne("BackEnd.Models.ModificadorFixo", "ModificadorFixo")
+                        .WithMany("FixosSala")
                         .HasForeignKey("ModificadorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();

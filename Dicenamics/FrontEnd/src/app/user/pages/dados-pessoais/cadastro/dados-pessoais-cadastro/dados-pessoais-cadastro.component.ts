@@ -41,8 +41,6 @@ export class DadosPessoaisCadastroComponent {
           next: async (dado) => {
             this.nome.setValue(dado.nome)
             this.dado.setValue(`${dado.quantidade}d${dado.faces}`)
-            // this.faces.setValue(dado.faces.toString())
-            // this.quantidade.setValue(dado.quantidade.toString())
             this.condicao.setValue(dado.condicao)
             await this.formModAddEditFix(dado);
             await this.formModAddEditVar(dado);

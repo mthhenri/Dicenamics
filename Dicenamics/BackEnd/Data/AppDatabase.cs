@@ -90,12 +90,12 @@ public class AppDatabase : DbContext
         modelBuilder.Entity<DadoCompostoSalaModFixo>()
             .HasOne(df => df.DadoCompostoSala)
             .WithMany(df => df.Fixos)
-            .HasForeignKey(df => df.ModificadorId);
+            .HasForeignKey(df => df.DadoId);
 
         modelBuilder.Entity<DadoCompostoSalaModFixo>()
             .HasOne(df => df.ModificadorFixo)
             .WithMany(df => df.FixosSala)
-            .HasForeignKey(df => df.DadoId);
+            .HasForeignKey(df => df.ModificadorId);
 
         modelBuilder.Entity<DadoCompostoSalaModVar>()
             .HasOne(df => df.DadoCompostoSala)

@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace BackEnd.Migrations
 {
-    public partial class RolagemCascadeError : Migration
+    public partial class Entrega : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -273,14 +273,14 @@ namespace BackEnd.Migrations
                 {
                     table.PrimaryKey("PK_DadoCompostoSalaModFixo", x => x.ConectDadoFixoId);
                     table.ForeignKey(
-                        name: "FK_DadoCompostoSalaModFixo_DadosCompostosSalas_ModificadorId",
-                        column: x => x.ModificadorId,
+                        name: "FK_DadoCompostoSalaModFixo_DadosCompostosSalas_DadoId",
+                        column: x => x.DadoId,
                         principalTable: "DadosCompostosSalas",
                         principalColumn: "DadoCompostoSalaId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_DadoCompostoSalaModFixo_ModificadoresFixos_DadoId",
-                        column: x => x.DadoId,
+                        name: "FK_DadoCompostoSalaModFixo_ModificadoresFixos_ModificadorId",
+                        column: x => x.ModificadorId,
                         principalTable: "ModificadoresFixos",
                         principalColumn: "ModificadorFixoId",
                         onDelete: ReferentialAction.Cascade);

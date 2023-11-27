@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BackEnd.Migrations
 {
     [DbContext(typeof(AppDatabase))]
-    [Migration("20231127004221_RolagemCascadeError")]
-    partial class RolagemCascadeError
+    [Migration("20231127011913_Entrega")]
+    partial class Entrega
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -428,14 +428,14 @@ namespace BackEnd.Migrations
 
             modelBuilder.Entity("BackEnd.Models.DadoCompostoSalaModFixo", b =>
                 {
-                    b.HasOne("BackEnd.Models.ModificadorFixo", "ModificadorFixo")
-                        .WithMany("FixosSala")
+                    b.HasOne("BackEnd.Models.DadoCompostoSala", "DadoCompostoSala")
+                        .WithMany("Fixos")
                         .HasForeignKey("DadoId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("BackEnd.Models.DadoCompostoSala", "DadoCompostoSala")
-                        .WithMany("Fixos")
+                    b.HasOne("BackEnd.Models.ModificadorFixo", "ModificadorFixo")
+                        .WithMany("FixosSala")
                         .HasForeignKey("ModificadorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
