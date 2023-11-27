@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BackEnd.Migrations
 {
     [DbContext(typeof(AppDatabase))]
-    [Migration("20231126092949_RolagemEdit")]
-    partial class RolagemEdit
+    [Migration("20231127004221_RolagemCascadeError")]
+    partial class RolagemCascadeError
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -259,16 +259,24 @@ namespace BackEnd.Migrations
 
             modelBuilder.Entity("BackEnd.Models.RolagemDadoSala", b =>
                 {
+                    b.Property<int?>("RolagemDadoSalaId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
                     b.Property<int>("DadoCompostoSalaId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("DadoId")
+                    b.Property<int?>("DadoId")
                         .HasColumnType("INTEGER");
+
+                    b.Property<string>("Resultados")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
 
                     b.Property<DateTime>("RoladoEm")
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("SalaId")
+                    b.Property<int?>("SalaId")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("TipoRolagem")
@@ -278,6 +286,8 @@ namespace BackEnd.Migrations
                     b.Property<string>("UsuarioUsername")
                         .IsRequired()
                         .HasColumnType("TEXT");
+
+                    b.HasKey("RolagemDadoSalaId");
 
                     b.HasIndex("DadoCompostoSalaId");
 
@@ -497,9 +507,7 @@ namespace BackEnd.Migrations
 
                     b.HasOne("BackEnd.Models.Sala", "Sala")
                         .WithMany()
-                        .HasForeignKey("SalaId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("SalaId");
 
                     b.Navigation("DadoComposto");
 

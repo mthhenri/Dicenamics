@@ -109,7 +109,7 @@ public class AppDatabase : DbContext
 
         modelBuilder.Entity<RolagemDadoSala>()
             .HasKey(r => r.RolagemDadoSalaId);
-            
+        
         base.OnModelCreating(modelBuilder);
     }
 

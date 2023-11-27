@@ -7,7 +7,7 @@ export interface RolagemDadoSala {
     usuarioUsername : string
     resultados : string
     resultadosList : number[][]
-    TipoRolagem : string
+    tipoRolagem : string
     dadoId : number
     dadoComposto : DadoCompostoSala
     salaId : number

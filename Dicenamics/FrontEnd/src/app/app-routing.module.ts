@@ -65,6 +65,10 @@ const routes: Routes = [
   {
     path: "dicenamics/salas/acesso/:idLink/dados/criar",
     component: CadastroDadosSalaComponent
+  },
+  {
+    path: "dicenamics/salas/acesso/:idLink/dados/editar/:dadoId",
+    component: CadastroDadosSalaComponent
   }
 ];
 

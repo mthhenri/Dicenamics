@@ -18,7 +18,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatRadioModule } from '@angular/material/radio';
-
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -82,7 +82,8 @@ import { CadastroDadosSalaComponent } from './salas/pages/cadastro-dados/cadastr
     FontAwesomeModule,
     MatSlideToggleModule,
     MatRadioModule,
-
+    MatTooltipModule,
+    
   ],
   providers: [],
   bootstrap: [AppComponent]

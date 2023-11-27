@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace BackEnd.Migrations
 {
-    public partial class Rolagem : Migration
+    public partial class RolagemCascadeError : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -320,10 +320,11 @@ namespace BackEnd.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     RoladoEm = table.Column<DateTime>(type: "TEXT", nullable: false),
                     UsuarioUsername = table.Column<string>(type: "TEXT", nullable: false),
+                    Resultados = table.Column<string>(type: "TEXT", nullable: false),
                     TipoRolagem = table.Column<string>(type: "TEXT", nullable: false),
+                    DadoId = table.Column<int>(type: "INTEGER", nullable: true),
                     DadoCompostoSalaId = table.Column<int>(type: "INTEGER", nullable: false),
-                    DadoId = table.Column<int>(type: "INTEGER", nullable: false),
-                    SalaId = table.Column<int>(type: "INTEGER", nullable: false)
+                    SalaId = table.Column<int>(type: "INTEGER", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -338,8 +339,7 @@ namespace BackEnd.Migrations
                         name: "FK_RolagensDadosSalas_Salas_SalaId",
                         column: x => x.SalaId,
                         principalTable: "Salas",
-                        principalColumn: "SalaId",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "SalaId");
                 });
 
             migrationBuilder.CreateIndex(

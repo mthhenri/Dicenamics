@@ -233,7 +233,9 @@ public class DadoCompostoSalaController : ControllerBase
                 return NotFound();
             }
 
-            _ctx.DadosCompostosSalas.Update(dadoSala);
+            _ctx.DadosCompostosSalas.UpdateRange(dadoSala);
+            _ctx.SaveChanges();
+            _ctx.Salas.UpdateRange();
             _ctx.SaveChanges();
             return Ok(dadoSala);
         }
@@ -286,67 +288,67 @@ public class DadoCompostoSalaController : ControllerBase
         }
     }
 
-    [HttpGet("rolar/{id}/{tipoRolagem}/{usuarioRoll}")]
-    public IActionResult RolarDado([FromRoute] int id, [FromRoute] string tipoRolagem, [FromRoute] string usuarioRoll)
-    {
-        try
-        {
-            DadoCompostoSala? dadoSala = 
-                _ctx.DadosCompostosSalas
-                    .Include(c => c.Criador)
-                        .ThenInclude(c => c.DadosCompostosPessoais)
-                            .ThenInclude(c => c.Fixos)
-                                .ThenInclude(c => c.ModificadorFixo)
-                    .Include(c => c.Criador)
-                        .ThenInclude(c => c.DadosCompostosPessoais)
-                            .ThenInclude(c => c.Variaveis)
-                                .ThenInclude(c => c.ModificadorVariavel)
-                                    .ThenInclude(c => c.Dado)
-                    .Include(c => c.Criador)
-                        .ThenInclude(c => c.DadosSimplesPessoais)
-                    .Include(c => c.Fixos)
-                        .ThenInclude(c => c.ModificadorFixo)
-                    .Include(c => c.Variaveis)
-                        .ThenInclude(c => c.ModificadorVariavel)
-                            .ThenInclude(c => c.Dado)
-                    .FirstOrDefault(x => x.DadoCompostoSalaId == id);
+    // [HttpGet("rolar/{id}/{tipoRolagem}/{usuarioRoll}")]
+    // public IActionResult RolarDado([FromRoute] int id, [FromRoute] string tipoRolagem, [FromRoute] string usuarioRoll)
+    // {
+    //     try
+    //     {
+    //         DadoCompostoSala? dadoSala = 
+    //             _ctx.DadosCompostosSalas
+    //                 .Include(c => c.Criador)
+    //                     .ThenInclude(c => c.DadosCompostosPessoais)
+    //                         .ThenInclude(c => c.Fixos)
+    //                             .ThenInclude(c => c.ModificadorFixo)
+    //                 .Include(c => c.Criador)
+    //                     .ThenInclude(c => c.DadosCompostosPessoais)
+    //                         .ThenInclude(c => c.Variaveis)
+    //                             .ThenInclude(c => c.ModificadorVariavel)
+    //                                 .ThenInclude(c => c.Dado)
+    //                 .Include(c => c.Criador)
+    //                     .ThenInclude(c => c.DadosSimplesPessoais)
+    //                 .Include(c => c.Fixos)
+    //                     .ThenInclude(c => c.ModificadorFixo)
+    //                 .Include(c => c.Variaveis)
+    //                     .ThenInclude(c => c.ModificadorVariavel)
+    //                         .ThenInclude(c => c.Dado)
+    //                 .FirstOrDefault(x => x.DadoCompostoSalaId == id);
             
-            if(dadoSala == null)
-            {
-                return NotFound();
-            }
+    //         if(dadoSala == null)
+    //         {
+    //             return NotFound();
+    //         }
 
-            Sala? salaEncontrada = _ctx.Salas
-                                        .Include(s => s.DadosCompostosSala)
-                                        .Include(s => s.DadosSimplesSala)
-                                        .Include(s => s.UsuarioMestre)
-                                        .Include(s => s.Convidados)
-                                        .FirstOrDefault(x => x.SalaId == id);
+    //         Sala? salaEncontrada = _ctx.Salas
+    //                                     .Include(s => s.DadosCompostosSala)
+    //                                     .Include(s => s.DadosSimplesSala)
+    //                                     .Include(s => s.UsuarioMestre)
+    //                                     .Include(s => s.Convidados)
+    //                                     .FirstOrDefault(x => x.SalaId == id);
 
-            if(salaEncontrada == null)
-            {
-                return NotFound();
-            }
+    //         if(salaEncontrada == null)
+    //         {
+    //             return NotFound();
+    //         }
 
-            RolagemDadoSala rolagem = new();
-            rolagem.UsuarioUsername = usuarioRoll;
-            rolagem.Resultados = JsonConvert.SerializeObject(dadoSala.RolarDado());
-            rolagem.TipoRolagem = tipoRolagem;
-            rolagem.DadoComposto = dadoSala;
-            rolagem.DadoId = dadoSala.DadoCompostoSalaId;
-            rolagem.Sala = salaEncontrada;
+    //         RolagemDadoSala rolagem = new();
+    //         rolagem.UsuarioUsername = usuarioRoll;
+    //         rolagem.Resultados = JsonConvert.SerializeObject(dadoSala.RolarDado());
+    //         rolagem.TipoRolagem = tipoRolagem;
+    //         rolagem.DadoComposto = dadoSala;
+    //         rolagem.DadoId = dadoSala.DadoCompostoSalaId;
+    //         rolagem.Sala = salaEncontrada;
 
-            _ctx.RolagemsDadosSalas.Add(rolagem);
-            _ctx.SaveChanges();
+    //         _ctx.RolagemsDadosSalas.Add(rolagem);
+    //         _ctx.SaveChanges();
 
-            return Ok(rolagem);
-        }
-        catch (System.Exception e)
-        {
-            Console.WriteLine(e);
-            return BadRequest(e.Message);
-        }
-    }
+    //         return Ok(rolagem);
+    //     }
+    //     catch (System.Exception e)
+    //     {
+    //         Console.WriteLine(e);
+    //         return BadRequest(e.Message);
+    //     }
+    // }
 
 
 }

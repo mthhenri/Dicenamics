@@ -27,7 +27,11 @@
             <mat-hint align="start"><strong>Ex: mrv</strong> </mat-hint>
         </mat-form-field>
         <div class="formDado" id="slider">
-            <mat-slide-toggle [(ngModel)]="acessoPrivado">Acesso Privado</mat-slide-toggle>
+            <mat-slide-toggle [(ngModel)]="acessoPrivado">
+                <fa-icon [icon]="privado" *ngIf="acessoPrivado"></fa-icon>
+                <fa-icon [icon]="publico" *ngIf="!acessoPrivado"></fa-icon>
+                {{tipoDado()}}
+            </mat-slide-toggle>
         </div>
     </div>
     <div class="buttonsDiv">
@@ -35,7 +39,7 @@
             <mat-icon> done </mat-icon>
             <span> {{acaoDado}} </span>
         </button>
-        <button id="criarBtn" (click)="voltarPg()" *ngIf="acaoPg == 'Editar'" mat-button>
+        <button id="criarBtn" (click)="criarDadoSala()" *ngIf="acaoPg == 'Editar'" mat-button>
             <mat-icon> done </mat-icon>
             <span> {{acaoDado}} </span>
         </button>

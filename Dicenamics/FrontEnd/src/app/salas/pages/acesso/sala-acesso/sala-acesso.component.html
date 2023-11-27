@@ -11,7 +11,11 @@
     <div class="contentGM">
         <div class="masterGrid">
             <mat-tab-group animationDuration="0ms" color="accent">
-                <mat-tab label="Mestre">
+                <mat-tab>
+                    <ng-template mat-tab-label>
+                        <fa-icon [icon]="mestreIco"></fa-icon>
+                        <span style="margin-left: 10px;">Mestre</span>
+                    </ng-template>
                     <div class="masterGridContent">
                         <span id="titleMasterGrid">Editar Sala</span>
                         <mat-form-field appearance="outline" color="accent">
@@ -32,14 +36,22 @@
                             <mat-label>Id da Sala</mat-label>
                             <input matInput [value]="idSala" disabled>
                         </mat-form-field>
-                        <mat-slide-toggle class="gmRoll" [(ngModel)]="gmRoll"> {{checkRolagemGM()}} </mat-slide-toggle>
+                        <mat-slide-toggle class="gmRoll" [(ngModel)]="gmRoll">
+                            <fa-icon [icon]="rolagemGmIco" *ngIf="gmRoll"></fa-icon>
+                            <fa-icon [icon]="rolagemPublicaIco" *ngIf="!gmRoll"></fa-icon>                        
+                            {{checkRolagemGM()}} 
+                        </mat-slide-toggle>
                         <button mat-button (click)="apagarSala()" class="btnApagarSala">
                             <mat-icon> delete </mat-icon>
                             <span> Apagar Sala </span>
                         </button>
                     </div>                   
                 </mat-tab>
-                <mat-tab label="Jogadores">
+                <mat-tab>
+                    <ng-template mat-tab-label>
+                        <fa-icon [icon]="jogadores"></fa-icon>
+                        <span style="margin-left: 10px;">Jogadores</span>
+                    </ng-template>
                     <div class="masterGridContent">
                         <mat-form-field appearance="outline" color="accent">
                             <mat-label>Adicionar Jogador</mat-label>
@@ -75,41 +87,69 @@
                 <mat-sidenav #sideNavDadosMaster [opened]="true" mode="side" class="sidenavDadosMaster">
                     <div>
                         <mat-tab-group animationDuration="0ms" color="accent">
-                            <mat-tab label="Dados Públicos">
-                                <mat-list>
-                                    <mat-list-item class="masterListItem" *ngFor="let dado of dadosPublicosFilter()">
-                                        <span>
-                                            {{dado.nome}}
-                                        </span>
-                                        <button mat-icon-button>
-                                            <fa-icon [icon]="d20"></fa-icon>
-                                        </button>
-                                        <button mat-icon-button>
-                                            <mat-icon>delete</mat-icon>
-                                        </button>
-                                        <button mat-icon-button>
-                                            <mat-icon>edit</mat-icon>
-                                        </button>
-                                    </mat-list-item>
-                                </mat-list>
+                            <mat-tab>
+                                <ng-template mat-tab-label>
+                                    <fa-icon [icon]="publico"></fa-icon>
+                                    <span style="margin-left: 10px;">Dados Publicos</span>
+                                </ng-template>
+                                <div class="spacerTab"></div>
+                                <mat-accordion>
+                                    <mat-expansion-panel *ngFor="let dado of dadosPublicosFilter()" hideToggle class="masterExpasionPanel" [matTooltip]="criadorDadoMostrar(dado)" matTooltipPosition="above">
+                                        <mat-expansion-panel-header>
+                                            <mat-panel-title>
+                                                {{ dado.nome }}
+                                            </mat-panel-title>
+                                            <mat-panel-description class="descExpMaster">
+                                                {{ dadoBonito(dado) }}
+                                            </mat-panel-description>
+                                        </mat-expansion-panel-header>
+                                        <ng-template [matExpansionPanelContent]>
+                                            <div class="masterListItem">
+                                                <button mat-icon-button matTooltip="Rolar dado" (click)="rolarDado(dado)">
+                                                    <fa-icon [icon]="d20"></fa-icon>
+                                                </button>
+                                                <button mat-icon-button matTooltip="Apagar dado" (click)="apagarDado(dado)">
+                                                    <mat-icon>delete</mat-icon>
+                                                </button>
+                                                <button mat-icon-button matTooltip="Editar dado" (click)="editarDadoSala(dado)">
+                                                    <mat-icon>edit</mat-icon>
+                                                </button>
+                                            </div>
+                                        </ng-template>                                        
+                                    </mat-expansion-panel>
+                                </mat-accordion>
                             </mat-tab>
-                            <mat-tab label="Dados Privados">
-                                <mat-list>
-                                    <mat-list-item class="masterListItem" *ngFor="let dado of dadosPrivadosFilter()">
-                                        <span>
-                                            {{dado.nome}}
-                                        </span>
-                                        <button mat-icon-button>
-                                            <fa-icon [icon]="d20"></fa-icon>
-                                        </button>
-                                        <button mat-icon-button>
-                                            <mat-icon>delete</mat-icon>
-                                        </button>
-                                        <button mat-icon-button>
-                                            <mat-icon>edit</mat-icon>
-                                        </button>
-                                    </mat-list-item>
-                                </mat-list>
+                            <mat-tab>
+                                <ng-template mat-tab-label>
+                                    <fa-icon [icon]="privado"></fa-icon>
+                                    <span style="margin-left: 10px;">Dados Privados</span>
+                                </ng-template>
+                                <div class="spacerTab"></div>
+                                <mat-accordion>
+                                    <mat-expansion-panel *ngFor="let dado of dadosPrivadosFilter()" hideToggle class="masterExpasionPanel">
+                                        <mat-expansion-panel-header>
+                                            <mat-panel-title>
+                                                {{ dado.nome }}
+                                            </mat-panel-title>
+                                            <mat-panel-description class="descExpMaster">
+                                                {{ dadoBonito(dado) }}
+                                            </mat-panel-description>
+                                        </mat-expansion-panel-header>
+                                        <ng-template [matExpansionPanelContent]>
+                                            <div class="masterListItem">
+                                                <button mat-icon-button matTooltip="Rolar dado" (click)="rolarDado(dado)">
+                                                    <fa-icon [icon]="d20"></fa-icon>
+                                                </button>
+                                                <button mat-icon-button matTooltip="Apagar dado" (click)="apagarDado(dado)">
+                                                    <mat-icon>delete</mat-icon>
+                                                </button>
+                                                <button mat-icon-button matTooltip="Editar dado" (click)="editarDadoSala(dado)">
+                                                    <mat-icon>edit</mat-icon>
+                                                </button>
+                                            </div>
+                                        </ng-template>                                        
+                                    </mat-expansion-panel>
+                                </mat-accordion>
                             </mat-tab>
                         </mat-tab-group>
                     </div>
@@ -121,17 +161,21 @@
                         </button>
                     </div>
                     <div class="rolagemHistoricoMestre">
-                        <mat-card class="rolagemCardMaster">
+                        <mat-card [ngClass]="resultadoRolagemExibir(rolagem.tipoRolagem)" *ngFor="let rolagem of rolagensLista">
                             <mat-card-actions class="titleCardRolagemMestre">
-                                <mat-card-title> {{ "@Usuario" }} </mat-card-title>
-                                <mat-card-title> {{ "Dado resumo" }} </mat-card-title>
-                                <mat-card-title> {{ "Data" }} </mat-card-title>
+                                <mat-card-title> {{ "@" + rolagem.usuarioUsername }} </mat-card-title>
+                                <mat-card-title> {{ dadoBonito(rolagem.dadoComposto) }} </mat-card-title>
+                                <mat-card-title> {{ dataBonita(rolagem.roladoEm) }} </mat-card-title>
                             </mat-card-actions>
                             <mat-card-content>
                                 <div class="cardRolagemMestre">
-                                    <span>{{ "Nome do Dado" }}</span>
+                                    <span>{{ rolagem.dadoComposto.nome }}</span>
                                     <span>:</span>
-                                    <span id="cardRolagemResultMestre">{{ "Rolagem" }}</span>
+                                    <div id="cardRolagemResultMestre">
+                                        <span>{{ resultadoRefine(rolagem.dadoComposto, rolagem.resultados).todosOsDados }} </span>
+                                        <fa-icon [icon]="setaDireita" size="sm"></fa-icon>
+                                        <span> {{ resultadoRefine(rolagem.dadoComposto, rolagem.resultados).valoresFinais }}</span>
+                                    </div>
                                 </div>
                             </mat-card-content>
                         </mat-card>
@@ -140,7 +184,7 @@
             </mat-sidenav-container>
         </div>
         <div class="addDiceSala">
-            <button mat-fab (click)="criarDadoSala()">
+            <button mat-fab (click)="criarDadoSala()" matTooltip="Criar dado" matTooltipPosition="left">
                 <mat-icon> add </mat-icon>
             </button>
         </div>
@@ -164,16 +208,28 @@
     <div class="contentYES">
         <div class="playerGrid">
             <mat-tab-group animationDuration="0ms" color="accent">
-                <mat-tab label="Utilitários">
+                <mat-tab>
+                    <ng-template mat-tab-label>
+                        <fa-icon [icon]="utilitariosIco"></fa-icon>
+                        <span style="margin-left: 10px;">Utilitarios</span>
+                    </ng-template>
                     <div class="playerGridContent">
-                        <mat-slide-toggle class="playerRoll" [(ngModel)]="playerRoll"> {{checkRolagemPlayer()}} </mat-slide-toggle>
+                        <mat-slide-toggle class="playerRoll" [(ngModel)]="playerRoll">
+                            <fa-icon [icon]="rolagemSecretaIco" *ngIf="playerRoll"></fa-icon>
+                            <fa-icon [icon]="rolagemPublicaIco" *ngIf="!playerRoll"></fa-icon>
+                            {{checkRolagemPlayer()}}
+                        </mat-slide-toggle>
                         <button mat-button (click)="sairSala(this.appComponent.pegarUser()?.username)" class="btnApagarSala">
                             <mat-icon> close </mat-icon>
                             <span> Sair da Sala </span>
                         </button>
                     </div>
                 </mat-tab>
-                <mat-tab label="Jogadores">
+                <mat-tab>
+                    <ng-template mat-tab-label>
+                        <fa-icon [icon]="jogadores"></fa-icon>
+                        <span style="margin-left: 10px;">Jogadores</span>
+                    </ng-template>
                     <div class="playerGridContent">
                         <mat-list class="listUser">
                             <mat-list-item>
@@ -198,41 +254,69 @@
                 <mat-sidenav #sideNavDadosPlayer [opened]="true" mode="side" class="sidenavDadosPlayer">
                     <div>
                         <mat-tab-group animationDuration="0ms" color="accent">
-                            <mat-tab label="Dados Públicos">
-                                <mat-list>
-                                    <mat-list-item class="masterListItem" *ngFor="let dado of dadosPublicosFilter()">
-                                        <span>
-                                            {{dado.nome}}
-                                        </span>
-                                        <button mat-icon-button>
-                                            <fa-icon [icon]="d20"></fa-icon>
-                                        </button>
-                                        <button mat-icon-button *ngIf="dado.criador?.username === appComponent.pegarUser()?.username">
-                                            <mat-icon>delete</mat-icon>
-                                        </button>
-                                        <button mat-icon-button *ngIf="dado.criador?.username === appComponent.pegarUser()?.username">
-                                            <mat-icon>edit</mat-icon>
-                                        </button>
-                                    </mat-list-item>
-                                </mat-list>
+                            <mat-tab>
+                                <ng-template mat-tab-label>
+                                    <fa-icon [icon]="publico"></fa-icon>
+                                    <span style="margin-left: 10px;">Dados Publicos</span>
+                                </ng-template>
+                                <div class="spacerTab"></div>
+                                <mat-accordion>
+                                    <mat-expansion-panel *ngFor="let dado of dadosPublicosFilter()" hideToggle class="playerExpasionPanel" [matTooltip]="criadorDadoMostrar(dado)" matTooltipPosition="above">
+                                        <mat-expansion-panel-header>
+                                            <mat-panel-title>
+                                                {{ dado.nome }}
+                                            </mat-panel-title>
+                                            <mat-panel-description class="descExpPlayer">
+                                                {{ dadoBonito(dado) }}
+                                            </mat-panel-description>
+                                        </mat-expansion-panel-header>
+                                        <ng-template [matExpansionPanelContent]>
+                                            <div class="playerListItem">
+                                                <button mat-icon-button matTooltip="Rolar dado" (click)="rolarDado(dado)">
+                                                    <fa-icon [icon]="d20"></fa-icon>
+                                                </button>
+                                                <button mat-icon-button matTooltip="Apagar dado" (click)="apagarDado(dado)" *ngIf="dado.criador?.username === appComponent.pegarUser()?.username">
+                                                    <mat-icon>delete</mat-icon>
+                                                </button>
+                                                <button mat-icon-button matTooltip="Editar dado" (click)="editarDadoSala(dado)" *ngIf="dado.criador?.username === appComponent.pegarUser()?.username">
+                                                    <mat-icon>edit</mat-icon>
+                                                </button>                                            
+                                            </div>
+                                        </ng-template>                                        
+                                    </mat-expansion-panel>
+                                </mat-accordion>
                             </mat-tab>
-                            <mat-tab label="Dados Privados">
-                                <mat-list>
-                                    <mat-list-item class="masterListItem" *ngFor="let dado of dadosPrivadosFilter()">
-                                        <span>
-                                            {{dado.nome}}
-                                        </span>
-                                        <button mat-icon-button>
-                                            <fa-icon [icon]="d20"></fa-icon>
-                                        </button>
-                                        <button mat-icon-button>
-                                            <mat-icon>delete</mat-icon>
-                                        </button>
-                                        <button mat-icon-button>
-                                            <mat-icon>edit</mat-icon>
-                                        </button>
-                                    </mat-list-item>
-                                </mat-list>
+                            <mat-tab>
+                                <ng-template mat-tab-label>
+                                    <fa-icon [icon]="privado"></fa-icon>
+                                    <span style="margin-left: 10px;">Dados Privados</span>
+                                </ng-template>
+                                <div class="spacerTab"></div>
+                                <mat-accordion>
+                                    <mat-expansion-panel *ngFor="let dado of dadosPrivadosFilter()" hideToggle class="playerExpasionPanel">
+                                        <mat-expansion-panel-header>
+                                            <mat-panel-title>
+                                                {{ dado.nome }}
+                                            </mat-panel-title>
+                                            <mat-panel-description class="descExpPlayer">
+                                                {{ dadoBonito(dado) }}
+                                            </mat-panel-description>
+                                        </mat-expansion-panel-header>
+                                        <ng-template [matExpansionPanelContent]>
+                                            <div class="playerListItem">
+                                                <button mat-icon-button matTooltip="Rolar dado" (click)="rolarDado(dado)">
+                                                    <fa-icon [icon]="d20"></fa-icon>
+                                                </button>
+                                                <button mat-icon-button matTooltip="Apagar dado" (click)="apagarDado(dado)">
+                                                    <mat-icon>delete</mat-icon>
+                                                </button>
+                                                <button mat-icon-button matTooltip="Editar dado" (click)="editarDadoSala(dado)">
+                                                    <mat-icon>edit</mat-icon>
+                                                </button>                                            
+                                            </div>
+                                        </ng-template>                                        
+                                    </mat-expansion-panel>
+                                </mat-accordion>
                             </mat-tab>
                         </mat-tab-group>
                     </div>
@@ -244,20 +328,26 @@
                         </button>
                     </div>
                     <div class="rolagemHistoricoPlayer">
-                        <mat-card class="rolagemCardPlayer">
-                            <mat-card-actions class="titleCardRolagemPlayer">
-                                <mat-card-title> {{ "@Usuario" }} </mat-card-title>
-                                <mat-card-title> {{ "Dado resumo" }} </mat-card-title>
-                                <mat-card-title> {{ "Data" }} </mat-card-title>
-                            </mat-card-actions>
-                            <mat-card-content>
-                                <div class="cardRalagemPlayer">
-                                    <span>{{ "Nome do Dado" }}</span>
-                                    <span>:</span>
-                                    <span id="cardRolagemResultPlayer">{{ "Rolagem" }}</span>
-                                </div>
-                            </mat-card-content>
-                        </mat-card>
+                        <div *ngFor="let rolagem of rolagensLista">
+                            <mat-card [ngClass]="resultadoRolagemExibir(rolagem.tipoRolagem)" *ngIf="verificaTipoRolagemPlayer(rolagem)">
+                                <mat-card-actions class="titleCardRolagemPlayer">
+                                    <mat-card-title> {{ "@" + rolagem.usuarioUsername }} </mat-card-title>
+                                    <mat-card-title> {{ dadoBonito(rolagem.dadoComposto) }} </mat-card-title>
+                                    <mat-card-title> {{ dataBonita(rolagem.roladoEm) }} </mat-card-title>
+                                </mat-card-actions>
+                                <mat-card-content>
+                                    <div class="cardRolagemPlayer">
+                                        <span>{{ rolagem.dadoComposto.nome }}</span>
+                                        <span>:</span>
+                                        <div id="cardRolagemResultPlayer">
+                                            <span>{{ resultadoRefine(rolagem.dadoComposto, rolagem.resultados).todosOsDados }} </span>
+                                            <fa-icon [icon]="setaDireita" size="sm"></fa-icon>
+                                            <span> {{ resultadoRefine(rolagem.dadoComposto, rolagem.resultados).valoresFinais }}</span>
+                                        </div>
+                                    </div>
+                                </mat-card-content>
+                            </mat-card>
+                        </div>
                     </div>
                 </mat-sidenav-content>
             </mat-sidenav-container>

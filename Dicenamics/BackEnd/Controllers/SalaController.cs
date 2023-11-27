@@ -654,6 +654,84 @@ public class SalaController : ControllerBase
         }
     }
 
+    [HttpPut("atualizar/dado/composto/{idSala}/{idDado}")]
+    public IActionResult AtualizarDadoComposto([FromRoute] int idDado,[FromRoute] int idSala, [FromBody] DadoCompostoSalaDTO dadoCompostoSalaDTO)
+    {
+        try
+        {
+            Sala? SalaEncontrada = _ctx.Salas
+                .Include(s => s.DadosCompostosSala)
+                    .ThenInclude(d => d.Fixos)
+                .Include(s => s.DadosCompostosSala)
+                    .ThenInclude(d => d.Variaveis)
+                .Include(s => s.DadosSimplesSala)
+                .Include(s => s.UsuarioMestre)
+                .Include(s => s.Convidados).
+                FirstOrDefault(x => x.SalaId == idSala);
+
+            if(SalaEncontrada == null){
+                return NotFound();
+            }
+
+            List<DadoCompostoSalaModFixo> fixos = new();
+            List<DadoCompostoSalaModVar> variaveis = new();
+            List<ModificadorFixo> fixo = _ctx.ModificadoresFixos.Where(mf => dadoCompostoSalaDTO.FixosId.Contains(mf.ModificadorFixoId)).ToList();
+            List<ModificadorVariavel> variavel = _ctx.ModificadoresVariaveis.Where(mf => dadoCompostoSalaDTO.VariaveisId.Contains(mf.ModificadorVariavelId)).Include(d => d.Dado).ToList();
+            
+            foreach (var item in fixo)
+            {
+                DadoCompostoSalaModFixo mods = new()
+                {
+                    ModificadorFixo = item
+                };
+                fixos.Add(mods);
+            }
+            foreach (var item in variavel)
+            {
+                DadoCompostoSalaModVar mods = new()
+                {
+                    ModificadorVariavel = item
+                };
+                variaveis.Add(mods);
+            }
+
+            DadoCompostoSala? dadoSala = _ctx.DadosCompostosSalas.FirstOrDefault(d => d.DadoCompostoSalaId == idDado);
+            
+            if (dadoSala == null)
+            {
+                return NotFound();
+            }
+
+            dadoSala.AcessoPrivado = dadoCompostoSalaDTO.AcessoPrivado;
+            dadoSala.Faces = dadoCompostoSalaDTO.Faces;
+            dadoSala.Nome = dadoCompostoSalaDTO.Nome;
+            dadoSala.Quantidade = dadoCompostoSalaDTO.Quantidade;
+            dadoSala.Condicao = dadoCompostoSalaDTO.Condicao;
+            dadoSala.Fixos = fixos;
+            dadoSala.Variaveis = variaveis;
+
+            _ctx.DadosCompostosSalas.Update(dadoSala);
+            _ctx.SaveChanges();
+            
+            for (int i = 0; i < SalaEncontrada.DadosCompostosSala.Count; i++)
+            {
+                if(SalaEncontrada.DadosCompostosSala[i].DadoCompostoSalaId == dadoSala.DadoCompostoSalaId){
+                    SalaEncontrada.DadosCompostosSala[i] = dadoSala;
+                }
+            }
+
+            _ctx.Salas.UpdateRange(SalaEncontrada);
+            _ctx.SaveChanges();
+            
+            return Ok(dadoSala);
+        }
+        catch(System.Exception e)
+        {
+            Console.WriteLine(e);
+            return BadRequest(e.Message);
+        }
+    }
+
     [HttpPut("adicionar/dado/simples/{id}")]
     public IActionResult AdicionarDadoSimples([FromRoute] int id, [FromBody] DadoSimplesSalaDTO dadoSimplesSalaDTO)
     {

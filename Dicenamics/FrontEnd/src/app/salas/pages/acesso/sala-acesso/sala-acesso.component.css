@@ -40,6 +40,42 @@
     margin: 50px;
 }
 
+.usernameUsuario {
+    margin-left: 10px;
+    color: lightgray;
+    font-style: italic;
+}
+
+.nicknameUsuario {
+    font-weight: bold;
+}
+
+.criadorDice {
+    color: lightgray;
+    font-style: italic;
+}
+
+.gmTypeRoll {
+    margin-bottom: 15px;
+    background-color: rgba(123, 31, 162, 0.25);
+}
+
+.secretTypeRoll {
+    margin-bottom: 15px;
+    background-color: rgba(97, 221, 160, 0.25);
+}
+
+.normalTypeRoll {
+    margin-bottom: 15px;
+}
+
+
+
+
+
+
+
+
 /* Content GM */
 .contentGM {
     margin: 25px;
@@ -54,14 +90,15 @@
 }
 
 .masterGrid {
-    max-width: 30%;
-    width: 30%;
+    max-width: 25%;
+    width: 25%;
     background-color: rgb(31, 31, 31);
     padding: 15px;
 }
 
 .masterGridContent {
     margin-top: 15px;
+    margin: 10px;
     height: 35rem;
     max-height: 35rem;
     display: flex;
@@ -92,17 +129,34 @@
 
 .sidenavDadosMaster {
     height: 100%;
+    width: 35%;
+    max-width: 35%;
+    background-color: #1f1f1f;
+}
+
+.spacerTab {
+    margin: 10px;
 }
 
 .masterListItem {
-    margin-bottom: 10px;
     display: flex;
     align-items: center;
+    justify-content: space-between;
 }
 
 .masterDiceContent {
     height: 40rem;
     max-height: 40rem;
+}
+
+.masterExpasionPanel {
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+.descExpMaster {
+    display: flex;
+    justify-content: flex-end;
 }
 
 .gmRoll {
@@ -113,16 +167,6 @@
 .btnApagarSala {
     margin-top: 50px;
     background-color: rgba(233, 0, 0, 0.75);
-}
-
-.usernameUsuario {
-    margin-left: 10px;
-    color: lightgray;
-    font-style: italic;
-}
-
-.nicknameUsuario {
-    font-weight: bold;
 }
 
 .rolagemHistoricoMestre {
@@ -186,10 +230,25 @@
 
 .sidenavDadosPlayer {
     height: 100%;
+    width: 35%;
+    max-width: 35%;
+    background-color: #1f1f1f;
 }
 
 .playerListItem {
-    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.playerExpasionPanel {
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+.descExpPlayer {
+    display: flex;
+    justify-content: flex-end;
 }
 
 .playerDiceContent {
@@ -210,8 +269,8 @@
     margin-right: 10px;
 }
 
-.cardRalagemPlayer {
-    margin-left: 20px;
+.cardRolagemPlayer {
+    margin-left: 0px;
 }
 
 #cardRolagemResultPlayer {
