@@ -349,7 +349,6 @@ export class CadastroDadosSalaComponent {
           //     }
           //   }
           // }
-
   
           this.client
             .put<DadoCompostoSala>(`https://localhost:7151/dicenamics/sala/adicionar/dado/composto/${this.salaDado.salaId}`, dadoCriar)
