@@ -1,0 +1,18 @@
+.container {
+    margin: 20px;
+    justify-content: center;
+    color: white;
+}
+
+.buttons {
+    display: flex;
+    justify-content: space-around;
+}
+
+#yes {
+    background-color: rgba(26, 194, 26, 0.5);
+}
+
+#no {
+    background-color: rgba(233, 0, 0, 0.75);
+}

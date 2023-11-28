@@ -1,0 +1,129 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* centraliza verticalmente */
+    justify-content: center; /* centraliza horizontalmente */
+    /* height: calc(100vh - 64px); /* 100% da altura da viewport (tela) */
+}
+
+.formDado {
+    width: 250px;
+}
+
+.formMod {
+    width: 200px;
+    margin: 15px;
+}
+
+.formModBtn {
+    margin-top: 20px;
+}
+
+#criarBtn {
+    margin-top: 15px;
+    background-color: rgba(26, 194, 26, 0.5);
+    margin-bottom: 50px;
+}
+
+#voltarBtn {
+    margin-left: 50px;
+    margin-top: 15px;
+    background-color: rgba(200, 200, 200, 0.5);
+    margin-bottom: 50px;
+}
+
+#title {
+    font-weight: bold;
+    font-size: 30px;
+    padding-top: 100px;
+    margin: 15px;
+}
+
+#criar {
+    font-style: italic;
+    font-size: 20px;
+}
+
+.spacer {
+    margin: 30px;
+}
+
+#layer1 {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+#layer1 > mat-form-field {
+    margin-right: 35px;
+    margin-left: 35px;
+    margin-bottom: 15px;
+}
+
+#layer2 {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#layer2 > mat-form-field {
+    margin-right: 15px;
+    margin-left: 15px;
+    padding-bottom: 15px;
+    align-items: center;
+}
+
+#layer2 > #removeBtn {
+    margin-bottom: 30px;
+}
+
+#layer3 {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin-bottom: 25px;   
+}
+
+#layerMod {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin-top: 75px;
+}
+
+#layerMod > #general {
+    margin-left: 50px;
+}
+
+#layerMod {
+    display: flex;
+    justify-content: space-between;
+}
+
+.mod-section {
+    display: flex;
+    flex-direction: column;
+    margin-right: 20px;
+}
+
+.form-container {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 10px;
+}
+
+#criar,
+    .criar2 {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+button {
+    margin-top: 10px;
+}
+
+mat-divider {
+    height: 100%;
+    margin: 0 10px;
+}

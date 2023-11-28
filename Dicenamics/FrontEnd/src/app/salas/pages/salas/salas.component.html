@@ -1,0 +1,79 @@
+<div class="conteiner">
+    <div id="title">
+        <span>Salas</span>
+    </div>
+    <div class="spacer"></div>
+    <div class="content">
+        <div class="grid">
+            <span id="titleGrid">Mestrando</span>
+            <mat-accordion>
+                <mat-expansion-panel hideToggle *ngFor="let sala of salasUserMestre" class="painelSala"> <!-- Inicio -->
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>
+                            {{ sala.nome }}
+                        </mat-panel-title>
+                        <mat-panel-description class="desc">
+                            {{ contarJogadores(sala) + " Jogadores" }}
+                        </mat-panel-description>
+                        <mat-panel-description class="desc" id="id">
+                            {{ "ID: " + sala.idSimples}}
+                        </mat-panel-description>
+                    </mat-expansion-panel-header>
+                    <div>
+                        <div class="panelDescription">
+                            <span id="textDescSala"> {{ sala.descricao }} </span>
+                            <button mat-button (click)="entrarSala(sala)" class="btnEntrarSala">
+                                <mat-icon> login </mat-icon>
+                                <span> Entrar </span>
+                            </button>
+                        </div>
+                        <mat-divider></mat-divider>
+                        <div class="panelJogadores" *ngIf="sala.convidados && sala.convidados.length > 0">
+                            <span>Jogadores:</span>
+                            <div>
+                                <span *ngFor="let convidado of sala.convidados"> @{{convidado.usuario.username}}<br> </span>
+                            </div>
+                          </div>
+                          <div class="panelJogadores" *ngIf="!sala.convidados || sala.convidados.length === 0">
+                            <span>Nenhum jogador</span>
+                          </div>                          
+                    </div>
+                </mat-expansion-panel> <!-- Fim -->
+            </mat-accordion>
+        </div>
+        <div class="grid">
+            <span id="titleGrid">Jogando</span>
+            <mat-accordion>
+                <mat-expansion-panel hideToggle *ngFor="let sala of salasUserJogador" class="painelSala"> <!-- Inicio -->
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>
+                            {{ sala.nome }}
+                        </mat-panel-title>
+                    </mat-expansion-panel-header>
+                    <div class="panelDescription">
+                        <span id="textDescSala"> {{ sala.descricao }} </span>
+                        <button mat-button (click)="entrarSala(sala)" class="btnEntrarSala">
+                            <mat-icon> login </mat-icon>
+                            <span> Entrar </span>
+                        </button>
+                    </div>
+                </mat-expansion-panel> <!-- Fim -->
+            </mat-accordion>
+        </div>
+        <div class="links">
+            <mat-form-field appearance="outline" class="form" maxlength="6" color="accent">
+                <mat-label>Id da Sala</mat-label>
+                <input matInput [formControl]="idSimples" maxlength="6" type="number" id="input">
+            </mat-form-field>
+            <button mat-button class="btnLoginSala" (click)="entrarSalaCode()">
+                <mat-icon> login </mat-icon>
+                <span> Entrar </span>
+            </button>
+        </div>
+    </div>
+    <div class="addSala">
+        <button mat-fab (click)="criarSala()" matTooltip="Criar sala" matTooltipPosition="left">
+            <mat-icon> add </mat-icon>
+        </button>
+    </div>
+</div>

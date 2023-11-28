@@ -1,0 +1,63 @@
+.container {
+    height: calc(100% - 64px);
+    margin: 25px;
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    padding-top: 70px;
+}
+
+#title {
+    font-size: 45px;
+    color: white;
+    font-weight: bold;
+}
+
+#criar {
+    margin: 15px;
+    font-style: italic;
+    font-size: 20px;
+}
+
+.spacer { 
+    margin: 50px;
+}
+
+#layer1 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.formDado {
+    width: 250px;
+    margin-left: 15px;
+    margin-right: 15px;
+}
+
+#slider {
+    margin-bottom: 20px;
+}
+
+#criarBtn {
+    margin-top: 15px;
+    background-color: rgba(26, 194, 26, 0.5);
+    margin-bottom: 50px;
+}
+
+#voltarBtn {
+    margin-left: 50px;
+    margin-top: 15px;
+    background-color: rgba(200, 200, 200, 0.5);
+    margin-bottom: 50px;
+}
+
+.buttonsDiv {
+    display: flex;
+    margin-top: 25px;
+    margin-bottom: 50px;
+    justify-content: center;
+}

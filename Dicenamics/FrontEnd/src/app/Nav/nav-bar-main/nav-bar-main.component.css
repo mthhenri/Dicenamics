@@ -1,0 +1,18 @@
+.nav-bar{
+    display: flex;
+    align-items: center;
+}
+
+.logo-dicenamics{
+    padding-top: 13px;
+    height: 65px;
+    width: 65px;
+}
+
+.space {
+    flex: 1 1 auto
+}
+
+.btn-login{
+    background-color: rgba(26, 194, 26, 0.5);
+}

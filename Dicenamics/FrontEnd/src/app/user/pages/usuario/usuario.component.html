@@ -1,0 +1,42 @@
+<div class="conteiner">
+    <div id="title">
+        <span>Usuario</span>
+    </div>
+    <div class="spacer"></div>
+    <!-- <div class="imgLogo">
+        <img src="../../../../assets/images/dicenamics.logo.png" alt="Logo" width="300px">
+    </div> -->
+    <div class="userInfo">
+        <mat-form-field class="form" appearance="outline" color="accent">
+            <mat-label> Apelido </mat-label>
+            <input matInput [formControl]="nickname" type="text">
+        </mat-form-field>
+        <mat-form-field class="form" appearance="outline" color="accent">
+            <mat-label> Username </mat-label>
+            <input matInput [formControl]="username" type="text">
+        </mat-form-field>
+        <mat-form-field class="form" appearance="outline" color="accent">
+            <mat-label> Senha </mat-label>
+            <input matInput [type]="hide ? 'password' : 'text'" [formControl]="senha">
+            <button mat-icon-button matSuffix (click)="hideTurn()">
+                <mat-icon> {{hide ? 'visibility_off' : 'visibility'}} </mat-icon>
+            </button>
+        </mat-form-field>
+    </div>
+    <div class="buttons">
+        <button mat-button (click)="salvarUser()" class="btnSalvar">
+            <span> Salvar </span>
+            <mat-icon> done </mat-icon>
+        </button>
+        <button mat-button (click)="voltar()" class="btnVoltar">
+            <span> Voltar </span>
+            <mat-icon> arrow_back </mat-icon>
+        </button>
+    </div>
+    <div class="buttonsDEL">
+        <button mat-button (click)="apagarUser()" class="btnApagar">
+            <span> Apagar Usuário </span>
+            <mat-icon> delete </mat-icon>
+        </button>
+    </div>
+</div>

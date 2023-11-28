@@ -1,0 +1,112 @@
+<div class="conteiner">
+    <div class="header">
+        <span id="title">Dados - Salas</span>
+        <span id="criar"> {{acaoPg}} </span>
+    </div>
+    <div class="spacer"></div>
+    <div id="layer1">
+        <mat-form-field class="formDado" appearance="outline" color="accent">
+            <mat-label> Nome </mat-label>
+            <div>
+                <input matInput [formControl]="nome" type="text" required>
+            </div>
+            <mat-hint align="start"><strong>Ex: Ataque de Espada</strong> </mat-hint>
+        </mat-form-field>
+        <mat-form-field class="formDado" appearance="outline" color="accent">
+            <mat-label> Dado </mat-label>
+            <div>
+                <input matInput [formControl]="dado" type="text" required>
+            </div>
+            <mat-hint align="start"><strong>Ex: 3d20</strong> </mat-hint>
+        </mat-form-field>
+        <mat-form-field class="formDado" appearance="outline" color="accent">
+            <mat-label> Condição </mat-label>
+            <div>
+                <input matInput [formControl]="condicao" type="text">
+            </div>
+            <mat-hint align="start"><strong>Ex: mrv</strong> </mat-hint>
+        </mat-form-field>
+        <div class="formDado" id="slider">
+            <mat-slide-toggle [(ngModel)]="acessoPrivado">
+                <fa-icon [icon]="privado" *ngIf="acessoPrivado"></fa-icon>
+                <fa-icon [icon]="publico" *ngIf="!acessoPrivado"></fa-icon>
+                {{tipoDado()}}
+            </mat-slide-toggle>
+        </div>
+    </div>
+
+    <!-- <div id="layerMod">
+        <div class="mod-section">
+            <div class="titleModAdd">
+                <span id="criar"> Modificadores Fixos </span>
+                <button mat-button (click)="addModFix(modFixQuantidade.length - 1)">
+                    <mat-icon> add </mat-icon>
+                    <span> Adionar Modificador </span>
+                </button>
+            </div>
+    
+            <div *ngFor="let index of modFixQuantidade" class="form-container">
+                <mat-form-field class="formMod" appearance="outline" color="accent">
+                    <mat-label> Nome </mat-label>
+                    <div>
+                        <input matInput [formControl]="getFormControlFixo(index, 'nome')" type="text">
+                    </div>
+                    <mat-hint align="start"><strong>Ex: Luta</strong> </mat-hint>
+                </mat-form-field>
+                <mat-form-field class="formMod" appearance="outline" color="accent">
+                    <mat-label> Valor </mat-label>
+                    <div>
+                        <input matInput [formControl]="getFormControlFixo(index, 'valor')" type="number">
+                    </div>
+                    <mat-hint align="start"><strong>Ex: 5 ou -3</strong> </mat-hint>
+                </mat-form-field>
+                <button mat-icon-button id="removeBtn" (click)="removeModFixo(index)" class="formModBtn">
+                    <mat-icon> remove </mat-icon>
+                </button>
+            </div>
+        </div>
+        <div class="mod-section">
+            <div class="titleModAdd">
+                <span id="criar" class="criar2"> Modificadores Variáveis </span>
+                <button mat-button (click)="addModVar(modVarQuantidade.length - 1)">
+                    <mat-icon> add </mat-icon>
+                    <span> Adicionar Modificador </span>
+                </button>
+            </div>
+            <div *ngFor="let index of modVarQuantidade" class="form-container">
+                <mat-form-field class="formMod" appearance="outline" color="accent">
+                    <mat-label> Nome </mat-label>
+                    <div>
+                        <input matInput [formControl]="getFormControlVar(index, 'nome')" type="text">
+                    </div>
+                    <mat-hint align="start"><strong>Ex: Sangramento</strong> </mat-hint>
+                </mat-form-field>
+                <mat-form-field class="formMod" appearance="outline" color="accent">
+                    <mat-label> Dado </mat-label>
+                    <div>
+                        <input matInput [formControl]="getFormControlVar(index, 'dado')" type="text">
+                    </div>
+                    <mat-hint align="start"><strong>Ex: 1d8</strong> </mat-hint>
+                </mat-form-field>
+                <button mat-icon-button id="removeBtn" (click)="removeModVar(index)" class="formModBtn">
+                    <mat-icon> remove </mat-icon>
+                </button>
+            </div>
+        </div>
+    </div> -->
+
+    <div class="buttonsDiv">
+        <button id="criarBtn" (click)="criarDadoSala()" *ngIf="acaoPg == 'Criar'" mat-button>
+            <mat-icon> done </mat-icon>
+            <span> {{acaoDado}} </span>
+        </button>
+        <button id="criarBtn" (click)="criarDadoSala()" *ngIf="acaoPg == 'Editar'" mat-button>
+            <mat-icon> done </mat-icon>
+            <span> {{acaoDado}} </span>
+        </button>
+        <button id="voltarBtn" (click)="voltarPg()" mat-button>
+            <mat-icon> arrow_back </mat-icon>
+            <span> Voltar </span>
+        </button>
+    </div>
+</div>

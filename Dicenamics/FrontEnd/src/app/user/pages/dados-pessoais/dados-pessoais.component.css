@@ -1,0 +1,68 @@
+.container {
+    height: calc(100% - 64px);
+}
+
+.spacer { 
+    margin: 50px;
+}
+
+.listDadosUser{
+    margin: 50px;
+    padding-bottom: 75px;
+}
+
+#title {
+    display: flex;
+    justify-content: center;
+    padding-top: 70px;
+    font-size: 45px;
+    color: white;
+    font-weight: bold;
+}
+
+.itemDado {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-style: italic;
+    margin: 10px;
+}
+
+#nome {
+    font-weight: bold;
+}
+
+.addDice {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    margin: 15px;
+}
+
+.descDados {
+    display: flex;
+    justify-content: space-around;
+    margin: 7px;
+}
+
+.descDados > #btnDice {
+    color: #69f0ae;
+}
+
+.modList {
+    display: flex;
+    align-items: center;
+    padding-bottom: 15px;
+}
+
+.modList > mat-icon {
+    padding-right: 5px;
+}
+
+.modList > #modTitle {
+    margin-right: 5px;
+}
+
+.modList > #modMod {
+    margin-right: 5px;
+}

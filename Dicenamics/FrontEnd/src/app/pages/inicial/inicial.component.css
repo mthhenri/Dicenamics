@@ -1,0 +1,36 @@
+.chegadaDiv {
+    padding-top: 25px;
+}
+
+.chegadaDiv > span, #logo {
+    display: flex;
+    justify-content: space-around;
+}
+
+#logo {
+    margin: auto;
+}
+
+#title {
+    padding-top: 50px;
+    font-size: 45px;
+    color: white;
+    font-weight: bold;
+}
+
+.divSpace{
+    padding-top: 90px;
+}
+
+.loreDiv {
+    display: flex;
+    justify-content: space-around;
+    font-style: italic;
+    text-align: center;
+}
+
+#titleLore {
+    /* color: #6bf2ab; */
+    color: gold;
+    font-weight: bold;
+}

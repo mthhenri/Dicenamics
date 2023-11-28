@@ -1,0 +1,86 @@
+<!-- Navigation Bar Chegada -->
+<app-nav-bar-main *ngIf="checkLogin(); else initial"></app-nav-bar-main>
+
+<!-- Navigation Bar Após Login -->
+<ng-template #initial>
+    <mat-toolbar class="nav-bar">
+        <button (click)="sidenav.toggle()" mat-icon-button>
+            <mat-icon> menu </mat-icon>
+        </button>
+        
+        <!-- <span class="space"></span> -->
+        
+        <a routerLink="dicenamics">
+            <img src="../assets/images/dicenamics.logo.png" alt="Logo" class="logo-dicenamics">
+        </a>        
+        <span>
+            Dicenamics
+        </span>
+        <span class="space"></span>
+        <div class="userCard">
+            <button mat-button id="partNick" (click)="navUsuario(usuario.username)">
+                <mat-icon> person </mat-icon>
+                <span> {{pegarUser()?.nickname}} </span>
+            </button>
+            <span id="partUser"> @{{pegarUser()?.username}} </span>
+        </div>
+        <!-- <mat-card>
+            <mat-card-header class="userCard">
+                <mat-card-title>
+                    <mat-icon> person </mat-icon>
+                    <span> {{usuario.nickname}} </span>
+                </mat-card-title>
+                <mat-card-subtitle> {{usuario.username}} </mat-card-subtitle>
+            </mat-card-header>
+        </mat-card> -->
+    </mat-toolbar> 
+</ng-template>
+
+<mat-sidenav-container #initial class="sideNav">
+    <mat-sidenav #sidenav [opened]="false" mode="side" position="start">
+        <mat-nav-list>
+            <div class="listItem">
+                <button mat-button (click)="voltarHome(); sidenav.toggle()" class="btnListNav">
+                    <mat-icon> home </mat-icon>
+                    <span class="text"> Home </span>
+                </button>                
+            </div>
+            <div class="listItem">
+                <button mat-button (click)="navSalas(); sidenav.toggle()" class="btnListNav">
+                    <mat-icon> door_front </mat-icon>
+                    <span class="text"> Salas </span>
+                </button>
+            </div>
+            <div class="listItem">
+                <button mat-button (click)="navDadosPessoais(); sidenav.toggle()" class="btnListNav">
+                    <fa-icon [icon]="faDice" size="lg"></fa-icon>
+                    <span class="text" id="dice"> Dados </span>
+                </button>
+            </div>
+            <div class="listItem">
+                <button mat-button (click)="navSintaxe(); sidenav.toggle()" class="btnListNav">
+                    <mat-icon> code </mat-icon>
+                    <span class="text"> Sintaxe </span>
+                </button>
+            </div>
+            <div class="listItem">
+                <button mat-button (click)="abrirPopUp('200ms', '200ms'); sidenav.toggle()" class="btnListNav">
+                    <mat-icon> arrow_back </mat-icon>
+                    <span class="text"> Sair </span>
+                </button>
+            </div>
+            <!-- <div class="listItem">
+                <span class="username">
+                    <span id="nick"> {{pegarUser()?.nickname}} </span> <br>
+                    <span>  -=X=- </span> <br>
+                    <span id="username"> {{pegarUser()?.username}} </span>
+                </span>
+            </div> -->
+        </mat-nav-list>
+    </mat-sidenav>
+    <mat-sidenav-content>
+        <router-outlet>
+            <!-- Conteúdo -->
+        </router-outlet>
+    </mat-sidenav-content>
+</mat-sidenav-container>

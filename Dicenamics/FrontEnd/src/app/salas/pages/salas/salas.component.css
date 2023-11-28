@@ -1,0 +1,98 @@
+.container {
+    height: calc(100% - 64px);
+    margin: 25px;
+}
+
+#title {
+    display: flex;
+    justify-content: center;
+    padding-top: 70px;
+    font-size: 45px;
+    color: white;
+    font-weight: bold;
+}
+
+.spacer { 
+    margin: 50px;
+}
+
+.painelSala {
+    margin-left: 15px;
+    margin-right: 15px;
+}
+
+.content {
+    margin: 25px;
+    display: flex;
+    flex-direction: row;
+}
+
+.grid {
+    width: 40%;
+    margin: 5px;
+}
+
+.grid > #titleGrid {
+    display: flex;
+    justify-content: center;
+    font-size: 25px;
+    color: gold;
+    font-weight: bold;
+    padding: 20px;
+}
+
+.links {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-left: 25px;
+    margin-top: 13%;
+}
+
+.form {
+    width: 325px;
+}
+
+.btnLoginSala{
+    background-color: rgba(26, 194, 26, 0.5);
+    margin-top: 25px;
+    padding: 25px
+}
+
+.btnEntrarSala {
+    background-color: #69f0ae;
+    color: black;
+}
+
+.desc {
+    display: flex;
+    flex: initial;
+}
+
+#id {
+    margin-left: 20px;
+}
+
+.panelDescription {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+#textDescSala {
+    max-width: 85%;
+}
+
+.addSala {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    margin: 15px;
+}
+
+.panelJogadores {
+    margin-top: 10px;
+    display: flex;
+    justify-content: space-between;
+}

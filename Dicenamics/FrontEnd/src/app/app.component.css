@@ -1,0 +1,119 @@
+.nav-bar{
+    display: flex;
+    align-items: center;
+}
+
+.logo-dicenamics{
+    padding-top: 13px;
+    height: 65px;
+    width: 65px;
+}
+
+.icons {
+    height: 21px;
+    width: 21px;
+}
+
+.space {
+    flex: 1 1 auto
+}
+
+.username {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: auto;
+    margin-top: 100%;
+    font-style: italic;
+}
+
+#nick {
+    font-weight: bold;
+}
+
+.sideNav {
+    height: calc(100% - 64px);
+}
+
+.userCard {
+    display: flex;
+    flex-direction: column;
+}
+
+#partNick {
+    display: flex;
+    align-items: center;
+    border: 0px;
+    background-color: none;
+}
+
+#partNick > span {
+    margin-left: 5px;
+}
+
+#partUser {
+    margin-left: 6px;
+    margin-top: -10px;
+    font-size: small;
+    color: grey;
+    font-style: italic;
+}
+
+.listItem {
+    display: flex;
+    align-items: center;
+    margin-right: 20px;
+    margin-bottom: 10px;
+}
+
+.btnListNav {
+    
+    justify-content: start;
+    padding-top: 25px;
+    padding-bottom: 25px;
+    padding-right: 25px;
+    width: 125px;
+}
+
+.text {
+    font-size: medium;
+}
+
+#dice {
+    padding-left: 5px;
+}
+
+.chegadaDiv {
+    padding-top: 25px;
+}
+
+.chegadaDiv > span, #logo {
+    display: flex;
+    justify-content: space-around;
+}
+
+#logo {
+    margin: auto;
+}
+
+#title {
+    padding-top: 50px;
+    font-size: 45px;
+    color: white;
+    font-weight: bold;
+}
+
+.divSpace{
+    padding-top: 100px;
+}
+
+.loreDiv {
+    display: flex;
+    justify-content: space-around;
+    font-style: italic;
+    text-align: center;
+}
+
+#titleLore {
+    font-weight: bold;
+}

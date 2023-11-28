@@ -1,0 +1,77 @@
+<div class="container">
+    <div id="title">
+        <span>Dados</span>
+    </div>
+    <div class="spacer"></div>
+    <div class="listDadosUser">
+        <mat-accordion>
+            <!-- //// Fazer um for que pega todos os dados de um usuário e exibe aqui -->
+            <mat-expansion-panel *ngFor="let dado of dados" hideToggle [expanded]="step === dado.dadoId" (opened)="setStep(dado.dadoId)">
+                <mat-expansion-panel-header>
+                    <mat-panel-title> {{dado.nome}} </mat-panel-title>
+                    <mat-panel-description> {{dadoBonito(dado)}} </mat-panel-description>
+                </mat-expansion-panel-header>
+                <div *ngIf="dado.fixos != undefined && dado.fixos.length != 0 || dado.variaveis != undefined && dado.variaveis.length != 0 " class="modList">
+                    <mat-icon> mode_standby </mat-icon>
+                    <span id="modTitle"> Modificadores: </span>
+                    <span id="modMod">
+                        {{modificadorBonito(dado)}}
+                    </span>
+                </div>
+                <span class="descDados">
+                    <button mat-button (click)="gerarResultados(dado)" id="btnDice"> 
+                        <mat-icon> play_arrow </mat-icon> 
+                        <span> Rolar Dado </span> 
+                    </button>
+                    <button mat-button (click)="editarDado(dado.dadoId)" id="btnDice">
+                        <mat-icon> edit </mat-icon>
+                        <span> Editar Dado </span>
+                    </button>
+                    <button mat-button (click)="realmenteApagar(dado.dadoId,dado.nome)" id="btnDice">
+                        <mat-icon> delete </mat-icon>
+                        <span> Deletar </span>
+                    </button>
+                </span>
+            </mat-expansion-panel>
+        </mat-accordion>
+    </div>
+    <div class="addDice">
+        <button mat-fab (click)="criarDado()" matTooltip="Criar dado" matTooltipPosition="left">
+            <mat-icon> add </mat-icon>
+        </button>
+    </div>
+</div>
+
+<!-- <div id="title">
+    <span>Dados Pessoais</span>
+    </div>
+    <div class="spacer"></div>
+    <div>
+    <mat-list>
+        <!- Fazer um for que pega todos os dados de um usuário e exibe aqui ->
+        <div *ngFor="let dado of dados">                
+            <mat-list-item>                    
+                <div class="itemDado">
+                    <span id="nome"> {{dado.nome}} </span>
+                    <span> {{dadoBonito(dado)}} </span>
+                    <span>
+                        <button mat-button (click)="gerarResultados(dado.dadoId); "> 
+                            <mat-icon> play_arrow </mat-icon> 
+                            <span> Rolar Dado </span> 
+                        </button>
+                        <button mat-button (click)="realmenteApagar(dado.dadoId,dado.nome)">
+                            <mat-icon> delete </mat-icon>
+                            <span> Deletar </span>
+                        </button>
+                    </span>
+                </div>
+            </mat-list-item>
+            <mat-divider></mat-divider>
+        </div>
+    </mat-list>
+</div>
+<div class="addDice">
+    <button mat-fab color="primary" (click)="criarDado()">
+        <mat-icon> add </mat-icon>
+    </button>
+</div> -->
